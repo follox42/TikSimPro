@@ -1,0 +1,57 @@
+{
+    "simulator": {
+        "type": "PyGameCircleSimulator",
+        "params": {
+            "width": 1080,
+            "height": 1920,
+            "fps": 60,
+            "duration": 61
+        }
+    },
+    "enhancer": {
+        "type": "VideoEnhancer",
+        "params": {
+            "add_intro": false,
+            "add_hashtags": false,
+            "add_music": true
+        }
+    },
+    "publisher": {
+        "type": "TikTokPublisher",
+        "params": {
+            "auto_close": true
+        }
+    },
+    "data_provider": {
+        "type": "TikTokScraper",
+        "params": {
+            "cache_dir": "tiktok_data"
+        }
+    },
+    "output_dir": "videos",
+    "auto_publish": false,
+    "publishers": {
+        "tiktok": {
+            "type": "TikTokPublisher",
+            "params": {
+                "auto_close": true
+            },
+            "enabled": true
+        },
+        "youtube": {
+            "type": "YouTubePublisher",
+            "params": {
+                "auto_close": true
+            },
+            "enabled": true
+        },
+        "instagram": {
+            "type": "InstagramPublisher",
+            "params": {
+                "auto_close": true,
+                "mobile_emulation": true
+            },
+            "enabled": false
+        }
+    }
+}
