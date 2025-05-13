@@ -1,91 +1,95 @@
 import pygame
-import math
+import sys, math
 
-class ArcCircleSimulator:
-    def __init__(self, width=800, height=800):
-        pygame.init()
-        self.width = width
-        self.height = height
-        self.screen = pygame.display.set_mode((width, height))
-        self.clock = pygame.time.Clock()
-        self.running = True
+# Configuration
+WIDTH, HEIGHT = 800, 800
+CENTER = pygame.math.Vector2(WIDTH//2, HEIGHT//2)
+OUTER_RADIUS = 200
+THICKNESS = 10
+INNER_RADIUS = OUTER_RADIUS - THICKNESS
+ARC_GAP_ANGLE = 60  # degrees gap
+ARC_START_ANGLE = 0  # initial
+BALL_RADIUS = 20
+BALL_COLOR = (255, 255, 255)
+BALL_POS = CENTER + pygame.math.Vector2(0, INNER_RADIUS*0.5)
+BALL_VEL = pygame.math.Vector2(200, -150)
+GRAVITY = pygame.math.Vector2(0, 981)
 
-        # Objets du jeu
-        self.center = pygame.Vector2(width // 2, height // 2)
-        self.circle_radius = 200
-        self.ball_radius = 20
-        self.ball_pos = self.center + pygame.Vector2(self.circle_radius - 50, 0)
-        self.ball_vel = pygame.Vector2(0, 0)
-        self.gravity = pygame.Vector2(0, 0.2)
+pygame.init()
+screen = pygame.display.set_mode((WIDTH, HEIGHT))
+clock = pygame.time.Clock()
 
-        # Arc
-        self.arc_gap_angle = 60  # Degrés
-        self.arc_start_angle = 0  # Degrés
-        self.arc_speed = 1  # Degrés/frame
+arc_start = ARC_START_ANGLE
 
-    def update(self, dt):
-        # Mettre à jour l'arc
-        self.arc_start_angle = (self.arc_start_angle + self.arc_speed) % 360
+while True:
+    dt = clock.tick(60) / 1000.0
+    for event in pygame.event.get():
+        if event.type == pygame.QUIT:
+            pygame.quit()
+            sys.exit()
 
-        # Appliquer la gravité
-        self.ball_vel += self.gravity
-        self.ball_pos += self.ball_vel
+    # Met à jour la position de l'arc
+    arc_start = (arc_start + 60 * dt) % 360
+    start_rad = math.radians(arc_start + ARC_GAP_ANGLE)
+    end_rad   = math.radians(arc_start + 360)
 
-        # Collision avec l'anneau (extérieur & intérieur)
-        to_center = self.ball_pos - self.center
-        dist = to_center.length()
+    # Applique la physique
+    #BALL_VEL += GRAVITY * dt
+    #BALL_POS += BALL_VEL * dt
 
-        # Collide extérieur
-        if dist + self.ball_radius > self.circle_radius:
-            normal = to_center.normalize()
-            self.ball_pos = self.center + normal * (self.circle_radius - self.ball_radius)
-            self.ball_vel.reflect_ip(normal)
-            self.ball_vel *= 0.8
+    # Collision
+    to_ball = BALL_POS - CENTER
+    dist = to_ball.length()
+    angle = (math.degrees(math.atan2(to_ball.y, to_ball.x)) + 360) % 360
 
-        # Collide intérieur
-        inner_radius = self.circle_radius - 10  # Exemple : 30px d'épaisseur d'anneau
-        if dist - self.ball_radius < inner_radius:
-            normal = to_center.normalize()
-            self.ball_pos = self.center + normal * (inner_radius + self.ball_radius)
-            self.ball_vel.reflect_ip(normal)
-            self.ball_vel *= 0.8
+    # Détection de la trouée
+    gap_start = arc_start % 360
+    gap_end   = (gap_start + ARC_GAP_ANGLE) % 360
+    def in_gap(a):
+        if gap_start < gap_end:
+            return gap_start <= a <= gap_end
+        return a >= gap_start or a <= gap_end
 
+    normal = None
+    tangent = None
+    collision_point = None
 
-    def draw(self):
-        self.screen.fill((30, 30, 30))
+    # Rebond intérieur
+    if dist + BALL_RADIUS <= INNER_RADIUS:
+        normal = (-to_ball).normalize()
+        tangent = pygame.math.Vector2(-normal.y, normal.x)
+        collision_point = CENTER + (-normal) * INNER_RADIUS
 
-        # Cercle principal
-        pygame.draw.circle(self.screen, (100, 100, 255), self.center, self.circle_radius, 5)
+        v_norm = BALL_VEL.dot(normal) * normal
+        v_tan = BALL_VEL.dot(tangent) * tangent
 
-        # Arc tournant
-        start_rad = math.radians(self.arc_start_angle)
-        end_rad = math.radians(self.arc_start_angle + 360 - self.arc_gap_angle)
-        rect = pygame.Rect(
-            self.center.x - self.circle_radius,
-            self.center.y - self.circle_radius,
-            self.circle_radius * 2,
-            self.circle_radius * 2
-        )
-        pygame.draw.arc(self.screen, (255, 100, 100), rect, start_rad, end_rad, 10)
+        BALL_VEL = v_tan - v_norm
+        BALL_POS = CENTER + (-normal) * (INNER_RADIUS + BALL_RADIUS + 1)
 
-        # Balle
-        pygame.draw.circle(self.screen, (255, 255, 255), self.ball_pos, self.ball_radius)
+    # Dessin
+    screen.fill((30,30,30))
+    # Draw ring arc
+    rect = pygame.Rect(0,0, OUTER_RADIUS*2, OUTER_RADIUS*2)
+    rect.center = CENTER
+    pygame.draw.arc(screen, (255,100,100), rect, start_rad, end_rad, THICKNESS)
 
-        pygame.display.flip()
+    # ---DEBUG---
+    # velocité
+    pygame.draw.line(screen, (255,0,0), BALL_POS, BALL_POS + BALL_VEL, 3)  # velocité en rouge
 
-    def run(self):
-        while self.running:
-            dt = self.clock.tick(60) / 1000
-            for event in pygame.event.get():
-                if event.type == pygame.QUIT:
-                    self.running = False
+    # normal
+    Vnormal = (-to_ball)
+    print(to_ball)
+    print(Vnormal)
+    Vtangent = pygame.math.Vector2(-Vnormal.y, Vnormal.x)
+    pygame.draw.line(screen, (0,255,0), CENTER, Vnormal, 3)  # vecteur normal en vert
 
-            self.update(dt)
-            self.draw()
+    # scale for drawing
+    pygame.draw.line(screen, (0,0,255), CENTER, BALL_POS + Vtangent * (BALL_POS.y-CENTER.y), 3)  # vecteur tangente en bleu
 
-        pygame.quit()
+    pygame.draw.line(screen, (0,0,255), CENTER, BALL_POS + Vtangent * (BALL_POS.y-CENTER.y), 3)  # tangente en bleu
 
-# Utilisation simple :
-if __name__ == "__main__":
-    sim = ArcCircleSimulator()
-    sim.run()
+    # Draw ball
+    pygame.draw.circle(screen, BALL_COLOR, BALL_POS, BALL_RADIUS)
+
+    pygame.display.flip()
