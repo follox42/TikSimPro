@@ -1,0 +1,62 @@
+{
+  "timestamp": 1747227559.5068445,
+  "date": "2025-05-14",
+  "popular_hashtags": [
+    "nature",
+    "popular2",
+    "dance",
+    "comedy",
+    "fashion",
+    "pets",
+    "diy",
+    "animation",
+    "trending",
+    "new18"
+  ],
+  "popular_music": [
+    "STAY",
+    "Industry Baby",
+    "Fancy Like",
+    "Bad Habits",
+    "good 4 u"
+  ],
+  "color_trends": {
+    "dominant_palette": [
+      "#F9CB9C",
+      "#D5A6BD",
+      "#B4A7D6",
+      "#9FC5E8"
+    ]
+  },
+  "timing_trends": {
+    "duration_trend": "long",
+    "beat_frequency": 1.25
+  },
+  "recommended_settings": {
+    "video_duration": 45,
+    "beat_frequency": 0.5,
+    "color_palette": [
+      "#FF5733",
+      "#33FFC7",
+      "#3386FF",
+      "#FF33E0"
+    ],
+    "recommended_hashtags": [
+      "nature",
+      "popular2",
+      "dance",
+      "comedy",
+      "fashion",
+      "pets",
+      "diy",
+      "animation",
+      "trending",
+      "new18"
+    ],
+    "visual_elements": [
+      "text_overlay",
+      "sound_effects",
+      "transitions"
+    ]
+  }
+}

@@ -1,0 +1,4 @@
+2025-05-14 14:58:03,908 - TikSimPro - INFO - Configuration chargée: config.json
+2025-05-14 14:58:03,909 - TikSimPro - ERROR - Erreur chargement classe base simulators.base_simulator.BaseSimulator: No module named 'simulators'
+2025-05-14 14:58:03,909 - TikSimPro - ERROR - Erreur chargement classe base enhancers.base_enhancer.BaseEnhancer: No module named 'enhancers'
+2025-05-14 14:58:03,911 - TikSimPro - ERROR - Erreur chargement classe base publishers.base_publisher.BasePublisher: No module named 'publishers.base_publisher'

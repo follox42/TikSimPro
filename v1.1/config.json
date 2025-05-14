@@ -1,35 +1,24 @@
 {
     "simulator": {
-        "type": "PyGameCircleSimulator",
+        "type": "CirclePassageSimulator",
         "params": {
             "width": 1080,
             "height": 1920,
             "fps": 60,
-            "duration": 61
+            "duration": 61,
+            "gap_angle": 60,
+            "rotation_speed": 60,
+            "nb_rings": 5
         }
     },
     "enhancer": {
         "type": "VideoEnhancer",
         "params": {
-            "add_intro": false,
-            "add_hashtags": false,
+            "add_intro": true,
+            "add_hashtags": true,
             "add_music": true
         }
     },
-    "publisher": {
-        "type": "TikTokPublisher",
-        "params": {
-            "auto_close": true
-        }
-    },
-    "data_provider": {
-        "type": "TikTokScraper",
-        "params": {
-            "cache_dir": "tiktok_data"
-        }
-    },
-    "output_dir": "videos",
-    "auto_publish": false,
     "publishers": {
         "tiktok": {
             "type": "TikTokPublisher",
@@ -46,12 +35,24 @@
             "enabled": true
         },
         "instagram": {
-            "type": "InstagramPublisher",
+            "type": "InstagramPublisherSelenium",
             "params": {
                 "auto_close": true,
                 "mobile_emulation": true
             },
             "enabled": false
         }
+    },
+    "data_provider": {
+        "type": "TikTokScraper",
+        "params": {
+            "cache_dir": "tiktok_data"
+        }
+    },
+    "output_dir": "videos",
+    "auto_publish": false,
+    "publishing": {
+        "cross_platform": true,
+        "default_platform": "tiktok"
     }
 }

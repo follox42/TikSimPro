@@ -1,0 +1,89 @@
+{
+    "trend_analyzer": {
+      "name": "TikTokAnalyzer",
+      "params": {
+        "cache_dir": "tiktok_data"
+      }
+    },
+    "video_generator": {
+      "name": "CircleSimulator",
+      "params": {
+        "width": 1080,
+        "height": 1920,
+        "fps": 60,
+        "duration": 30.0,
+        "output_path": "output/circle_video.mp4",
+        "temp_dir": "temp",
+        "frames_dir": "frames",
+  
+        "min_radius": 100,
+        "gap_radius": 0,
+        "nb_rings": 50,
+        "thickness": 15,
+        "gap_angle": 60,
+        "rotation_speed": 60,
+        
+        "color_palette": [
+            "#FF0050",
+            "#00F2EA", 
+            "#FFFFFF", 
+            "#FE2C55",
+            "#25F4EE"
+        ]
+      }
+    },
+    "audio_generator": {
+      "name": "TrendAudioGenerator",
+      "params": {
+        "note_volume": 0.5,
+        "explosion_volume": 0.01,
+        "activation_volume": 0.0,
+        "passage_volume": 0.0
+      }
+    },
+    "media_combiner": {
+      "name": "FFmpegMediaCombiner",
+      "params": {
+
+      }
+    },
+    "video_enhancer": {
+      "name": "VideoEnhancer",
+      "params": {
+        "add_intro": false,
+        "add_hashtags": false,
+        "add_cta": true,
+        "add_music": true
+      }
+    },
+    "publishers": {
+      "tiktok": {
+        "name": "TikTokPublisher",
+        "params": {
+          "auto_close": true
+        },
+        "enabled": true
+      },
+      "youtube": {
+        "name": "YouTubePublisher",
+        "params": {
+          "auto_close": true
+        },
+        "enabled": false
+      },
+      "instagram": {
+        "name": "InstagramPublisher",
+        "params": {
+          "auto_close": true,
+          "mobile_emulation": true
+        },
+        "enabled": false
+      }
+    },
+    "pipeline": {
+      "output_dir": "videos",
+      "auto_publish": true,
+      "video_dimensions": [1080, 1920],
+      "fps": 60
+    }
+  }
