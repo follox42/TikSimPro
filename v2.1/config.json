@@ -11,7 +11,7 @@
         "width": 1080,
         "height": 1920,
         "fps": 60,
-        "duration": 30.0,
+        "duration": 61.0,
         "output_path": "output/circle_video.mp4",
         "temp_dir": "temp",
         "frames_dir": "frames",

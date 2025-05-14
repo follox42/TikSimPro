@@ -193,7 +193,7 @@ def main():
             print("\nTraitement terminé avec succès!")
             print(f"Vidéo générée: {result_path}")
             
-            if config.get("auto_publish", False):
+            if config["pipeline"].get("auto_publish", False):
                 print("La vidéo a été publiée sur les plateformes configurées.")
             else:
                 print("La vidéo n'a pas été publiée (auto_publish=False).")

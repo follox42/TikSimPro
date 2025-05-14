@@ -415,7 +415,7 @@ class ContentPipeline(IPipeline):
         
         # Plateformes à utiliser
         platforms = self.config.get("platforms", list(self.publishers.keys()))
-        
+        print(platforms)
         # Résultats de publication
         results = {}
         

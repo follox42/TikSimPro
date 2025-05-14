@@ -227,22 +227,38 @@ class CircleSimulator(IVideoGenerator):
             scale = getattr(self, 'video_scale', 1.0)
             w, h = int(self.width * scale), int(self.height * scale)
 
-            # Choix de l'encodeur hardware si supporté
-            encoder = getattr(self, 'ffmpeg_encoder', None)
-            # Tester NVENC ou QSV
-            hw = None
-            for hw_enc in ['h264_nvenc','h264_qsv','h264_amf','h264_vaapi']:
-                if subprocess.call([ffmpeg_bin,'-hide_banner','-encoders'], stdout=subprocess.DEVNULL,
-                                   stderr=subprocess.DEVNULL)==0 and hw_enc in subprocess.check_output([ffmpeg_bin,'-hide_banner','-encoders']).decode():
-                    hw = hw_enc; break
-            if not encoder:
-                encoder = hw or 'libx264'
-            preset = 'p1' if encoder!='libx264' else 'ultrafast'
+            # Détection unique des encodeurs disponibles
+            encoders_list = subprocess.check_output([ffmpeg_bin, '-hide_banner', '-encoders']).decode()
+            # Priorité au NVENC si présent, sinon fallback CPU
+            if 'h264_nvenc' in encoders_list:
+                encoder = 'h264_nvenc'
+            else:
+                encoder = 'libx264'
+            preset = 'p1' if encoder != 'libx264' else 'ultrafast'
 
-            cmd = [ffmpeg_bin, '-y', '-f','rawvideo','-pix_fmt','rgb24',
-                   '-s', f'{w}x{h}','-r', str(self.fps), '-i','-',
-                   '-c:v', encoder, '-preset', preset, '-threads','0', '-pix_fmt','yuv420p', self.output_path]
+                        # Construction dynamique de la commande FFmpeg
+            bitrate = getattr(self, 'ffmpeg_bitrate', '8000k')
+            bufsize = getattr(self, 'ffmpeg_bufsize', '16000k')  # généralement 2× le bitrate
+            cmd = [
+                ffmpeg_bin,
+                '-y',
+                '-f', 'rawvideo',
+                '-pix_fmt', 'rgb24',
+                '-s', f'{w}x{h}',
+                '-r', str(self.fps),
+                '-i', '-',
+                '-c:v', encoder,
+                '-preset', preset,
+                '-rc', 'cbr',
+                '-b:v', bitrate,
+                '-maxrate', bitrate,
+                '-bufsize', bufsize,
+                '-threads', '0',
+                '-pix_fmt', 'yuv420p',
+                self.output_path
+            ]
 
+            # Démarrage du processus FFmpeg
             # Démarrage du processus FFmpeg
             ffmpeg_proc = subprocess.Popen(cmd, stdin=subprocess.PIPE)
 
@@ -258,33 +274,47 @@ class CircleSimulator(IVideoGenerator):
             t = threading.Thread(target=worker,daemon=True)
             t.start()
 
-            # Surface et loop
-            surf = pygame.Surface((w,h)); dt=1.0/self.fps
+                        # Surface et loop
+            surf = pygame.Surface((w, h))
+                        # Boucle de rendu et envoi des données via pipe
+            surf = pygame.Surface((w, h))
+            dt = 1.0 / self.fps
             for i in range(self.total_frames):
                 # logique
                 for ring in self.rings:
-                    ring.update(dt, self.ball.pos);
-                    for e in ring.events: self._collect_audio_event(e)
+                    ring.update(dt, self.ball.pos)
+                    for e in ring.events:
+                        self._collect_audio_event(e)
                     ring.events.clear()
-                self.ball.update(dt,self.gravity)
-                for idx,ring in enumerate(self.rings):
-                    ring.check_collision(self.ball,i*dt,self._collect_audio_event)
-                    if idx==self.current_level and ring.state=='arc':
-                        to_ball=self.ball.pos-ring.center
-                        ang=(-np.degrees(np.arctan2(to_ball.y,to_ball.x)))%360
-                        if ring.is_in_gap(ang) and abs(to_ball.length()-ring.inner_radius)<self.ball.radius*1.5:
-                            ring.trigger_disappear(i*dt,self._collect_audio_event)
-                            self.current_level+=1
-                            if self.current_level<len(self.rings): self.rings[self.current_level].activate(i*dt,self._collect_audio_event)
-                            else: self.game_won=True
+                self.ball.update(dt, self.gravity)
+                for idx, ring in enumerate(self.rings):
+                    ring.check_collision(self.ball, i*dt, self._collect_audio_event)
+                    if idx == self.current_level and ring.state == 'arc':
+                        to_ball = self.ball.pos - ring.center
+                        ang = (-np.degrees(np.arctan2(to_ball.y, to_ball.x))) % 360
+                        if ring.is_in_gap(ang) and abs(to_ball.length() - ring.inner_radius) < self.ball.radius * 1.5:
+                            ring.trigger_disappear(i*dt, self._collect_audio_event)
+                            self.current_level += 1
+                            if self.current_level < len(self.rings):
+                                self.rings[self.current_level].activate(i*dt, self._collect_audio_event)
+                            else:
+                                self.game_won = True
                 # rendu
-                surf.fill((15,15,25))
-                for ring in reversed(self.rings): ring.draw(surf)
+                surf.fill((15, 15, 25))
+                for ring in reversed(self.rings):
+                    ring.draw(surf)
                 self.ball.draw(surf)
-                # envoi
-                data=pygame.image.tostring(surf,'RGB')
-                try: q.put_nowait(data)
-                except Full: q.get(); q.put(data)
+
+                # conversion rapide sans lock : pygame.image.tostring
+                data = pygame.image.tostring(surf, 'RGB')
+                try:
+                    q.put_nowait(data)
+                except Full:
+                    # file pleine, on drop l'ancienne
+                    _ = q.get()
+                    q.put(data)
+
+            # fin du flux
 
             # fin
             q.put(None); t.join(); ffmpeg_proc.wait(); pygame.quit();
@@ -293,7 +323,7 @@ class CircleSimulator(IVideoGenerator):
             logger.error(f"Erreur génération pipe FFmpeg: {e}")
             import traceback; traceback.print_exc()
             pygame.quit(); return None
-    
+
     def _create_video_from_frames(self) -> Optional[str]:
         """
         Crée une vidéo à partir des frames générés
