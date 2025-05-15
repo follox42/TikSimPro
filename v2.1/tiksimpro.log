@@ -6101,3 +6101,1985 @@ OSError: MoviePy Error: creation of None failed because of the following error:
 2025-05-15 13:50:02,523 - TikSimPro - INFO - Vitesse de rotation appliquée: 72 (BPM: 48.0)
 2025-05-15 13:50:02,524 - TikSimPro - INFO - Génération de la vidéo en cours...
 2025-05-15 13:50:02,620 - TikSimPro - INFO - FFmpeg: C:\ffmpeg\bin\ffmpeg.EXE -y -f rawvideo -vcodec rawvideo -pix_fmt rgb24 -s 1080x1920 -r 60 -i - -c:v h264_nvenc -preset p1 -tune hq -rc vbr -qmin 1 -qmax 51 -b:v 8000k -maxrate 8000k -bufsize 16000k -threads 0 -pix_fmt yuv420p temp\video_1747309802.mp4
+2025-05-15 14:28:45,587 - TikSimPro - INFO - ContentPipeline initialisé
+2025-05-15 14:28:46,035 - TikSimPro - INFO - Plugin découvert: TikTokAnalyzer
+2025-05-15 14:28:46,582 - TikSimPro - INFO - TikTokAnalyzer initialisé: tiktok_data
+2025-05-15 14:28:46,583 - TikSimPro - INFO - Analyseur de tendances défini: TikTokAnalyzer
+2025-05-15 14:28:46,583 - TikSimPro - INFO - Plugin découvert: CircleSimulator
+2025-05-15 14:28:46,584 - TikSimPro - INFO - Générateur de vidéo défini: CircleSimulator
+2025-05-15 14:28:46,585 - TikSimPro - INFO - Plugin découvert: TrendAudioGenerator
+2025-05-15 14:28:46,585 - TikSimPro - INFO - TrendAudioGenerator initialisé
+2025-05-15 14:28:46,586 - TikSimPro - INFO - Générateur audio défini: TrendAudioGenerator
+2025-05-15 14:28:46,587 - TikSimPro - INFO - Plugin découvert: FFmpegMediaCombiner
+2025-05-15 14:28:46,587 - TikSimPro - INFO - Plugin découvert: MoviePyMediaCombiner
+2025-05-15 14:28:46,617 - TikSimPro - INFO - Combineur de médias défini: FFmpegMediaCombiner
+2025-05-15 14:28:46,618 - TikSimPro - INFO - Plugin découvert: VideoEnhancer
+2025-05-15 14:28:46,619 - TikSimPro - INFO - VideoEnhancer initialisé: C:\Users\nolan\AppData\Local\Temp\tmp7n544ua6
+2025-05-15 14:28:47,391 - TikSimPro - INFO - Dépendances disponibles: OpenCV, MoviePy, PIL
+2025-05-15 14:28:47,404 - TikSimPro - INFO - Améliorateur de vidéo défini: VideoEnhancer
+2025-05-15 14:28:47,408 - TikSimPro - INFO - Plugin découvert: InstagramPublisher
+2025-05-15 14:28:47,409 - TikSimPro - INFO - Plugin découvert: TikTokPublisher
+2025-05-15 14:28:47,410 - TikSimPro - INFO - Plugin découvert: YouTubePublisher
+2025-05-15 14:28:47,562 - TikSimPro - INFO - TikTokPublisher initialisé
+2025-05-15 14:28:47,562 - TikSimPro - INFO - Système de publication ajouté pour tiktok: TikTokPublisher
+2025-05-15 14:28:47,562 - TikSimPro - INFO - YouTubePublisher initialisé
+2025-05-15 14:28:47,562 - TikSimPro - INFO - Système de publication ajouté pour youtube: YouTubePublisher
+2025-05-15 14:28:47,562 - TikSimPro - INFO - Pipeline configuré avec succès
+2025-05-15 14:28:47,563 - TikSimPro - INFO - Démarrage du pipeline de contenu...
+2025-05-15 14:28:47,563 - TikSimPro - INFO - Démarrage du pipeline de contenu...
+2025-05-15 14:28:47,563 - TikSimPro - INFO - Fichiers générés: videos\final_1747312127.mp4
+2025-05-15 14:28:47,563 - TikSimPro - INFO - Étape 1/6: Analyse des tendances...
+2025-05-15 14:28:47,563 - TikSimPro - INFO - Analyse des tendances en cours...
+2025-05-15 14:28:47,565 - TikSimPro - INFO - Analyse des tendances chargée depuis le cache
+2025-05-15 14:28:47,565 - TikSimPro - INFO - Analyse des tendances terminée
+2025-05-15 14:28:47,565 - TikSimPro - INFO - Étape 2/6: Génération de la vidéo...
+2025-05-15 14:28:47,565 - TikSimPro - INFO - Configuration du générateur de vidéo...
+2025-05-15 14:28:47,572 - TikSimPro - INFO - Simulateur configuré: 1080x1920, 60 FPS, 61.0s, 2 balles
+2025-05-15 14:28:47,573 - TikSimPro - INFO - Palette de couleurs appliquée: ['#FF5733', '#33FFC7', '#3386FF', '#FF33E0']
+2025-05-15 14:28:47,574 - TikSimPro - INFO - Vitesse de rotation appliquée: 72 (BPM: 48.0)
+2025-05-15 14:28:47,574 - TikSimPro - INFO - Génération de la vidéo en cours...
+2025-05-15 14:28:47,598 - TikSimPro - INFO - Mode direct_frames activé
+2025-05-15 14:28:47,605 - TikSimPro - INFO - Début du rendu des frames (3660 frames prévues)
+2025-05-15 14:28:47,787 - TikSimPro - INFO - Frame 0/3660 générée
+2025-05-15 14:28:48,692 - TikSimPro - INFO - Frame 10/3660 générée
+2025-05-15 14:28:49,780 - TikSimPro - INFO - Frame 20/3660 générée
+2025-05-15 14:28:50,998 - TikSimPro - INFO - Frame 30/3660 générée
+2025-05-15 14:28:52,052 - TikSimPro - INFO - Frame 40/3660 générée
+2025-05-15 14:28:56,567 - TikSimPro - INFO - ContentPipeline initialisé
+2025-05-15 14:28:57,014 - TikSimPro - INFO - Plugin découvert: TikTokAnalyzer
+2025-05-15 14:28:57,540 - TikSimPro - INFO - TikTokAnalyzer initialisé: tiktok_data
+2025-05-15 14:28:57,541 - TikSimPro - INFO - Analyseur de tendances défini: TikTokAnalyzer
+2025-05-15 14:28:57,541 - TikSimPro - INFO - Plugin découvert: CircleSimulator
+2025-05-15 14:28:57,542 - TikSimPro - INFO - Générateur de vidéo défini: CircleSimulator
+2025-05-15 14:28:57,542 - TikSimPro - INFO - Plugin découvert: TrendAudioGenerator
+2025-05-15 14:28:57,543 - TikSimPro - INFO - TrendAudioGenerator initialisé
+2025-05-15 14:28:57,543 - TikSimPro - INFO - Générateur audio défini: TrendAudioGenerator
+2025-05-15 14:28:57,544 - TikSimPro - INFO - Plugin découvert: FFmpegMediaCombiner
+2025-05-15 14:28:57,544 - TikSimPro - INFO - Plugin découvert: MoviePyMediaCombiner
+2025-05-15 14:28:57,572 - TikSimPro - INFO - Combineur de médias défini: FFmpegMediaCombiner
+2025-05-15 14:28:57,573 - TikSimPro - INFO - Plugin découvert: VideoEnhancer
+2025-05-15 14:28:57,574 - TikSimPro - INFO - VideoEnhancer initialisé: C:\Users\nolan\AppData\Local\Temp\tmp1nxoor57
+2025-05-15 14:28:58,219 - TikSimPro - INFO - Dépendances disponibles: OpenCV, MoviePy, PIL
+2025-05-15 14:28:58,219 - TikSimPro - INFO - Améliorateur de vidéo défini: VideoEnhancer
+2025-05-15 14:28:58,220 - TikSimPro - INFO - Plugin découvert: InstagramPublisher
+2025-05-15 14:28:58,220 - TikSimPro - INFO - Plugin découvert: TikTokPublisher
+2025-05-15 14:28:58,220 - TikSimPro - INFO - Plugin découvert: YouTubePublisher
+2025-05-15 14:28:58,317 - TikSimPro - INFO - TikTokPublisher initialisé
+2025-05-15 14:28:58,317 - TikSimPro - INFO - Système de publication ajouté pour tiktok: TikTokPublisher
+2025-05-15 14:28:58,317 - TikSimPro - INFO - YouTubePublisher initialisé
+2025-05-15 14:28:58,317 - TikSimPro - INFO - Système de publication ajouté pour youtube: YouTubePublisher
+2025-05-15 14:28:58,318 - TikSimPro - INFO - Pipeline configuré avec succès
+2025-05-15 14:28:58,318 - TikSimPro - INFO - Démarrage du pipeline de contenu...
+2025-05-15 14:28:58,318 - TikSimPro - INFO - Démarrage du pipeline de contenu...
+2025-05-15 14:28:58,318 - TikSimPro - INFO - Fichiers générés: videos\final_1747312138.mp4
+2025-05-15 14:28:58,318 - TikSimPro - INFO - Étape 1/6: Analyse des tendances...
+2025-05-15 14:28:58,318 - TikSimPro - INFO - Analyse des tendances en cours...
+2025-05-15 14:28:58,319 - TikSimPro - INFO - Analyse des tendances chargée depuis le cache
+2025-05-15 14:28:58,319 - TikSimPro - INFO - Analyse des tendances terminée
+2025-05-15 14:28:58,319 - TikSimPro - INFO - Étape 2/6: Génération de la vidéo...
+2025-05-15 14:28:58,319 - TikSimPro - INFO - Configuration du générateur de vidéo...
+2025-05-15 14:28:58,325 - TikSimPro - INFO - Simulateur configuré: 1080x1920, 60 FPS, 61.0s, 2 balles
+2025-05-15 14:28:58,326 - TikSimPro - INFO - Palette de couleurs appliquée: ['#FF5733', '#33FFC7', '#3386FF', '#FF33E0']
+2025-05-15 14:28:58,326 - TikSimPro - INFO - Vitesse de rotation appliquée: 72 (BPM: 48.0)
+2025-05-15 14:28:58,326 - TikSimPro - INFO - Génération de la vidéo en cours...
+2025-05-15 14:28:58,402 - TikSimPro - INFO - FFmpeg: C:\ffmpeg\bin\ffmpeg.EXE -y -f rawvideo -vcodec rawvideo -pix_fmt rgb24 -s 1080x1920 -r 60 -i - -c:v h264_nvenc -preset p1 -tune hq -rc vbr -qmin 1 -qmax 51 -b:v 8000k -maxrate 8000k -bufsize 16000k -threads 0 -pix_fmt yuv420p temp\video_1747312138.mp4
+2025-05-15 14:30:49,074 - TikSimPro - INFO - 746 événements audio collectés
+2025-05-15 14:30:49,075 - TikSimPro - INFO - Étape 3/6: Génération de la piste audio...
+2025-05-15 14:30:49,075 - TikSimPro - INFO - Configuration du générateur audio...
+2025-05-15 14:30:49,076 - TikSimPro - INFO - Générateur audio configuré: 44100 Hz, 61.0s
+2025-05-15 14:30:49,076 - TikSimPro - INFO - BPM appliqué: 48.0 BPM
+2025-05-15 14:30:49,076 - TikSimPro - INFO - 746 événements audio ajoutés, total: 746
+2025-05-15 14:30:49,076 - TikSimPro - INFO - Génération de la piste audio en cours...
+2025-05-15 14:30:49,078 - TikSimPro - INFO - Génération des sons de notes...
+2025-05-15 14:30:49,205 - TikSimPro - INFO - Génération des sons d'effets...
+2025-05-15 14:30:49,233 - TikSimPro - INFO - Génération de la piste audio à partir de 746 événements...
+2025-05-15 14:30:49,864 - TikSimPro - INFO - Piste audio générée avec succès: temp\audio_1747312138.wav (746/746 événements traités)
+2025-05-15 14:30:49,867 - TikSimPro - INFO - Étape 4/6: Combinaison des médias...
+2025-05-15 14:30:49,867 - TikSimPro - INFO - Combinaison de la vidéo et de l'audio en cours...
+2025-05-15 14:30:49,868 - TikSimPro - INFO - Combinaison de temp\video_1747312138.mp4 et temp\audio_1747312138.wav en temp\combined_1747312138.mp4
+2025-05-15 14:30:51,296 - TikSimPro - INFO - Combinaison réussie: temp\combined_1747312138.mp4
+2025-05-15 14:30:51,298 - TikSimPro - INFO - Étape 5/6: Amélioration de la vidéo...
+2025-05-15 14:30:51,298 - TikSimPro - INFO - Amélioration de la vidéo en cours...
+2025-05-15 14:30:51,298 - TikSimPro - INFO - Application des améliorations...
+2025-05-15 14:30:51,737 - TikSimPro - WARNING - Aucune police disponible, utilisation de Arial par défaut
+2025-05-15 14:30:51,739 - TikSimPro - ERROR - Erreur lors de l'ajout de l'appel à l'action: MoviePy Error: creation of None failed because of the following error:
+
+[WinError 2] Le fichier spécifié est introuvable.
+
+.This error can be due to the fact that ImageMagick is not installed on your computer, or (for Windows users) that you didn't specify the path to the ImageMagick binary in file conf.py, or that the path you specified is incorrect
+2025-05-15 14:30:51,780 - TikSimPro - INFO - Vidéo finale copiée vers: videos\final_1747312138.mp4
+2025-05-15 14:30:51,780 - TikSimPro - INFO - Amélioration terminée: videos\final_1747312138.mp4
+2025-05-15 14:30:51,781 - TikSimPro - INFO - Étape 6/6: Publication du contenu...
+2025-05-15 14:30:51,781 - TikSimPro - INFO - Initialisation du navigateur pour l'authentification TikTok...
+2025-05-15 14:30:51,810 - TikSimPro - INFO - Initialisation du webdriver Chrome...
+2025-05-15 14:30:51,811 - WDM - INFO - ====== WebDriver manager ======
+2025-05-15 14:30:52,576 - WDM - INFO - Get LATEST chromedriver version for google-chrome
+2025-05-15 14:30:52,627 - WDM - INFO - Get LATEST chromedriver version for google-chrome
+2025-05-15 14:30:52,666 - WDM - INFO - Driver [C:\Users\nolan\.wdm\drivers\chromedriver\win64\136.0.7103.94\chromedriver-win32/chromedriver.exe] found in cache
+2025-05-15 14:30:53,911 - TikSimPro - INFO - Navigateur configuré pour TikTok
+2025-05-15 14:31:02,492 - TikSimPro - INFO - Session TikTok restaurée avec succès via les cookies
+2025-05-15 14:31:02,492 - TikSimPro - INFO - Publication sur tiktok en cours...
+2025-05-15 14:31:02,495 - TikSimPro - INFO - Navigation vers TikTok Studio...
+2025-05-15 14:31:08,337 - TikSimPro - INFO - Recherche du champ de téléchargement...
+2025-05-15 14:31:08,353 - TikSimPro - INFO - Téléchargement de la vidéo: videos\final_1747312138.mp4
+2025-05-15 14:31:08,387 - TikSimPro - INFO - Traitement de la vidéo en cours...
+2025-05-15 14:31:23,408 - TikSimPro - INFO - Ajout de la description et des hashtags: Turn on the sound!
+
+#nature #popular2 #dance #comedy #fashion #pets #diy #animation #trending #new18
+2025-05-15 14:31:29,975 - TikSimPro - INFO - Recherche du bouton de publication...
+2025-05-15 14:31:30,038 - TikSimPro - INFO - Publication de la vidéo...
+2025-05-15 14:31:30,164 - TikSimPro - INFO - Attente de la confirmation de publication...
+2025-05-15 14:31:40,220 - TikSimPro - INFO - Redirection vers la page de contenu détectée : Publication réussie !
+2025-05-15 14:31:40,220 - TikSimPro - INFO - Fermeture du navigateur...
+2025-05-15 14:31:42,540 - TikSimPro - INFO - Publication sur tiktok: réussie
+2025-05-15 14:31:42,540 - TikSimPro - INFO - Initialisation du navigateur pour l'authentification YouTube...
+2025-05-15 14:31:42,540 - TikSimPro - INFO - Initialisation du webdriver Chrome...
+2025-05-15 14:31:42,541 - WDM - INFO - ====== WebDriver manager ======
+2025-05-15 14:31:43,580 - WDM - INFO - Get LATEST chromedriver version for google-chrome
+2025-05-15 14:31:43,619 - WDM - INFO - Get LATEST chromedriver version for google-chrome
+2025-05-15 14:31:43,660 - WDM - INFO - Driver [C:\Users\nolan\.wdm\drivers\chromedriver\win64\136.0.7103.94\chromedriver-win32/chromedriver.exe] found in cache
+2025-05-15 14:31:44,802 - TikSimPro - INFO - Navigateur configuré pour YouTube
+2025-05-15 14:31:44,802 - TikSimPro - INFO - Aucun cookie YouTube sauvegardé trouvé
+2025-05-15 14:31:44,803 - TikSimPro - INFO - Ouverture de la page YouTube...
+2025-05-15 14:32:28,801 - TikSimPro - INFO - Connexion à YouTube réussie!
+2025-05-15 14:32:28,806 - TikSimPro - INFO - Cookies YouTube sauvegardés dans youtube_cookies.pkl
+2025-05-15 14:32:28,806 - TikSimPro - INFO - Publication sur youtube en cours...
+2025-05-15 14:32:28,808 - TikSimPro - INFO - Navigation vers la page d'upload YouTube...
+2025-05-15 14:32:36,853 - TikSimPro - INFO - Téléchargement de la vidéo: videos\final_1747312138.mp4
+2025-05-15 14:32:40,032 - TikSimPro - INFO - Formulaire d'édition détecté
+2025-05-15 14:32:43,689 - TikSimPro - INFO - Titre saisi: Satisfying Physics Simulation - 2025-05-15
+2025-05-15 14:32:45,274 - TikSimPro - INFO - Description et hashtags saisis
+2025-05-15 14:32:46,396 - TikSimPro - INFO - Option 'Non destiné aux enfants' sélectionnée
+2025-05-15 14:32:53,760 - TikSimPro - INFO - Visibilité définie: public
+2025-05-15 14:32:53,858 - TikSimPro - INFO - Bouton de publication cliqué
+2025-05-15 14:33:03,874 - TikSimPro - INFO - Dialogue de traitement détecté, publication réussie
+2025-05-15 14:33:06,145 - TikSimPro - INFO - Publication sur youtube: réussie
+2025-05-15 14:33:06,145 - TikSimPro - INFO - Résumé de la publication:
+2025-05-15 14:33:06,145 - TikSimPro - INFO - - tiktok: réussie
+2025-05-15 14:33:06,145 - TikSimPro - INFO - - youtube: réussie
+2025-05-15 14:33:06,145 - TikSimPro - INFO - Pipeline terminé avec succès: videos\final_1747312138.mp4
+2025-05-15 14:33:06,146 - TikSimPro - INFO - Pipeline exécuté en 247.83 secondes
+2025-05-15 14:33:06,146 - TikSimPro - INFO - Vidéo générée: videos\final_1747312138.mp4
+2025-05-15 18:24:54,028 - TikSimPro - INFO - ContentPipeline initialisé
+2025-05-15 18:24:56,016 - TikSimPro - INFO - Plugin découvert: TikTokAnalyzer
+2025-05-15 18:25:02,274 - TikSimPro - INFO - TikTokAnalyzer initialisé: tiktok_data
+2025-05-15 18:25:02,274 - TikSimPro - INFO - Analyseur de tendances défini: TikTokAnalyzer
+2025-05-15 18:25:02,276 - TikSimPro - INFO - Plugin découvert: CircleSimulator
+2025-05-15 18:25:02,277 - TikSimPro - INFO - Générateur de vidéo défini: CircleSimulator
+2025-05-15 18:25:02,278 - TikSimPro - INFO - Plugin découvert: TrendAudioGenerator
+2025-05-15 18:25:02,278 - TikSimPro - INFO - TrendAudioGenerator initialisé
+2025-05-15 18:25:02,278 - TikSimPro - INFO - Générateur audio défini: TrendAudioGenerator
+2025-05-15 18:25:02,279 - TikSimPro - INFO - Plugin découvert: FFmpegMediaCombiner
+2025-05-15 18:25:02,279 - TikSimPro - INFO - Plugin découvert: MoviePyMediaCombiner
+2025-05-15 18:25:02,849 - TikSimPro - INFO - Combineur de médias défini: FFmpegMediaCombiner
+2025-05-15 18:25:02,849 - TikSimPro - INFO - Plugin découvert: VideoEnhancer
+2025-05-15 18:25:02,854 - TikSimPro - INFO - VideoEnhancer initialisé: C:\Users\nolan\AppData\Local\Temp\tmp9rmxl_89
+2025-05-15 18:25:08,680 - TikSimPro - INFO - Dépendances disponibles: OpenCV, MoviePy, PIL
+2025-05-15 18:25:08,681 - TikSimPro - INFO - Améliorateur de vidéo défini: VideoEnhancer
+2025-05-15 18:25:08,683 - TikSimPro - INFO - Plugin découvert: InstagramPublisher
+2025-05-15 18:25:08,683 - TikSimPro - INFO - Plugin découvert: TikTokPublisher
+2025-05-15 18:25:08,683 - TikSimPro - INFO - Plugin découvert: YouTubePublisher
+2025-05-15 18:25:09,841 - TikSimPro - INFO - TikTokPublisher initialisé
+2025-05-15 18:25:09,841 - TikSimPro - INFO - Système de publication ajouté pour tiktok: TikTokPublisher
+2025-05-15 18:25:09,841 - TikSimPro - INFO - YouTubePublisher initialisé
+2025-05-15 18:25:09,841 - TikSimPro - INFO - Système de publication ajouté pour youtube: YouTubePublisher
+2025-05-15 18:25:09,843 - TikSimPro - INFO - Pipeline configuré avec succès
+2025-05-15 18:25:09,843 - TikSimPro - INFO - Démarrage du pipeline de contenu...
+2025-05-15 18:25:09,843 - TikSimPro - INFO - Démarrage du pipeline de contenu...
+2025-05-15 18:25:09,843 - TikSimPro - INFO - Fichiers générés: videos\final_1747326309.mp4
+2025-05-15 18:25:09,843 - TikSimPro - INFO - Étape 1/6: Analyse des tendances...
+2025-05-15 18:25:09,843 - TikSimPro - INFO - Analyse des tendances en cours...
+2025-05-15 18:25:09,844 - TikSimPro - INFO - Génération de l'analyse des tendances TikTok
+2025-05-15 18:25:09,844 - TikSimPro - INFO - Récupération des hashtags tendance TikTok (simulation)
+2025-05-15 18:25:09,844 - TikSimPro - INFO - 35 hashtags récupérés
+2025-05-15 18:25:09,845 - TikSimPro - INFO - Récupération des musiques populaires TikTok (simulation)
+2025-05-15 18:25:09,845 - TikSimPro - INFO - 10 musiques récupérées
+2025-05-15 18:25:09,845 - TikSimPro - INFO - Analyse des tendances générée
+2025-05-15 18:25:09,846 - TikSimPro - INFO - Analyse des tendances terminée
+2025-05-15 18:25:09,847 - TikSimPro - INFO - Étape 2/6: Génération de la vidéo...
+2025-05-15 18:25:09,847 - TikSimPro - INFO - Configuration du générateur de vidéo...
+2025-05-15 18:25:09,854 - TikSimPro - INFO - Simulateur configuré: 1080x1920, 60 FPS, 61.0s, 2 balles
+2025-05-15 18:25:09,855 - TikSimPro - INFO - Palette de couleurs appliquée: ['#000000', '#FFFFFF', '#FF0050', '#00F2EA']
+2025-05-15 18:25:09,856 - TikSimPro - INFO - Vitesse de rotation appliquée: 180 (BPM: 120.0)
+2025-05-15 18:25:09,856 - TikSimPro - INFO - Génération de la vidéo en cours...
+2025-05-15 18:25:09,943 - TikSimPro - INFO - FFmpeg: C:\ffmpeg\bin\ffmpeg.EXE -y -f rawvideo -vcodec rawvideo -pix_fmt rgb24 -s 1080x1920 -r 60 -i - -c:v h264_nvenc -preset p1 -tune hq -rc vbr -qmin 1 -qmax 51 -b:v 8000k -maxrate 8000k -bufsize 16000k -threads 0 -pix_fmt yuv420p temp\video_1747326309.mp4
+2025-05-15 18:26:41,561 - TikSimPro - INFO - ContentPipeline initialisé
+2025-05-15 18:26:42,420 - TikSimPro - INFO - Plugin découvert: TikTokAnalyzer
+2025-05-15 18:26:43,414 - TikSimPro - INFO - TikTokAnalyzer initialisé: tiktok_data
+2025-05-15 18:26:43,414 - TikSimPro - INFO - Analyseur de tendances défini: TikTokAnalyzer
+2025-05-15 18:26:43,415 - TikSimPro - INFO - Plugin découvert: CircleSimulator
+2025-05-15 18:26:43,416 - TikSimPro - INFO - Générateur de vidéo défini: CircleSimulator
+2025-05-15 18:26:43,417 - TikSimPro - INFO - Plugin découvert: TrendAudioGenerator
+2025-05-15 18:26:43,419 - TikSimPro - INFO - TrendAudioGenerator initialisé
+2025-05-15 18:26:43,419 - TikSimPro - INFO - Générateur audio défini: TrendAudioGenerator
+2025-05-15 18:26:43,420 - TikSimPro - INFO - Plugin découvert: FFmpegMediaCombiner
+2025-05-15 18:26:43,421 - TikSimPro - INFO - Plugin découvert: MoviePyMediaCombiner
+2025-05-15 18:26:43,458 - TikSimPro - INFO - Combineur de médias défini: FFmpegMediaCombiner
+2025-05-15 18:26:43,459 - TikSimPro - INFO - Plugin découvert: VideoEnhancer
+2025-05-15 18:26:43,461 - TikSimPro - INFO - VideoEnhancer initialisé: C:\Users\nolan\AppData\Local\Temp\tmpdm1ggp37
+2025-05-15 18:26:44,643 - TikSimPro - INFO - Dépendances disponibles: OpenCV, MoviePy, PIL
+2025-05-15 18:26:44,644 - TikSimPro - INFO - Améliorateur de vidéo défini: VideoEnhancer
+2025-05-15 18:26:44,645 - TikSimPro - INFO - Plugin découvert: InstagramPublisher
+2025-05-15 18:26:44,645 - TikSimPro - INFO - Plugin découvert: TikTokPublisher
+2025-05-15 18:26:44,645 - TikSimPro - INFO - Plugin découvert: YouTubePublisher
+2025-05-15 18:26:44,839 - TikSimPro - INFO - TikTokPublisher initialisé
+2025-05-15 18:26:44,846 - TikSimPro - INFO - Système de publication ajouté pour tiktok: TikTokPublisher
+2025-05-15 18:26:44,848 - TikSimPro - INFO - YouTubePublisher initialisé
+2025-05-15 18:26:44,850 - TikSimPro - INFO - Système de publication ajouté pour youtube: YouTubePublisher
+2025-05-15 18:26:44,851 - TikSimPro - INFO - Pipeline configuré avec succès
+2025-05-15 18:26:44,851 - TikSimPro - INFO - Démarrage du pipeline de contenu...
+2025-05-15 18:26:44,852 - TikSimPro - INFO - Démarrage du pipeline de contenu...
+2025-05-15 18:26:44,853 - TikSimPro - INFO - Fichiers générés: videos\final_1747326404.mp4
+2025-05-15 18:26:44,853 - TikSimPro - INFO - Étape 1/6: Analyse des tendances...
+2025-05-15 18:26:44,853 - TikSimPro - INFO - Analyse des tendances en cours...
+2025-05-15 18:26:44,854 - TikSimPro - INFO - Analyse des tendances chargée depuis le cache
+2025-05-15 18:26:44,857 - TikSimPro - INFO - Analyse des tendances terminée
+2025-05-15 18:26:44,860 - TikSimPro - INFO - Étape 2/6: Génération de la vidéo...
+2025-05-15 18:26:44,863 - TikSimPro - INFO - Configuration du générateur de vidéo...
+2025-05-15 18:26:44,907 - TikSimPro - INFO - Simulateur configuré: 1080x1920, 60 FPS, 10.0s, 2 balles
+2025-05-15 18:26:44,920 - TikSimPro - INFO - Palette de couleurs appliquée: ['#000000', '#FFFFFF', '#FF0050', '#00F2EA']
+2025-05-15 18:26:44,944 - TikSimPro - INFO - Vitesse de rotation appliquée: 180 (BPM: 120.0)
+2025-05-15 18:26:45,001 - TikSimPro - INFO - Génération de la vidéo en cours...
+2025-05-15 18:26:45,179 - TikSimPro - INFO - FFmpeg: C:\ffmpeg\bin\ffmpeg.EXE -y -f rawvideo -vcodec rawvideo -pix_fmt rgb24 -s 1080x1920 -r 60 -i - -c:v h264_nvenc -preset p1 -tune hq -rc vbr -qmin 1 -qmax 51 -b:v 8000k -maxrate 8000k -bufsize 16000k -threads 0 -pix_fmt yuv420p temp\video_1747326404.mp4
+2025-05-15 18:27:34,415 - TikSimPro - INFO - 231 événements audio collectés
+2025-05-15 18:27:34,417 - TikSimPro - INFO - Étape 3/6: Génération de la piste audio...
+2025-05-15 18:27:34,423 - TikSimPro - INFO - Configuration du générateur audio...
+2025-05-15 18:27:34,427 - TikSimPro - INFO - Générateur audio configuré: 44100 Hz, 10.0s
+2025-05-15 18:27:34,427 - TikSimPro - INFO - BPM appliqué: 120.0 BPM
+2025-05-15 18:27:34,427 - TikSimPro - INFO - 231 événements audio ajoutés, total: 231
+2025-05-15 18:27:34,427 - TikSimPro - INFO - Génération de la piste audio en cours...
+2025-05-15 18:27:34,427 - TikSimPro - INFO - Génération des sons de notes...
+2025-05-15 18:27:34,430 - TikSimPro - INFO - Génération des sons d'effets...
+2025-05-15 18:27:34,433 - TikSimPro - INFO - Génération de la piste audio à partir de 231 événements...
+2025-05-15 18:27:34,738 - TikSimPro - WARNING - Type d'événement audio non géré: victory
+2025-05-15 18:27:34,758 - TikSimPro - INFO - Piste audio générée avec succès: temp\audio_1747326404.wav (230/231 événements traités)
+2025-05-15 18:27:34,761 - TikSimPro - INFO - Étape 4/6: Combinaison des médias...
+2025-05-15 18:27:34,765 - TikSimPro - INFO - Combinaison de la vidéo et de l'audio en cours...
+2025-05-15 18:27:34,771 - TikSimPro - INFO - Combinaison de temp\video_1747326404.mp4 et temp\audio_1747326404.wav en temp\combined_1747326404.mp4
+2025-05-15 18:27:35,401 - TikSimPro - INFO - Combinaison réussie: temp\combined_1747326404.mp4
+2025-05-15 18:27:35,407 - TikSimPro - INFO - Étape 5/6: Amélioration de la vidéo...
+2025-05-15 18:27:35,407 - TikSimPro - INFO - Amélioration de la vidéo en cours...
+2025-05-15 18:27:35,408 - TikSimPro - INFO - Application des améliorations...
+2025-05-15 18:27:36,189 - TikSimPro - WARNING - Aucune police disponible, utilisation de Arial par défaut
+2025-05-15 18:27:36,192 - TikSimPro - ERROR - Erreur lors de l'ajout de l'appel à l'action: MoviePy Error: creation of None failed because of the following error:
+
+[WinError 2] Le fichier spécifié est introuvable.
+
+.This error can be due to the fact that ImageMagick is not installed on your computer, or (for Windows users) that you didn't specify the path to the ImageMagick binary in file conf.py, or that the path you specified is incorrect
+2025-05-15 18:27:36,205 - TikSimPro - INFO - Vidéo finale copiée vers: videos\final_1747326404.mp4
+2025-05-15 18:27:36,205 - TikSimPro - INFO - Amélioration terminée: videos\final_1747326404.mp4
+2025-05-15 18:27:36,205 - TikSimPro - INFO - Étape 6/6: Publication du contenu...
+2025-05-15 18:27:36,207 - TikSimPro - INFO - Initialisation du navigateur pour l'authentification TikTok...
+2025-05-15 18:27:36,514 - TikSimPro - INFO - Initialisation du webdriver Chrome...
+2025-05-15 18:27:36,515 - WDM - INFO - ====== WebDriver manager ======
+2025-05-15 18:27:39,451 - WDM - INFO - Get LATEST chromedriver version for google-chrome
+2025-05-15 18:27:39,558 - WDM - INFO - Get LATEST chromedriver version for google-chrome
+2025-05-15 18:27:39,607 - WDM - INFO - Driver [C:\Users\nolan\.wdm\drivers\chromedriver\win64\136.0.7103.94\chromedriver-win32/chromedriver.exe] found in cache
+2025-05-15 18:27:42,644 - TikSimPro - INFO - Navigateur configuré pour TikTok
+2025-05-15 18:28:05,011 - TikSimPro - INFO - Session TikTok restaurée avec succès via les cookies
+2025-05-15 18:28:06,107 - TikSimPro - INFO - Publication sur tiktok en cours...
+2025-05-15 18:28:08,989 - TikSimPro - INFO - Navigation vers TikTok Studio...
+2025-05-15 18:28:23,590 - TikSimPro - INFO - Recherche du champ de téléchargement...
+2025-05-15 18:28:30,903 - TikSimPro - INFO - Téléchargement de la vidéo: videos\final_1747326404.mp4
+2025-05-15 18:28:32,481 - TikSimPro - INFO - Traitement de la vidéo en cours...
+2025-05-15 18:28:47,515 - TikSimPro - INFO - Ajout de la description et des hashtags: I could watch this all day!
+
+#dance #animation #pets #diy #challenge #nature #food #fashion #science #funny
+2025-05-15 18:28:59,782 - TikSimPro - INFO - Recherche du bouton de publication...
+2025-05-15 18:29:00,132 - TikSimPro - INFO - Publication de la vidéo...
+2025-05-15 18:29:00,929 - TikSimPro - INFO - Attente de la confirmation de publication...
+2025-05-15 18:29:10,952 - TikSimPro - INFO - Redirection vers la page de contenu détectée : Publication réussie !
+2025-05-15 18:29:10,954 - TikSimPro - INFO - Fermeture du navigateur...
+2025-05-15 18:29:14,712 - TikSimPro - INFO - Publication sur tiktok: réussie
+2025-05-15 18:29:14,725 - TikSimPro - INFO - Initialisation du navigateur pour l'authentification YouTube...
+2025-05-15 18:29:14,725 - TikSimPro - INFO - Initialisation du webdriver Chrome...
+2025-05-15 18:29:14,725 - WDM - INFO - ====== WebDriver manager ======
+2025-05-15 18:29:19,075 - WDM - INFO - Get LATEST chromedriver version for google-chrome
+2025-05-15 18:29:19,271 - WDM - INFO - Get LATEST chromedriver version for google-chrome
+2025-05-15 18:29:19,572 - WDM - INFO - Driver [C:\Users\nolan\.wdm\drivers\chromedriver\win64\136.0.7103.94\chromedriver-win32/chromedriver.exe] found in cache
+2025-05-15 18:29:30,968 - TikSimPro - INFO - Navigateur configuré pour YouTube
+2025-05-15 18:29:52,490 - TikSimPro - INFO - Les cookies sauvegardés ne sont plus valides pour YouTube
+2025-05-15 18:29:52,606 - TikSimPro - INFO - Ouverture de la page YouTube...
+2025-05-15 18:32:40,614 - TikSimPro - INFO - Connexion à YouTube réussie!
+2025-05-15 18:32:40,622 - TikSimPro - INFO - Cookies YouTube sauvegardés dans youtube_cookies.pkl
+2025-05-15 18:32:40,623 - TikSimPro - INFO - Publication sur youtube en cours...
+2025-05-15 18:32:40,623 - TikSimPro - INFO - Navigation vers la page d'upload YouTube...
+2025-05-15 18:32:52,813 - TikSimPro - INFO - Téléchargement de la vidéo: videos\final_1747326404.mp4
+2025-05-15 18:32:55,863 - TikSimPro - INFO - Formulaire d'édition détecté
+2025-05-15 18:33:00,534 - TikSimPro - INFO - Titre saisi: Satisfying Physics Simulation - 2025-05-15
+2025-05-15 18:33:04,725 - TikSimPro - INFO - Description et hashtags saisis
+2025-05-15 18:33:06,033 - TikSimPro - INFO - Option 'Non destiné aux enfants' sélectionnée
+2025-05-15 18:33:13,791 - TikSimPro - INFO - Visibilité définie: public
+2025-05-15 18:33:14,207 - TikSimPro - INFO - Bouton de publication cliqué
+2025-05-15 18:33:24,336 - TikSimPro - INFO - Dialogue de traitement détecté, publication réussie
+2025-05-15 18:33:27,669 - TikSimPro - INFO - Publication sur youtube: réussie
+2025-05-15 18:33:27,677 - TikSimPro - INFO - Résumé de la publication:
+2025-05-15 18:33:27,678 - TikSimPro - INFO - - tiktok: réussie
+2025-05-15 18:33:27,678 - TikSimPro - INFO - - youtube: réussie
+2025-05-15 18:33:27,678 - TikSimPro - INFO - Pipeline terminé avec succès: videos\final_1747326404.mp4
+2025-05-15 18:33:27,678 - TikSimPro - INFO - Pipeline exécuté en 402.83 secondes
+2025-05-15 18:33:27,679 - TikSimPro - INFO - Vidéo générée: videos\final_1747326404.mp4
+2025-05-15 18:45:01,844 - TikSimPro - INFO - ContentPipeline initialisé
+2025-05-15 18:45:03,516 - TikSimPro - INFO - Plugin découvert: TikTokAnalyzer
+2025-05-15 18:45:05,519 - TikSimPro - INFO - TikTokAnalyzer initialisé: tiktok_data
+2025-05-15 18:45:05,519 - TikSimPro - INFO - Analyseur de tendances défini: TikTokAnalyzer
+2025-05-15 18:45:05,520 - TikSimPro - INFO - Plugin découvert: CircleSimulator
+2025-05-15 18:45:05,521 - TikSimPro - INFO - Générateur de vidéo défini: CircleSimulator
+2025-05-15 18:45:05,523 - TikSimPro - INFO - Plugin découvert: TrendAudioGenerator
+2025-05-15 18:45:05,525 - TikSimPro - INFO - TrendAudioGenerator initialisé
+2025-05-15 18:45:05,525 - TikSimPro - INFO - Générateur audio défini: TrendAudioGenerator
+2025-05-15 18:45:05,530 - TikSimPro - INFO - Plugin découvert: FFmpegMediaCombiner
+2025-05-15 18:45:05,530 - TikSimPro - INFO - Plugin découvert: MoviePyMediaCombiner
+2025-05-15 18:45:05,632 - TikSimPro - INFO - Combineur de médias défini: FFmpegMediaCombiner
+2025-05-15 18:45:05,633 - TikSimPro - INFO - Plugin découvert: VideoEnhancer
+2025-05-15 18:45:05,635 - TikSimPro - INFO - VideoEnhancer initialisé: C:\Users\nolan\AppData\Local\Temp\tmpbr02_1zv
+2025-05-15 18:45:07,536 - TikSimPro - INFO - Dépendances disponibles: OpenCV, MoviePy, PIL
+2025-05-15 18:45:07,536 - TikSimPro - INFO - Améliorateur de vidéo défini: VideoEnhancer
+2025-05-15 18:45:07,543 - TikSimPro - INFO - Plugin découvert: InstagramPublisher
+2025-05-15 18:45:07,559 - TikSimPro - INFO - Plugin découvert: TikTokPublisher
+2025-05-15 18:45:07,562 - TikSimPro - INFO - Plugin découvert: YouTubePublisher
+2025-05-15 18:45:07,850 - TikSimPro - INFO - TikTokPublisher initialisé
+2025-05-15 18:45:07,850 - TikSimPro - INFO - Système de publication ajouté pour tiktok: TikTokPublisher
+2025-05-15 18:45:07,851 - TikSimPro - INFO - YouTubePublisher initialisé
+2025-05-15 18:45:07,851 - TikSimPro - INFO - Système de publication ajouté pour youtube: YouTubePublisher
+2025-05-15 18:45:07,851 - TikSimPro - INFO - Pipeline configuré avec succès
+2025-05-15 18:45:07,851 - TikSimPro - INFO - Démarrage du pipeline de contenu...
+2025-05-15 18:45:07,851 - TikSimPro - INFO - Démarrage du pipeline de contenu...
+2025-05-15 18:45:07,851 - TikSimPro - INFO - Fichiers générés: videos\final_1747327507.mp4
+2025-05-15 18:45:07,851 - TikSimPro - INFO - Étape 1/6: Analyse des tendances...
+2025-05-15 18:45:07,853 - TikSimPro - INFO - Analyse des tendances en cours...
+2025-05-15 18:45:07,853 - TikSimPro - INFO - Analyse des tendances chargée depuis le cache
+2025-05-15 18:45:07,853 - TikSimPro - INFO - Analyse des tendances terminée
+2025-05-15 18:45:07,854 - TikSimPro - INFO - Étape 2/6: Génération de la vidéo...
+2025-05-15 18:45:07,854 - TikSimPro - INFO - Configuration du générateur de vidéo...
+2025-05-15 18:45:07,868 - TikSimPro - INFO - Simulateur configuré: 1080x1920, 60 FPS, 61.0s, 2 balles
+2025-05-15 18:45:07,869 - TikSimPro - INFO - Palette de couleurs appliquée: ['#000000', '#FFFFFF', '#FF0050', '#00F2EA']
+2025-05-15 18:45:07,869 - TikSimPro - INFO - Vitesse de rotation appliquée: 180 (BPM: 120.0)
+2025-05-15 18:45:07,869 - TikSimPro - INFO - Génération de la vidéo en cours...
+2025-05-15 18:45:07,995 - TikSimPro - INFO - FFmpeg: C:\ffmpeg\bin\ffmpeg.EXE -y -f rawvideo -vcodec rawvideo -pix_fmt rgb24 -s 1080x1920 -r 60 -i - -c:v h264_nvenc -preset p1 -tune hq -rc vbr -qmin 1 -qmax 51 -b:v 8000k -maxrate 8000k -bufsize 16000k -threads 0 -pix_fmt yuv420p temp\video_1747327507.mp4
+2025-05-15 18:48:20,328 - TikSimPro - ERROR - Échec de la génération vidéo
+2025-05-15 18:48:20,329 - TikSimPro - ERROR - Échec de la génération vidéo
+2025-05-15 18:48:20,329 - TikSimPro - ERROR - Échec de l'exécution du pipeline
+2025-05-15 18:54:18,536 - TikSimPro - INFO - ContentPipeline initialisé
+2025-05-15 18:54:19,126 - TikSimPro - INFO - Plugin découvert: TikTokAnalyzer
+2025-05-15 18:54:19,863 - TikSimPro - INFO - TikTokAnalyzer initialisé: tiktok_data
+2025-05-15 18:54:19,863 - TikSimPro - INFO - Analyseur de tendances défini: TikTokAnalyzer
+2025-05-15 18:54:19,864 - TikSimPro - INFO - Plugin découvert: CircleSimulator
+2025-05-15 18:54:19,865 - TikSimPro - INFO - Générateur de vidéo défini: CircleSimulator
+2025-05-15 18:54:19,866 - TikSimPro - INFO - Plugin découvert: TrendAudioGenerator
+2025-05-15 18:54:19,866 - TikSimPro - INFO - TrendAudioGenerator initialisé
+2025-05-15 18:54:19,867 - TikSimPro - INFO - Générateur audio défini: TrendAudioGenerator
+2025-05-15 18:54:19,867 - TikSimPro - INFO - Plugin découvert: FFmpegMediaCombiner
+2025-05-15 18:54:19,868 - TikSimPro - INFO - Plugin découvert: MoviePyMediaCombiner
+2025-05-15 18:54:19,904 - TikSimPro - INFO - Combineur de médias défini: FFmpegMediaCombiner
+2025-05-15 18:54:19,906 - TikSimPro - INFO - Plugin découvert: VideoEnhancer
+2025-05-15 18:54:19,908 - TikSimPro - INFO - VideoEnhancer initialisé: C:\Users\nolan\AppData\Local\Temp\tmpn3j1_ps4
+2025-05-15 18:54:20,733 - TikSimPro - INFO - Dépendances disponibles: OpenCV, MoviePy, PIL
+2025-05-15 18:54:20,733 - TikSimPro - INFO - Améliorateur de vidéo défini: VideoEnhancer
+2025-05-15 18:54:20,735 - TikSimPro - INFO - Plugin découvert: InstagramPublisher
+2025-05-15 18:54:20,735 - TikSimPro - INFO - Plugin découvert: TikTokPublisher
+2025-05-15 18:54:20,735 - TikSimPro - INFO - Plugin découvert: YouTubePublisher
+2025-05-15 18:54:20,857 - TikSimPro - INFO - TikTokPublisher initialisé
+2025-05-15 18:54:20,858 - TikSimPro - INFO - Système de publication ajouté pour tiktok: TikTokPublisher
+2025-05-15 18:54:20,858 - TikSimPro - INFO - YouTubePublisher initialisé
+2025-05-15 18:54:20,858 - TikSimPro - INFO - Système de publication ajouté pour youtube: YouTubePublisher
+2025-05-15 18:54:20,859 - TikSimPro - INFO - Pipeline configuré avec succès
+2025-05-15 18:54:20,859 - TikSimPro - INFO - Démarrage du pipeline de contenu...
+2025-05-15 18:54:20,859 - TikSimPro - INFO - Démarrage du pipeline de contenu...
+2025-05-15 18:54:20,859 - TikSimPro - INFO - Fichiers générés: videos\final_1747328060.mp4
+2025-05-15 18:54:20,859 - TikSimPro - INFO - Étape 1/6: Analyse des tendances...
+2025-05-15 18:54:20,860 - TikSimPro - INFO - Analyse des tendances en cours...
+2025-05-15 18:54:20,860 - TikSimPro - INFO - Analyse des tendances chargée depuis le cache
+2025-05-15 18:54:20,862 - TikSimPro - INFO - Analyse des tendances terminée
+2025-05-15 18:54:20,862 - TikSimPro - INFO - Étape 2/6: Génération de la vidéo...
+2025-05-15 18:54:20,862 - TikSimPro - INFO - Configuration du générateur de vidéo...
+2025-05-15 18:54:20,869 - TikSimPro - INFO - Simulateur configuré: 1080x1920, 60 FPS, 61.0s, 2 balles
+2025-05-15 18:54:20,871 - TikSimPro - INFO - Palette de couleurs appliquée: ['#000000', '#FFFFFF', '#FF0050', '#00F2EA']
+2025-05-15 18:54:20,872 - TikSimPro - INFO - Vitesse de rotation appliquée: 180 (BPM: 120.0)
+2025-05-15 18:54:20,872 - TikSimPro - INFO - Génération de la vidéo en cours...
+2025-05-15 18:54:20,943 - TikSimPro - INFO - FFmpeg: C:\ffmpeg\bin\ffmpeg.EXE -y -f rawvideo -vcodec rawvideo -pix_fmt rgb24 -s 1080x1920 -r 60 -i - -c:v h264_nvenc -preset p1 -tune hq -rc vbr -qmin 1 -qmax 51 -b:v 8000k -maxrate 8000k -bufsize 16000k -threads 0 -pix_fmt yuv420p temp\video_1747328060.mp4
+2025-05-15 18:56:38,368 - TikSimPro - INFO - ContentPipeline initialisé
+2025-05-15 18:56:38,869 - TikSimPro - INFO - Plugin découvert: TikTokAnalyzer
+2025-05-15 18:56:39,632 - TikSimPro - INFO - TikTokAnalyzer initialisé: tiktok_data
+2025-05-15 18:56:39,632 - TikSimPro - INFO - Analyseur de tendances défini: TikTokAnalyzer
+2025-05-15 18:56:39,633 - TikSimPro - INFO - Plugin découvert: CircleSimulator
+2025-05-15 18:56:39,635 - TikSimPro - INFO - Générateur de vidéo défini: CircleSimulator
+2025-05-15 18:56:39,636 - TikSimPro - INFO - Plugin découvert: TrendAudioGenerator
+2025-05-15 18:56:39,637 - TikSimPro - INFO - TrendAudioGenerator initialisé
+2025-05-15 18:56:39,637 - TikSimPro - INFO - Générateur audio défini: TrendAudioGenerator
+2025-05-15 18:56:39,639 - TikSimPro - INFO - Plugin découvert: FFmpegMediaCombiner
+2025-05-15 18:56:39,640 - TikSimPro - INFO - Plugin découvert: MoviePyMediaCombiner
+2025-05-15 18:56:39,674 - TikSimPro - INFO - Combineur de médias défini: FFmpegMediaCombiner
+2025-05-15 18:56:39,675 - TikSimPro - INFO - Plugin découvert: VideoEnhancer
+2025-05-15 18:56:39,677 - TikSimPro - INFO - VideoEnhancer initialisé: C:\Users\nolan\AppData\Local\Temp\tmpzffd_enh
+2025-05-15 18:56:40,464 - TikSimPro - INFO - Dépendances disponibles: OpenCV, MoviePy, PIL
+2025-05-15 18:56:40,465 - TikSimPro - INFO - Améliorateur de vidéo défini: VideoEnhancer
+2025-05-15 18:56:40,467 - TikSimPro - INFO - Plugin découvert: InstagramPublisher
+2025-05-15 18:56:40,467 - TikSimPro - INFO - Plugin découvert: TikTokPublisher
+2025-05-15 18:56:40,468 - TikSimPro - INFO - Plugin découvert: YouTubePublisher
+2025-05-15 18:56:40,577 - TikSimPro - INFO - TikTokPublisher initialisé
+2025-05-15 18:56:40,577 - TikSimPro - INFO - Système de publication ajouté pour tiktok: TikTokPublisher
+2025-05-15 18:56:40,579 - TikSimPro - INFO - YouTubePublisher initialisé
+2025-05-15 18:56:40,579 - TikSimPro - INFO - Système de publication ajouté pour youtube: YouTubePublisher
+2025-05-15 18:56:40,579 - TikSimPro - INFO - Pipeline configuré avec succès
+2025-05-15 18:56:40,579 - TikSimPro - INFO - Démarrage du pipeline de contenu...
+2025-05-15 18:56:40,580 - TikSimPro - INFO - Démarrage du pipeline de contenu...
+2025-05-15 18:56:40,580 - TikSimPro - INFO - Fichiers générés: videos\final_1747328200.mp4
+2025-05-15 18:56:40,580 - TikSimPro - INFO - Étape 1/6: Analyse des tendances...
+2025-05-15 18:56:40,580 - TikSimPro - INFO - Analyse des tendances en cours...
+2025-05-15 18:56:40,581 - TikSimPro - INFO - Analyse des tendances chargée depuis le cache
+2025-05-15 18:56:40,581 - TikSimPro - INFO - Analyse des tendances terminée
+2025-05-15 18:56:40,581 - TikSimPro - INFO - Étape 2/6: Génération de la vidéo...
+2025-05-15 18:56:40,581 - TikSimPro - INFO - Configuration du générateur de vidéo...
+2025-05-15 18:56:40,590 - TikSimPro - INFO - Simulateur configuré: 1080x1920, 60 FPS, 61.0s, 2 balles
+2025-05-15 18:56:40,590 - TikSimPro - INFO - Palette de couleurs appliquée: ['#000000', '#FFFFFF', '#FF0050', '#00F2EA']
+2025-05-15 18:56:40,590 - TikSimPro - INFO - Vitesse de rotation appliquée: 180 (BPM: 120.0)
+2025-05-15 18:56:40,592 - TikSimPro - INFO - Génération de la vidéo en cours...
+2025-05-15 18:56:40,675 - TikSimPro - INFO - FFmpeg: C:\ffmpeg\bin\ffmpeg.EXE -y -f rawvideo -vcodec rawvideo -pix_fmt rgb24 -s 1080x1920 -r 60 -i - -c:v h264_nvenc -preset p1 -tune hq -rc vbr -qmin 1 -qmax 51 -b:v 8000k -maxrate 8000k -bufsize 16000k -threads 0 -pix_fmt yuv420p temp\video_1747328200.mp4
+2025-05-15 18:58:49,961 - TikSimPro - INFO - 387 événements audio collectés
+2025-05-15 18:58:49,965 - TikSimPro - INFO - Étape 3/6: Génération de la piste audio...
+2025-05-15 18:58:49,972 - TikSimPro - INFO - Configuration du générateur audio...
+2025-05-15 18:58:49,975 - TikSimPro - INFO - Générateur audio configuré: 44100 Hz, 61.0s
+2025-05-15 18:58:49,975 - TikSimPro - INFO - BPM appliqué: 120.0 BPM
+2025-05-15 18:58:49,975 - TikSimPro - INFO - 387 événements audio ajoutés, total: 387
+2025-05-15 18:58:49,975 - TikSimPro - INFO - Génération de la piste audio en cours...
+2025-05-15 18:58:49,977 - TikSimPro - INFO - Génération des sons de notes...
+2025-05-15 18:58:49,983 - TikSimPro - INFO - Génération des sons d'effets...
+2025-05-15 18:58:49,990 - TikSimPro - INFO - Génération de la piste audio à partir de 387 événements...
+2025-05-15 18:58:50,440 - TikSimPro - INFO - Piste audio générée avec succès: temp\audio_1747328200.wav (387/387 événements traités)
+2025-05-15 18:58:50,443 - TikSimPro - INFO - Étape 4/6: Combinaison des médias...
+2025-05-15 18:58:50,443 - TikSimPro - INFO - Combinaison de la vidéo et de l'audio en cours...
+2025-05-15 18:58:50,444 - TikSimPro - INFO - Combinaison de temp\video_1747328200.mp4 et temp\audio_1747328200.wav en temp\combined_1747328200.mp4
+2025-05-15 18:58:52,035 - TikSimPro - INFO - Combinaison réussie: temp\combined_1747328200.mp4
+2025-05-15 18:58:52,035 - TikSimPro - INFO - Étape 5/6: Amélioration de la vidéo...
+2025-05-15 18:58:52,035 - TikSimPro - INFO - Amélioration de la vidéo en cours...
+2025-05-15 18:58:52,035 - TikSimPro - INFO - Application des améliorations...
+2025-05-15 18:58:52,496 - TikSimPro - WARNING - Aucune police disponible, utilisation de Arial par défaut
+2025-05-15 18:58:52,497 - TikSimPro - ERROR - Erreur lors de l'ajout de l'appel à l'action: MoviePy Error: creation of None failed because of the following error:
+
+[WinError 2] Le fichier spécifié est introuvable.
+
+.This error can be due to the fact that ImageMagick is not installed on your computer, or (for Windows users) that you didn't specify the path to the ImageMagick binary in file conf.py, or that the path you specified is incorrect
+2025-05-15 18:58:52,542 - TikSimPro - INFO - Vidéo finale copiée vers: videos\final_1747328200.mp4
+2025-05-15 18:58:52,542 - TikSimPro - INFO - Amélioration terminée: videos\final_1747328200.mp4
+2025-05-15 18:58:52,542 - TikSimPro - INFO - Étape 6/6: Publication du contenu...
+2025-05-15 18:58:52,543 - TikSimPro - INFO - Initialisation du navigateur pour l'authentification TikTok...
+2025-05-15 18:58:52,573 - TikSimPro - INFO - Initialisation du webdriver Chrome...
+2025-05-15 18:58:52,573 - WDM - INFO - ====== WebDriver manager ======
+2025-05-15 18:58:53,450 - WDM - INFO - Get LATEST chromedriver version for google-chrome
+2025-05-15 18:58:53,513 - WDM - INFO - Get LATEST chromedriver version for google-chrome
+2025-05-15 18:58:53,554 - WDM - INFO - Driver [C:\Users\nolan\.wdm\drivers\chromedriver\win64\136.0.7103.94\chromedriver-win32/chromedriver.exe] found in cache
+2025-05-15 18:58:54,720 - TikSimPro - INFO - Navigateur configuré pour TikTok
+2025-05-15 19:01:02,538 - TikSimPro - INFO - ContentPipeline initialisé
+2025-05-15 19:01:03,406 - TikSimPro - INFO - Plugin découvert: TikTokAnalyzer
+2025-05-15 19:01:04,454 - TikSimPro - INFO - TikTokAnalyzer initialisé: tiktok_data
+2025-05-15 19:01:04,454 - TikSimPro - INFO - Analyseur de tendances défini: TikTokAnalyzer
+2025-05-15 19:01:04,454 - TikSimPro - INFO - Plugin découvert: CircleSimulator
+2025-05-15 19:01:04,456 - TikSimPro - INFO - Générateur de vidéo défini: CircleSimulator
+2025-05-15 19:01:04,458 - TikSimPro - INFO - Plugin découvert: TrendAudioGenerator
+2025-05-15 19:01:04,459 - TikSimPro - INFO - TrendAudioGenerator initialisé
+2025-05-15 19:01:04,460 - TikSimPro - INFO - Générateur audio défini: TrendAudioGenerator
+2025-05-15 19:01:04,465 - TikSimPro - INFO - Plugin découvert: FFmpegMediaCombiner
+2025-05-15 19:01:04,467 - TikSimPro - INFO - Plugin découvert: MoviePyMediaCombiner
+2025-05-15 19:01:04,534 - TikSimPro - INFO - Combineur de médias défini: FFmpegMediaCombiner
+2025-05-15 19:01:04,538 - TikSimPro - INFO - Plugin découvert: VideoEnhancer
+2025-05-15 19:01:04,545 - TikSimPro - INFO - VideoEnhancer initialisé: C:\Users\nolan\AppData\Local\Temp\tmpp62ue58e
+2025-05-15 19:01:05,569 - TikSimPro - INFO - Dépendances disponibles: OpenCV, MoviePy, PIL
+2025-05-15 19:01:05,569 - TikSimPro - INFO - Améliorateur de vidéo défini: VideoEnhancer
+2025-05-15 19:01:05,571 - TikSimPro - INFO - Plugin découvert: InstagramPublisher
+2025-05-15 19:01:05,571 - TikSimPro - INFO - Plugin découvert: TikTokPublisher
+2025-05-15 19:01:05,572 - TikSimPro - INFO - Plugin découvert: YouTubePublisher
+2025-05-15 19:01:05,713 - TikSimPro - INFO - TikTokPublisher initialisé
+2025-05-15 19:01:05,716 - TikSimPro - INFO - Système de publication ajouté pour tiktok: TikTokPublisher
+2025-05-15 19:01:05,718 - TikSimPro - INFO - YouTubePublisher initialisé
+2025-05-15 19:01:05,718 - TikSimPro - INFO - Système de publication ajouté pour youtube: YouTubePublisher
+2025-05-15 19:01:05,719 - TikSimPro - INFO - Pipeline configuré avec succès
+2025-05-15 19:01:05,719 - TikSimPro - INFO - Démarrage du pipeline de contenu...
+2025-05-15 19:01:05,719 - TikSimPro - INFO - Démarrage du pipeline de contenu...
+2025-05-15 19:01:05,720 - TikSimPro - INFO - Fichiers générés: videos\final_1747328465.mp4
+2025-05-15 19:01:05,720 - TikSimPro - INFO - Étape 1/6: Analyse des tendances...
+2025-05-15 19:01:05,720 - TikSimPro - INFO - Analyse des tendances en cours...
+2025-05-15 19:01:05,722 - TikSimPro - INFO - Analyse des tendances chargée depuis le cache
+2025-05-15 19:01:05,725 - TikSimPro - INFO - Analyse des tendances terminée
+2025-05-15 19:01:05,732 - TikSimPro - INFO - Étape 2/6: Génération de la vidéo...
+2025-05-15 19:01:05,732 - TikSimPro - INFO - Configuration du générateur de vidéo...
+2025-05-15 19:01:05,747 - TikSimPro - INFO - Simulateur configuré: 1080x1920, 60 FPS, 61.0s, 2 balles
+2025-05-15 19:01:05,749 - TikSimPro - INFO - Palette de couleurs appliquée: ['#000000', '#FFFFFF', '#FF0050', '#00F2EA']
+2025-05-15 19:01:05,753 - TikSimPro - INFO - Vitesse de rotation appliquée: 180 (BPM: 120.0)
+2025-05-15 19:01:05,757 - TikSimPro - INFO - Génération de la vidéo en cours...
+2025-05-15 19:01:05,836 - TikSimPro - INFO - FFmpeg: C:\ffmpeg\bin\ffmpeg.EXE -y -f rawvideo -vcodec rawvideo -pix_fmt rgb24 -s 1080x1920 -r 60 -i - -c:v h264_nvenc -preset p1 -tune hq -rc vbr -qmin 1 -qmax 51 -b:v 8000k -maxrate 8000k -bufsize 16000k -threads 0 -pix_fmt yuv420p temp\video_1747328465.mp4
+2025-05-15 19:03:27,213 - TikSimPro - INFO - 340 événements audio collectés
+2025-05-15 19:03:27,214 - TikSimPro - INFO - Étape 3/6: Génération de la piste audio...
+2025-05-15 19:03:27,214 - TikSimPro - INFO - Configuration du générateur audio...
+2025-05-15 19:03:27,214 - TikSimPro - INFO - Générateur audio configuré: 44100 Hz, 61.0s
+2025-05-15 19:03:27,218 - TikSimPro - INFO - BPM appliqué: 120.0 BPM
+2025-05-15 19:03:27,219 - TikSimPro - INFO - 340 événements audio ajoutés, total: 340
+2025-05-15 19:03:27,220 - TikSimPro - INFO - Génération de la piste audio en cours...
+2025-05-15 19:03:27,220 - TikSimPro - INFO - Génération des sons de notes...
+2025-05-15 19:03:27,224 - TikSimPro - INFO - Génération des sons d'effets...
+2025-05-15 19:03:27,225 - TikSimPro - INFO - Génération de la piste audio à partir de 340 événements...
+2025-05-15 19:03:27,500 - TikSimPro - INFO - Piste audio générée avec succès: temp\audio_1747328465.wav (340/340 événements traités)
+2025-05-15 19:03:27,503 - TikSimPro - INFO - Étape 4/6: Combinaison des médias...
+2025-05-15 19:03:27,504 - TikSimPro - INFO - Combinaison de la vidéo et de l'audio en cours...
+2025-05-15 19:03:27,505 - TikSimPro - INFO - Combinaison de temp\video_1747328465.mp4 et temp\audio_1747328465.wav en temp\combined_1747328465.mp4
+2025-05-15 19:03:29,117 - TikSimPro - INFO - Combinaison réussie: temp\combined_1747328465.mp4
+2025-05-15 19:03:29,118 - TikSimPro - INFO - Étape 5/6: Amélioration de la vidéo...
+2025-05-15 19:03:29,119 - TikSimPro - INFO - Amélioration de la vidéo en cours...
+2025-05-15 19:03:29,119 - TikSimPro - INFO - Application des améliorations...
+2025-05-15 19:03:29,610 - TikSimPro - WARNING - Aucune police disponible, utilisation de Arial par défaut
+2025-05-15 19:03:29,613 - TikSimPro - ERROR - Erreur lors de l'ajout de l'appel à l'action: MoviePy Error: creation of None failed because of the following error:
+
+[WinError 2] Le fichier spécifié est introuvable.
+
+.This error can be due to the fact that ImageMagick is not installed on your computer, or (for Windows users) that you didn't specify the path to the ImageMagick binary in file conf.py, or that the path you specified is incorrect
+2025-05-15 19:03:29,659 - TikSimPro - INFO - Vidéo finale copiée vers: videos\final_1747328465.mp4
+2025-05-15 19:03:29,659 - TikSimPro - INFO - Amélioration terminée: videos\final_1747328465.mp4
+2025-05-15 19:03:29,659 - TikSimPro - INFO - Étape 6/6: Publication du contenu...
+2025-05-15 19:03:29,660 - TikSimPro - INFO - Initialisation du navigateur pour l'authentification TikTok...
+2025-05-15 19:03:29,697 - TikSimPro - INFO - Initialisation du webdriver Chrome...
+2025-05-15 19:03:29,697 - WDM - INFO - ====== WebDriver manager ======
+2025-05-15 19:03:30,801 - WDM - INFO - Get LATEST chromedriver version for google-chrome
+2025-05-15 19:03:30,848 - WDM - INFO - Get LATEST chromedriver version for google-chrome
+2025-05-15 19:03:30,947 - WDM - INFO - Driver [C:\Users\nolan\.wdm\drivers\chromedriver\win64\136.0.7103.94\chromedriver-win32/chromedriver.exe] found in cache
+2025-05-15 19:03:32,162 - TikSimPro - INFO - Navigateur configuré pour TikTok
+2025-05-15 19:03:41,187 - TikSimPro - INFO - Session TikTok restaurée avec succès via les cookies
+2025-05-15 19:03:41,188 - TikSimPro - INFO - Publication sur tiktok en cours...
+2025-05-15 19:03:41,192 - TikSimPro - INFO - Navigation vers TikTok Studio...
+2025-05-15 19:03:47,185 - TikSimPro - INFO - Recherche du champ de téléchargement...
+2025-05-15 19:03:47,202 - TikSimPro - INFO - Téléchargement de la vidéo: videos\final_1747328465.mp4
+2025-05-15 19:03:47,245 - TikSimPro - INFO - Traitement de la vidéo en cours...
+2025-05-15 19:04:02,267 - TikSimPro - INFO - Ajout de la description et des hashtags: I could watch this all day!
+
+#dance #animation #pets #diy #challenge #nature #food #fashion #science #funny
+2025-05-15 19:04:08,168 - TikSimPro - INFO - Recherche du bouton de publication...
+2025-05-15 19:04:08,240 - TikSimPro - INFO - Publication de la vidéo...
+2025-05-15 19:04:08,405 - TikSimPro - INFO - Attente de la confirmation de publication...
+2025-05-15 19:04:18,410 - TikSimPro - INFO - Redirection vers la page de contenu détectée : Publication réussie !
+2025-05-15 19:04:18,411 - TikSimPro - INFO - Fermeture du navigateur...
+2025-05-15 19:04:21,817 - TikSimPro - INFO - Publication sur tiktok: réussie
+2025-05-15 19:04:21,817 - TikSimPro - INFO - Initialisation du navigateur pour l'authentification YouTube...
+2025-05-15 19:04:21,817 - TikSimPro - INFO - Initialisation du webdriver Chrome...
+2025-05-15 19:04:21,818 - WDM - INFO - ====== WebDriver manager ======
+2025-05-15 19:04:22,926 - WDM - INFO - Get LATEST chromedriver version for google-chrome
+2025-05-15 19:04:22,968 - WDM - INFO - Get LATEST chromedriver version for google-chrome
+2025-05-15 19:04:23,008 - WDM - INFO - Driver [C:\Users\nolan\.wdm\drivers\chromedriver\win64\136.0.7103.94\chromedriver-win32/chromedriver.exe] found in cache
+2025-05-15 19:04:24,683 - TikSimPro - INFO - Navigateur configuré pour YouTube
+2025-05-15 19:04:37,894 - TikSimPro - INFO - Session YouTube restaurée avec succès via les cookies
+2025-05-15 19:04:37,894 - TikSimPro - INFO - Publication sur youtube en cours...
+2025-05-15 19:04:37,894 - TikSimPro - INFO - Navigation vers la page d'upload YouTube...
+2025-05-15 19:04:43,213 - TikSimPro - INFO - Téléchargement de la vidéo: videos\final_1747328465.mp4
+2025-05-15 19:04:46,162 - TikSimPro - INFO - Formulaire d'édition détecté
+2025-05-15 19:04:50,200 - TikSimPro - INFO - Titre saisi: Satisfying Physics Simulation - 2025-05-15
+2025-05-15 19:04:52,625 - TikSimPro - INFO - Description et hashtags saisis
+2025-05-15 19:04:53,814 - TikSimPro - INFO - Option 'Non destiné aux enfants' sélectionnée
+2025-05-15 19:05:01,328 - TikSimPro - INFO - Visibilité définie: public
+2025-05-15 19:05:01,471 - TikSimPro - INFO - Bouton de publication cliqué
+2025-05-15 19:05:11,493 - TikSimPro - INFO - Dialogue de traitement détecté, publication réussie
+2025-05-15 19:05:13,805 - TikSimPro - INFO - Publication sur youtube: réussie
+2025-05-15 19:05:13,805 - TikSimPro - INFO - Résumé de la publication:
+2025-05-15 19:05:13,805 - TikSimPro - INFO - - tiktok: réussie
+2025-05-15 19:05:13,805 - TikSimPro - INFO - - youtube: réussie
+2025-05-15 19:05:13,805 - TikSimPro - INFO - Pipeline terminé avec succès: videos\final_1747328465.mp4
+2025-05-15 19:05:13,805 - TikSimPro - INFO - Pipeline exécuté en 248.09 secondes
+2025-05-15 19:05:13,807 - TikSimPro - INFO - Vidéo générée: videos\final_1747328465.mp4
+2025-05-15 19:05:30,386 - TikSimPro - INFO - ContentPipeline initialisé
+2025-05-15 19:05:30,990 - TikSimPro - INFO - Plugin découvert: TikTokAnalyzer
+2025-05-15 19:05:31,792 - TikSimPro - INFO - TikTokAnalyzer initialisé: tiktok_data
+2025-05-15 19:05:31,792 - TikSimPro - INFO - Analyseur de tendances défini: TikTokAnalyzer
+2025-05-15 19:05:31,794 - TikSimPro - INFO - Plugin découvert: CircleSimulator
+2025-05-15 19:05:31,795 - TikSimPro - INFO - Générateur de vidéo défini: CircleSimulator
+2025-05-15 19:05:31,796 - TikSimPro - INFO - Plugin découvert: TrendAudioGenerator
+2025-05-15 19:05:31,797 - TikSimPro - INFO - TrendAudioGenerator initialisé
+2025-05-15 19:05:31,797 - TikSimPro - INFO - Générateur audio défini: TrendAudioGenerator
+2025-05-15 19:05:31,798 - TikSimPro - INFO - Plugin découvert: FFmpegMediaCombiner
+2025-05-15 19:05:31,798 - TikSimPro - INFO - Plugin découvert: MoviePyMediaCombiner
+2025-05-15 19:05:31,836 - TikSimPro - INFO - Combineur de médias défini: FFmpegMediaCombiner
+2025-05-15 19:05:31,837 - TikSimPro - INFO - Plugin découvert: VideoEnhancer
+2025-05-15 19:05:31,840 - TikSimPro - INFO - VideoEnhancer initialisé: C:\Users\nolan\AppData\Local\Temp\tmpzmoe8edz
+2025-05-15 19:05:32,799 - TikSimPro - INFO - Dépendances disponibles: OpenCV, MoviePy, PIL
+2025-05-15 19:05:32,801 - TikSimPro - INFO - Améliorateur de vidéo défini: VideoEnhancer
+2025-05-15 19:05:32,803 - TikSimPro - INFO - Plugin découvert: InstagramPublisher
+2025-05-15 19:05:32,804 - TikSimPro - INFO - Plugin découvert: TikTokPublisher
+2025-05-15 19:05:32,804 - TikSimPro - INFO - Plugin découvert: YouTubePublisher
+2025-05-15 19:05:33,207 - TikSimPro - INFO - TikTokPublisher initialisé
+2025-05-15 19:05:33,260 - TikSimPro - INFO - Système de publication ajouté pour tiktok: TikTokPublisher
+2025-05-15 19:05:33,298 - TikSimPro - INFO - YouTubePublisher initialisé
+2025-05-15 19:05:33,301 - TikSimPro - INFO - Système de publication ajouté pour youtube: YouTubePublisher
+2025-05-15 19:05:33,302 - TikSimPro - INFO - Pipeline configuré avec succès
+2025-05-15 19:05:33,302 - TikSimPro - INFO - Démarrage du pipeline de contenu...
+2025-05-15 19:05:33,302 - TikSimPro - INFO - Démarrage du pipeline de contenu...
+2025-05-15 19:05:33,302 - TikSimPro - INFO - Fichiers générés: videos\final_1747328733.mp4
+2025-05-15 19:05:33,302 - TikSimPro - INFO - Étape 1/6: Analyse des tendances...
+2025-05-15 19:05:33,302 - TikSimPro - INFO - Analyse des tendances en cours...
+2025-05-15 19:05:33,304 - TikSimPro - INFO - Analyse des tendances chargée depuis le cache
+2025-05-15 19:05:33,304 - TikSimPro - INFO - Analyse des tendances terminée
+2025-05-15 19:05:33,304 - TikSimPro - INFO - Étape 2/6: Génération de la vidéo...
+2025-05-15 19:05:33,305 - TikSimPro - INFO - Configuration du générateur de vidéo...
+2025-05-15 19:05:33,318 - TikSimPro - INFO - Simulateur configuré: 1080x1920, 60 FPS, 61.0s, 2 balles
+2025-05-15 19:05:33,326 - TikSimPro - INFO - Palette de couleurs appliquée: ['#000000', '#FFFFFF', '#FF0050', '#00F2EA']
+2025-05-15 19:05:33,332 - TikSimPro - INFO - Vitesse de rotation appliquée: 180 (BPM: 120.0)
+2025-05-15 19:05:33,335 - TikSimPro - INFO - Génération de la vidéo en cours...
+2025-05-15 19:05:33,449 - TikSimPro - INFO - FFmpeg: C:\ffmpeg\bin\ffmpeg.EXE -y -f rawvideo -vcodec rawvideo -pix_fmt rgb24 -s 1080x1920 -r 60 -i - -c:v h264_nvenc -preset p1 -tune hq -rc vbr -qmin 1 -qmax 51 -b:v 8000k -maxrate 8000k -bufsize 16000k -threads 0 -pix_fmt yuv420p temp\video_1747328733.mp4
+2025-05-15 19:08:06,954 - TikSimPro - INFO - 472 événements audio collectés
+2025-05-15 19:08:06,955 - TikSimPro - INFO - Étape 3/6: Génération de la piste audio...
+2025-05-15 19:08:06,955 - TikSimPro - INFO - Configuration du générateur audio...
+2025-05-15 19:08:06,957 - TikSimPro - INFO - Générateur audio configuré: 44100 Hz, 61.0s
+2025-05-15 19:08:06,958 - TikSimPro - INFO - BPM appliqué: 120.0 BPM
+2025-05-15 19:08:06,959 - TikSimPro - INFO - 472 événements audio ajoutés, total: 472
+2025-05-15 19:08:06,960 - TikSimPro - INFO - Génération de la piste audio en cours...
+2025-05-15 19:08:06,960 - TikSimPro - INFO - Génération des sons de notes...
+2025-05-15 19:08:06,963 - TikSimPro - INFO - Génération des sons d'effets...
+2025-05-15 19:08:06,965 - TikSimPro - INFO - Génération de la piste audio à partir de 472 événements...
+2025-05-15 19:08:07,504 - TikSimPro - INFO - Piste audio générée avec succès: temp\audio_1747328733.wav (472/472 événements traités)
+2025-05-15 19:08:07,508 - TikSimPro - INFO - Étape 4/6: Combinaison des médias...
+2025-05-15 19:08:07,509 - TikSimPro - INFO - Combinaison de la vidéo et de l'audio en cours...
+2025-05-15 19:08:07,509 - TikSimPro - INFO - Combinaison de temp\video_1747328733.mp4 et temp\audio_1747328733.wav en temp\combined_1747328733.mp4
+2025-05-15 19:08:09,758 - TikSimPro - INFO - Combinaison réussie: temp\combined_1747328733.mp4
+2025-05-15 19:08:09,758 - TikSimPro - INFO - Étape 5/6: Amélioration de la vidéo...
+2025-05-15 19:08:09,758 - TikSimPro - INFO - Amélioration de la vidéo en cours...
+2025-05-15 19:08:09,758 - TikSimPro - INFO - Application des améliorations...
+2025-05-15 19:08:10,336 - TikSimPro - WARNING - Aucune police disponible, utilisation de Arial par défaut
+2025-05-15 19:08:10,338 - TikSimPro - ERROR - Erreur lors de l'ajout de l'appel à l'action: MoviePy Error: creation of None failed because of the following error:
+
+[WinError 2] Le fichier spécifié est introuvable.
+
+.This error can be due to the fact that ImageMagick is not installed on your computer, or (for Windows users) that you didn't specify the path to the ImageMagick binary in file conf.py, or that the path you specified is incorrect
+2025-05-15 19:08:10,391 - TikSimPro - INFO - Vidéo finale copiée vers: videos\final_1747328733.mp4
+2025-05-15 19:08:10,391 - TikSimPro - INFO - Amélioration terminée: videos\final_1747328733.mp4
+2025-05-15 19:08:10,391 - TikSimPro - INFO - Étape 6/6: Publication du contenu...
+2025-05-15 19:08:10,398 - TikSimPro - INFO - Initialisation du navigateur pour l'authentification TikTok...
+2025-05-15 19:08:10,466 - TikSimPro - INFO - Initialisation du webdriver Chrome...
+2025-05-15 19:08:10,466 - WDM - INFO - ====== WebDriver manager ======
+2025-05-15 19:08:11,981 - WDM - INFO - Get LATEST chromedriver version for google-chrome
+2025-05-15 19:08:12,029 - WDM - INFO - Get LATEST chromedriver version for google-chrome
+2025-05-15 19:08:12,072 - WDM - INFO - Driver [C:\Users\nolan\.wdm\drivers\chromedriver\win64\136.0.7103.94\chromedriver-win32/chromedriver.exe] found in cache
+2025-05-15 19:08:13,552 - TikSimPro - INFO - Navigateur configuré pour TikTok
+2025-05-15 19:08:24,348 - TikSimPro - INFO - Session TikTok restaurée avec succès via les cookies
+2025-05-15 19:08:24,348 - TikSimPro - INFO - Publication sur tiktok en cours...
+2025-05-15 19:08:24,353 - TikSimPro - INFO - Navigation vers TikTok Studio...
+2025-05-15 19:08:29,831 - TikSimPro - INFO - Recherche du champ de téléchargement...
+2025-05-15 19:08:29,869 - TikSimPro - INFO - Téléchargement de la vidéo: videos\final_1747328733.mp4
+2025-05-15 19:08:30,104 - TikSimPro - INFO - Traitement de la vidéo en cours...
+2025-05-15 19:08:45,132 - TikSimPro - INFO - Ajout de la description et des hashtags: Watch till the end for a surprise!
+
+#dance #animation #pets #diy #challenge #nature #food #fashion #science #funny
+2025-05-15 19:08:53,227 - TikSimPro - INFO - Recherche du bouton de publication...
+2025-05-15 19:08:53,377 - TikSimPro - INFO - Publication de la vidéo...
+2025-05-15 19:08:53,587 - TikSimPro - INFO - Attente de la confirmation de publication...
+2025-05-15 19:09:03,595 - TikSimPro - INFO - Redirection vers la page de contenu détectée : Publication réussie !
+2025-05-15 19:09:03,595 - TikSimPro - INFO - Fermeture du navigateur...
+2025-05-15 19:09:06,491 - TikSimPro - INFO - Publication sur tiktok: réussie
+2025-05-15 19:09:06,540 - TikSimPro - INFO - Initialisation du navigateur pour l'authentification YouTube...
+2025-05-15 19:09:06,540 - TikSimPro - INFO - Initialisation du webdriver Chrome...
+2025-05-15 19:09:06,540 - WDM - INFO - ====== WebDriver manager ======
+2025-05-15 19:09:08,025 - WDM - INFO - Get LATEST chromedriver version for google-chrome
+2025-05-15 19:09:08,063 - WDM - INFO - Get LATEST chromedriver version for google-chrome
+2025-05-15 19:09:08,103 - WDM - INFO - Driver [C:\Users\nolan\.wdm\drivers\chromedriver\win64\136.0.7103.94\chromedriver-win32/chromedriver.exe] found in cache
+2025-05-15 19:09:09,673 - TikSimPro - INFO - Navigateur configuré pour YouTube
+2025-05-15 19:09:20,238 - TikSimPro - INFO - Session YouTube restaurée avec succès via les cookies
+2025-05-15 19:09:20,238 - TikSimPro - INFO - Publication sur youtube en cours...
+2025-05-15 19:09:20,239 - TikSimPro - INFO - Navigation vers la page d'upload YouTube...
+2025-05-15 19:09:29,380 - TikSimPro - INFO - Téléchargement de la vidéo: videos\final_1747328733.mp4
+2025-05-15 19:09:32,580 - TikSimPro - INFO - Formulaire d'édition détecté
+2025-05-15 19:09:37,089 - TikSimPro - INFO - Titre saisi: Satisfying Physics Simulation - 2025-05-15
+2025-05-15 19:09:42,136 - TikSimPro - INFO - Description et hashtags saisis
+2025-05-15 19:09:43,478 - TikSimPro - INFO - Option 'Non destiné aux enfants' sélectionnée
+2025-05-15 19:09:51,176 - TikSimPro - INFO - Visibilité définie: public
+2025-05-15 19:09:51,378 - TikSimPro - INFO - Bouton de publication cliqué
+2025-05-15 19:10:01,416 - TikSimPro - INFO - Dialogue de traitement détecté, publication réussie
+2025-05-15 19:10:03,849 - TikSimPro - INFO - Publication sur youtube: réussie
+2025-05-15 19:10:03,853 - TikSimPro - INFO - Résumé de la publication:
+2025-05-15 19:10:03,854 - TikSimPro - INFO - - tiktok: réussie
+2025-05-15 19:10:03,854 - TikSimPro - INFO - - youtube: réussie
+2025-05-15 19:10:03,854 - TikSimPro - INFO - Pipeline terminé avec succès: videos\final_1747328733.mp4
+2025-05-15 19:10:03,856 - TikSimPro - INFO - Pipeline exécuté en 270.55 secondes
+2025-05-15 19:10:03,857 - TikSimPro - INFO - Vidéo générée: videos\final_1747328733.mp4
+2025-05-15 19:11:41,294 - TikSimPro - INFO - ContentPipeline initialisé
+2025-05-15 19:11:42,162 - TikSimPro - INFO - Plugin découvert: TikTokAnalyzer
+2025-05-15 19:11:43,753 - TikSimPro - INFO - TikTokAnalyzer initialisé: tiktok_data
+2025-05-15 19:11:43,763 - TikSimPro - INFO - Analyseur de tendances défini: TikTokAnalyzer
+2025-05-15 19:11:43,772 - TikSimPro - INFO - Plugin découvert: CircleSimulator
+2025-05-15 19:11:43,775 - TikSimPro - INFO - Générateur de vidéo défini: CircleSimulator
+2025-05-15 19:11:43,790 - TikSimPro - INFO - Plugin découvert: TrendAudioGenerator
+2025-05-15 19:11:43,801 - TikSimPro - INFO - TrendAudioGenerator initialisé
+2025-05-15 19:11:43,815 - TikSimPro - INFO - Générateur audio défini: TrendAudioGenerator
+2025-05-15 19:11:43,823 - TikSimPro - INFO - Plugin découvert: FFmpegMediaCombiner
+2025-05-15 19:11:43,827 - TikSimPro - INFO - Plugin découvert: MoviePyMediaCombiner
+2025-05-15 19:11:43,929 - TikSimPro - INFO - Combineur de médias défini: FFmpegMediaCombiner
+2025-05-15 19:11:43,932 - TikSimPro - INFO - Plugin découvert: VideoEnhancer
+2025-05-15 19:11:43,933 - TikSimPro - INFO - VideoEnhancer initialisé: C:\Users\nolan\AppData\Local\Temp\tmpdkfkcx_4
+2025-05-15 19:11:45,195 - TikSimPro - INFO - Dépendances disponibles: OpenCV, MoviePy, PIL
+2025-05-15 19:11:45,199 - TikSimPro - INFO - Améliorateur de vidéo défini: VideoEnhancer
+2025-05-15 19:11:45,201 - TikSimPro - INFO - Plugin découvert: InstagramPublisher
+2025-05-15 19:11:45,202 - TikSimPro - INFO - Plugin découvert: TikTokPublisher
+2025-05-15 19:11:45,202 - TikSimPro - INFO - Plugin découvert: YouTubePublisher
+2025-05-15 19:11:45,447 - TikSimPro - INFO - TikTokPublisher initialisé
+2025-05-15 19:11:45,448 - TikSimPro - INFO - Système de publication ajouté pour tiktok: TikTokPublisher
+2025-05-15 19:11:45,448 - TikSimPro - INFO - YouTubePublisher initialisé
+2025-05-15 19:11:45,448 - TikSimPro - INFO - Système de publication ajouté pour youtube: YouTubePublisher
+2025-05-15 19:11:45,448 - TikSimPro - INFO - Pipeline configuré avec succès
+2025-05-15 19:11:45,450 - TikSimPro - INFO - Démarrage du pipeline de contenu...
+2025-05-15 19:11:45,451 - TikSimPro - INFO - Démarrage du pipeline de contenu...
+2025-05-15 19:11:45,452 - TikSimPro - INFO - Fichiers générés: videos\final_1747329105.mp4
+2025-05-15 19:11:45,452 - TikSimPro - INFO - Étape 1/6: Analyse des tendances...
+2025-05-15 19:11:45,452 - TikSimPro - INFO - Analyse des tendances en cours...
+2025-05-15 19:11:45,453 - TikSimPro - INFO - Analyse des tendances chargée depuis le cache
+2025-05-15 19:11:45,453 - TikSimPro - INFO - Analyse des tendances terminée
+2025-05-15 19:11:45,453 - TikSimPro - INFO - Étape 2/6: Génération de la vidéo...
+2025-05-15 19:11:45,455 - TikSimPro - INFO - Configuration du générateur de vidéo...
+2025-05-15 19:11:45,466 - TikSimPro - INFO - Simulateur configuré: 1080x1920, 60 FPS, 61.0s, 2 balles
+2025-05-15 19:11:45,467 - TikSimPro - INFO - Palette de couleurs appliquée: ['#000000', '#FFFFFF', '#FF0050', '#00F2EA']
+2025-05-15 19:11:45,470 - TikSimPro - INFO - Vitesse de rotation appliquée: 180 (BPM: 120.0)
+2025-05-15 19:11:45,474 - TikSimPro - INFO - Génération de la vidéo en cours...
+2025-05-15 19:11:45,581 - TikSimPro - INFO - FFmpeg: C:\ffmpeg\bin\ffmpeg.EXE -y -f rawvideo -vcodec rawvideo -pix_fmt rgb24 -s 1080x1920 -r 60 -i - -c:v h264_nvenc -preset p1 -tune hq -rc vbr -qmin 1 -qmax 51 -b:v 8000k -maxrate 8000k -bufsize 16000k -threads 0 -pix_fmt yuv420p temp\video_1747329105.mp4
+2025-05-15 19:14:46,594 - TikSimPro - INFO - 398 événements audio collectés
+2025-05-15 19:14:46,594 - TikSimPro - INFO - Étape 3/6: Génération de la piste audio...
+2025-05-15 19:14:46,594 - TikSimPro - INFO - Configuration du générateur audio...
+2025-05-15 19:14:46,596 - TikSimPro - INFO - Générateur audio configuré: 44100 Hz, 61.0s
+2025-05-15 19:14:46,597 - TikSimPro - INFO - BPM appliqué: 120.0 BPM
+2025-05-15 19:14:46,597 - TikSimPro - INFO - 398 événements audio ajoutés, total: 398
+2025-05-15 19:14:46,597 - TikSimPro - INFO - Génération de la piste audio en cours...
+2025-05-15 19:14:46,597 - TikSimPro - INFO - Génération des sons de notes...
+2025-05-15 19:14:46,599 - TikSimPro - INFO - Génération des sons d'effets...
+2025-05-15 19:14:46,600 - TikSimPro - INFO - Génération de la piste audio à partir de 398 événements...
+2025-05-15 19:14:47,016 - TikSimPro - INFO - Piste audio générée avec succès: temp\audio_1747329105.wav (398/398 événements traités)
+2025-05-15 19:14:47,019 - TikSimPro - INFO - Étape 4/6: Combinaison des médias...
+2025-05-15 19:14:47,020 - TikSimPro - INFO - Combinaison de la vidéo et de l'audio en cours...
+2025-05-15 19:14:47,020 - TikSimPro - INFO - Combinaison de temp\video_1747329105.mp4 et temp\audio_1747329105.wav en temp\combined_1747329105.mp4
+2025-05-15 19:14:48,690 - TikSimPro - INFO - Combinaison réussie: temp\combined_1747329105.mp4
+2025-05-15 19:14:48,690 - TikSimPro - INFO - Étape 5/6: Amélioration de la vidéo...
+2025-05-15 19:14:48,690 - TikSimPro - INFO - Amélioration de la vidéo en cours...
+2025-05-15 19:14:48,691 - TikSimPro - INFO - Application des améliorations...
+2025-05-15 19:14:49,171 - TikSimPro - WARNING - Aucune police disponible, utilisation de Arial par défaut
+2025-05-15 19:14:49,172 - TikSimPro - ERROR - Erreur lors de l'ajout de l'appel à l'action: MoviePy Error: creation of None failed because of the following error:
+
+[WinError 2] Le fichier spécifié est introuvable.
+
+.This error can be due to the fact that ImageMagick is not installed on your computer, or (for Windows users) that you didn't specify the path to the ImageMagick binary in file conf.py, or that the path you specified is incorrect
+2025-05-15 19:14:49,255 - TikSimPro - INFO - Vidéo finale copiée vers: videos\final_1747329105.mp4
+2025-05-15 19:14:49,256 - TikSimPro - INFO - Amélioration terminée: videos\final_1747329105.mp4
+2025-05-15 19:14:49,256 - TikSimPro - INFO - Étape 6/6: Publication du contenu...
+2025-05-15 19:14:49,256 - TikSimPro - INFO - Initialisation du navigateur pour l'authentification TikTok...
+2025-05-15 19:14:49,290 - TikSimPro - INFO - Initialisation du webdriver Chrome...
+2025-05-15 19:14:49,291 - WDM - INFO - ====== WebDriver manager ======
+2025-05-15 19:14:50,251 - WDM - INFO - Get LATEST chromedriver version for google-chrome
+2025-05-15 19:14:50,310 - WDM - INFO - Get LATEST chromedriver version for google-chrome
+2025-05-15 19:14:50,359 - WDM - INFO - Driver [C:\Users\nolan\.wdm\drivers\chromedriver\win64\136.0.7103.94\chromedriver-win32/chromedriver.exe] found in cache
+2025-05-15 19:14:51,710 - TikSimPro - INFO - Navigateur configuré pour TikTok
+2025-05-15 19:15:01,769 - TikSimPro - INFO - Session TikTok restaurée avec succès via les cookies
+2025-05-15 19:15:01,770 - TikSimPro - INFO - Publication sur tiktok en cours...
+2025-05-15 19:15:01,773 - TikSimPro - INFO - Navigation vers TikTok Studio...
+2025-05-15 19:15:07,659 - TikSimPro - INFO - Recherche du champ de téléchargement...
+2025-05-15 19:15:07,677 - TikSimPro - INFO - Téléchargement de la vidéo: videos\final_1747329105.mp4
+2025-05-15 19:15:07,718 - TikSimPro - INFO - Traitement de la vidéo en cours...
+2025-05-15 19:15:22,740 - TikSimPro - INFO - Ajout de la description et des hashtags: This simulation is so satisfying!
+
+#dance #animation #pets #diy #challenge #nature #food #fashion #science #funny
+2025-05-15 19:15:28,802 - TikSimPro - INFO - Recherche du bouton de publication...
+2025-05-15 19:15:28,876 - TikSimPro - INFO - Publication de la vidéo...
+2025-05-15 19:15:29,004 - TikSimPro - INFO - Attente de la confirmation de publication...
+2025-05-15 19:15:39,010 - TikSimPro - INFO - Redirection vers la page de contenu détectée : Publication réussie !
+2025-05-15 19:15:39,010 - TikSimPro - INFO - Fermeture du navigateur...
+2025-05-15 19:15:41,548 - TikSimPro - INFO - Publication sur tiktok: réussie
+2025-05-15 19:15:41,548 - TikSimPro - INFO - Initialisation du navigateur pour l'authentification YouTube...
+2025-05-15 19:15:41,550 - TikSimPro - INFO - Initialisation du webdriver Chrome...
+2025-05-15 19:15:41,550 - WDM - INFO - ====== WebDriver manager ======
+2025-05-15 19:15:42,640 - WDM - INFO - Get LATEST chromedriver version for google-chrome
+2025-05-15 19:15:42,709 - WDM - INFO - Get LATEST chromedriver version for google-chrome
+2025-05-15 19:15:42,750 - WDM - INFO - Driver [C:\Users\nolan\.wdm\drivers\chromedriver\win64\136.0.7103.94\chromedriver-win32/chromedriver.exe] found in cache
+2025-05-15 19:15:44,079 - TikSimPro - INFO - Navigateur configuré pour YouTube
+2025-05-15 19:15:55,943 - TikSimPro - INFO - Les cookies sauvegardés ne sont plus valides pour YouTube
+2025-05-15 19:15:55,943 - TikSimPro - INFO - Ouverture de la page YouTube...
+2025-05-15 19:16:36,747 - TikSimPro - INFO - Connexion à YouTube réussie!
+2025-05-15 19:16:36,754 - TikSimPro - INFO - Cookies YouTube sauvegardés dans youtube_cookies.pkl
+2025-05-15 19:16:36,754 - TikSimPro - INFO - Publication sur youtube en cours...
+2025-05-15 19:16:36,754 - TikSimPro - INFO - Navigation vers la page d'upload YouTube...
+2025-05-15 19:16:45,510 - TikSimPro - INFO - Téléchargement de la vidéo: videos\final_1747329105.mp4
+2025-05-15 19:16:48,331 - TikSimPro - INFO - Formulaire d'édition détecté
+2025-05-15 19:16:52,257 - TikSimPro - INFO - Titre saisi: Satisfying Physics Simulation - 2025-05-15
+2025-05-15 19:16:54,580 - TikSimPro - INFO - Description et hashtags saisis
+2025-05-15 19:16:55,725 - TikSimPro - INFO - Option 'Non destiné aux enfants' sélectionnée
+2025-05-15 19:17:03,271 - TikSimPro - INFO - Visibilité définie: public
+2025-05-15 19:17:03,432 - TikSimPro - INFO - Bouton de publication cliqué
+2025-05-15 19:17:13,459 - TikSimPro - INFO - Dialogue de traitement détecté, publication réussie
+2025-05-15 19:17:15,802 - TikSimPro - INFO - Publication sur youtube: réussie
+2025-05-15 19:17:15,805 - TikSimPro - INFO - Résumé de la publication:
+2025-05-15 19:17:15,805 - TikSimPro - INFO - - tiktok: réussie
+2025-05-15 19:17:15,805 - TikSimPro - INFO - - youtube: réussie
+2025-05-15 19:17:15,806 - TikSimPro - INFO - Pipeline terminé avec succès: videos\final_1747329105.mp4
+2025-05-15 19:17:15,806 - TikSimPro - INFO - Pipeline exécuté en 330.35 secondes
+2025-05-15 19:17:15,806 - TikSimPro - INFO - Vidéo générée: videos\final_1747329105.mp4
+2025-05-15 19:19:09,460 - TikSimPro - INFO - ContentPipeline initialisé
+2025-05-15 19:19:09,958 - TikSimPro - INFO - Plugin découvert: TikTokAnalyzer
+2025-05-15 19:19:10,620 - TikSimPro - INFO - TikTokAnalyzer initialisé: tiktok_data
+2025-05-15 19:19:10,620 - TikSimPro - INFO - Analyseur de tendances défini: TikTokAnalyzer
+2025-05-15 19:19:10,621 - TikSimPro - INFO - Plugin découvert: CircleSimulator
+2025-05-15 19:19:10,622 - TikSimPro - INFO - Générateur de vidéo défini: CircleSimulator
+2025-05-15 19:19:10,623 - TikSimPro - INFO - Plugin découvert: TrendAudioGenerator
+2025-05-15 19:19:10,623 - TikSimPro - INFO - TrendAudioGenerator initialisé
+2025-05-15 19:19:10,624 - TikSimPro - INFO - Générateur audio défini: TrendAudioGenerator
+2025-05-15 19:19:10,625 - TikSimPro - INFO - Plugin découvert: FFmpegMediaCombiner
+2025-05-15 19:19:10,625 - TikSimPro - INFO - Plugin découvert: MoviePyMediaCombiner
+2025-05-15 19:19:10,663 - TikSimPro - INFO - Combineur de médias défini: FFmpegMediaCombiner
+2025-05-15 19:19:10,664 - TikSimPro - INFO - Plugin découvert: VideoEnhancer
+2025-05-15 19:19:10,666 - TikSimPro - INFO - VideoEnhancer initialisé: C:\Users\nolan\AppData\Local\Temp\tmpxzqrirkx
+2025-05-15 19:19:11,468 - TikSimPro - INFO - Dépendances disponibles: OpenCV, MoviePy, PIL
+2025-05-15 19:19:11,468 - TikSimPro - INFO - Améliorateur de vidéo défini: VideoEnhancer
+2025-05-15 19:19:11,470 - TikSimPro - INFO - Plugin découvert: InstagramPublisher
+2025-05-15 19:19:11,470 - TikSimPro - INFO - Plugin découvert: TikTokPublisher
+2025-05-15 19:19:11,470 - TikSimPro - INFO - Plugin découvert: YouTubePublisher
+2025-05-15 19:19:11,583 - TikSimPro - INFO - TikTokPublisher initialisé
+2025-05-15 19:19:11,583 - TikSimPro - INFO - Système de publication ajouté pour tiktok: TikTokPublisher
+2025-05-15 19:19:11,583 - TikSimPro - INFO - YouTubePublisher initialisé
+2025-05-15 19:19:11,583 - TikSimPro - INFO - Système de publication ajouté pour youtube: YouTubePublisher
+2025-05-15 19:19:11,584 - TikSimPro - INFO - Pipeline configuré avec succès
+2025-05-15 19:19:11,584 - TikSimPro - INFO - Démarrage du pipeline de contenu...
+2025-05-15 19:19:11,584 - TikSimPro - INFO - Démarrage du pipeline de contenu...
+2025-05-15 19:19:11,584 - TikSimPro - INFO - Fichiers générés: videos\final_1747329551.mp4
+2025-05-15 19:19:11,584 - TikSimPro - INFO - Étape 1/6: Analyse des tendances...
+2025-05-15 19:19:11,585 - TikSimPro - INFO - Analyse des tendances en cours...
+2025-05-15 19:19:11,585 - TikSimPro - INFO - Analyse des tendances chargée depuis le cache
+2025-05-15 19:19:11,585 - TikSimPro - INFO - Analyse des tendances terminée
+2025-05-15 19:19:11,585 - TikSimPro - INFO - Étape 2/6: Génération de la vidéo...
+2025-05-15 19:19:11,586 - TikSimPro - INFO - Configuration du générateur de vidéo...
+2025-05-15 19:19:11,593 - TikSimPro - INFO - Simulateur configuré: 1080x1920, 60 FPS, 61.0s, 2 balles
+2025-05-15 19:19:11,594 - TikSimPro - INFO - Palette de couleurs appliquée: ['#000000', '#FFFFFF', '#FF0050', '#00F2EA']
+2025-05-15 19:19:11,594 - TikSimPro - INFO - Vitesse de rotation appliquée: 180 (BPM: 120.0)
+2025-05-15 19:19:11,594 - TikSimPro - INFO - Génération de la vidéo en cours...
+2025-05-15 19:19:11,691 - TikSimPro - INFO - FFmpeg: C:\ffmpeg\bin\ffmpeg.EXE -y -f rawvideo -vcodec rawvideo -pix_fmt rgb24 -s 1080x1920 -r 60 -i - -c:v h264_nvenc -preset p1 -tune hq -rc vbr -qmin 1 -qmax 51 -b:v 8000k -maxrate 8000k -bufsize 16000k -threads 0 -pix_fmt yuv420p temp\video_1747329551.mp4
+2025-05-15 19:21:51,225 - TikSimPro - INFO - 358 événements audio collectés
+2025-05-15 19:21:51,225 - TikSimPro - INFO - Étape 3/6: Génération de la piste audio...
+2025-05-15 19:21:51,225 - TikSimPro - INFO - Configuration du générateur audio...
+2025-05-15 19:21:51,225 - TikSimPro - INFO - Générateur audio configuré: 44100 Hz, 61.0s
+2025-05-15 19:21:51,227 - TikSimPro - INFO - BPM appliqué: 120.0 BPM
+2025-05-15 19:21:51,227 - TikSimPro - INFO - 358 événements audio ajoutés, total: 358
+2025-05-15 19:21:51,228 - TikSimPro - INFO - Génération de la piste audio en cours...
+2025-05-15 19:21:51,228 - TikSimPro - INFO - Génération des sons de notes...
+2025-05-15 19:21:51,230 - TikSimPro - INFO - Génération des sons d'effets...
+2025-05-15 19:21:51,231 - TikSimPro - INFO - Génération de la piste audio à partir de 358 événements...
+2025-05-15 19:21:51,621 - TikSimPro - INFO - Piste audio générée avec succès: temp\audio_1747329551.wav (358/358 événements traités)
+2025-05-15 19:21:51,624 - TikSimPro - INFO - Étape 4/6: Combinaison des médias...
+2025-05-15 19:21:51,625 - TikSimPro - INFO - Combinaison de la vidéo et de l'audio en cours...
+2025-05-15 19:21:51,625 - TikSimPro - INFO - Combinaison de temp\video_1747329551.mp4 et temp\audio_1747329551.wav en temp\combined_1747329551.mp4
+2025-05-15 19:21:53,438 - TikSimPro - INFO - Combinaison réussie: temp\combined_1747329551.mp4
+2025-05-15 19:21:53,439 - TikSimPro - INFO - Étape 5/6: Amélioration de la vidéo...
+2025-05-15 19:21:53,440 - TikSimPro - INFO - Amélioration de la vidéo en cours...
+2025-05-15 19:21:53,440 - TikSimPro - INFO - Application des améliorations...
+2025-05-15 19:21:54,068 - TikSimPro - WARNING - Aucune police disponible, utilisation de Arial par défaut
+2025-05-15 19:21:54,070 - TikSimPro - ERROR - Erreur lors de l'ajout de l'appel à l'action: MoviePy Error: creation of None failed because of the following error:
+
+[WinError 2] Le fichier spécifié est introuvable.
+
+.This error can be due to the fact that ImageMagick is not installed on your computer, or (for Windows users) that you didn't specify the path to the ImageMagick binary in file conf.py, or that the path you specified is incorrect
+2025-05-15 19:21:54,185 - TikSimPro - INFO - Vidéo finale copiée vers: videos\final_1747329551.mp4
+2025-05-15 19:21:54,186 - TikSimPro - INFO - Amélioration terminée: videos\final_1747329551.mp4
+2025-05-15 19:21:54,186 - TikSimPro - INFO - Étape 6/6: Publication du contenu...
+2025-05-15 19:21:54,186 - TikSimPro - INFO - Initialisation du navigateur pour l'authentification TikTok...
+2025-05-15 19:21:54,225 - TikSimPro - INFO - Initialisation du webdriver Chrome...
+2025-05-15 19:21:54,225 - WDM - INFO - ====== WebDriver manager ======
+2025-05-15 19:21:55,360 - WDM - INFO - Get LATEST chromedriver version for google-chrome
+2025-05-15 19:21:55,409 - WDM - INFO - Get LATEST chromedriver version for google-chrome
+2025-05-15 19:21:55,449 - WDM - INFO - Driver [C:\Users\nolan\.wdm\drivers\chromedriver\win64\136.0.7103.94\chromedriver-win32/chromedriver.exe] found in cache
+2025-05-15 19:21:56,685 - TikSimPro - INFO - Navigateur configuré pour TikTok
+2025-05-15 19:22:04,321 - TikSimPro - INFO - Session TikTok restaurée avec succès via les cookies
+2025-05-15 19:22:04,322 - TikSimPro - INFO - Publication sur tiktok en cours...
+2025-05-15 19:22:04,325 - TikSimPro - INFO - Navigation vers TikTok Studio...
+2025-05-15 19:22:10,230 - TikSimPro - INFO - Recherche du champ de téléchargement...
+2025-05-15 19:22:10,253 - TikSimPro - INFO - Téléchargement de la vidéo: videos\final_1747329551.mp4
+2025-05-15 19:22:10,313 - TikSimPro - INFO - Traitement de la vidéo en cours...
+2025-05-15 19:22:25,416 - TikSimPro - INFO - Ajout de la description et des hashtags: The physics in this are incredible!
+
+#dance #animation #pets #diy #challenge #nature #food #fashion #science #funny
+2025-05-15 19:22:39,327 - TikSimPro - INFO - Recherche du bouton de publication...
+2025-05-15 19:22:39,564 - TikSimPro - INFO - Publication de la vidéo...
+2025-05-15 19:22:39,889 - TikSimPro - INFO - Attente de la confirmation de publication...
+2025-05-15 19:22:49,897 - TikSimPro - INFO - Redirection vers la page de contenu détectée : Publication réussie !
+2025-05-15 19:22:49,898 - TikSimPro - INFO - Fermeture du navigateur...
+2025-05-15 19:22:52,320 - TikSimPro - INFO - Publication sur tiktok: réussie
+2025-05-15 19:22:52,320 - TikSimPro - INFO - Initialisation du navigateur pour l'authentification YouTube...
+2025-05-15 19:22:52,321 - TikSimPro - INFO - Initialisation du webdriver Chrome...
+2025-05-15 19:22:52,323 - WDM - INFO - ====== WebDriver manager ======
+2025-05-15 19:22:54,088 - WDM - INFO - Get LATEST chromedriver version for google-chrome
+2025-05-15 19:22:54,132 - WDM - INFO - Get LATEST chromedriver version for google-chrome
+2025-05-15 19:22:54,175 - WDM - INFO - Driver [C:\Users\nolan\.wdm\drivers\chromedriver\win64\136.0.7103.94\chromedriver-win32/chromedriver.exe] found in cache
+2025-05-15 19:22:56,577 - TikSimPro - INFO - Navigateur configuré pour YouTube
+2025-05-15 19:23:15,702 - TikSimPro - INFO - Session YouTube restaurée avec succès via les cookies
+2025-05-15 19:23:15,717 - TikSimPro - INFO - Publication sur youtube en cours...
+2025-05-15 19:23:15,777 - TikSimPro - INFO - Navigation vers la page d'upload YouTube...
+2025-05-15 19:23:26,114 - TikSimPro - INFO - Téléchargement de la vidéo: videos\final_1747329551.mp4
+2025-05-15 19:23:29,171 - TikSimPro - INFO - Formulaire d'édition détecté
+2025-05-15 19:23:34,476 - TikSimPro - INFO - Titre saisi: Satisfying Physics Simulation - 2025-05-15
+2025-05-15 19:23:37,534 - TikSimPro - INFO - Description et hashtags saisis
+2025-05-15 19:23:38,729 - TikSimPro - INFO - Option 'Non destiné aux enfants' sélectionnée
+2025-05-15 19:23:46,359 - TikSimPro - INFO - Visibilité définie: public
+2025-05-15 19:23:46,555 - TikSimPro - INFO - Bouton de publication cliqué
+2025-05-15 19:23:57,578 - TikSimPro - INFO - Dialogue de traitement détecté, publication réussie
+2025-05-15 19:24:01,177 - TikSimPro - INFO - Publication sur youtube: réussie
+2025-05-15 19:24:01,177 - TikSimPro - INFO - Résumé de la publication:
+2025-05-15 19:24:01,177 - TikSimPro - INFO - - tiktok: réussie
+2025-05-15 19:24:01,177 - TikSimPro - INFO - - youtube: réussie
+2025-05-15 19:24:01,179 - TikSimPro - INFO - Pipeline terminé avec succès: videos\final_1747329551.mp4
+2025-05-15 19:24:01,179 - TikSimPro - INFO - Pipeline exécuté en 289.59 secondes
+2025-05-15 19:24:01,179 - TikSimPro - INFO - Vidéo générée: videos\final_1747329551.mp4
+2025-05-15 19:30:28,580 - TikSimPro - INFO - ContentPipeline initialisé
+2025-05-15 19:30:29,157 - TikSimPro - INFO - Plugin découvert: TikTokAnalyzer
+2025-05-15 19:30:29,957 - TikSimPro - INFO - TikTokAnalyzer initialisé: tiktok_data
+2025-05-15 19:30:29,957 - TikSimPro - INFO - Analyseur de tendances défini: TikTokAnalyzer
+2025-05-15 19:30:29,958 - TikSimPro - INFO - Plugin découvert: CircleSimulator
+2025-05-15 19:30:29,958 - TikSimPro - INFO - Générateur de vidéo défini: CircleSimulator
+2025-05-15 19:30:29,959 - TikSimPro - INFO - Plugin découvert: TrendAudioGenerator
+2025-05-15 19:30:29,959 - TikSimPro - INFO - TrendAudioGenerator initialisé
+2025-05-15 19:30:29,959 - TikSimPro - INFO - Générateur audio défini: TrendAudioGenerator
+2025-05-15 19:30:29,962 - TikSimPro - INFO - Plugin découvert: FFmpegMediaCombiner
+2025-05-15 19:30:29,962 - TikSimPro - INFO - Plugin découvert: MoviePyMediaCombiner
+2025-05-15 19:30:30,013 - TikSimPro - INFO - Combineur de médias défini: FFmpegMediaCombiner
+2025-05-15 19:30:30,014 - TikSimPro - INFO - Plugin découvert: VideoEnhancer
+2025-05-15 19:30:30,016 - TikSimPro - INFO - VideoEnhancer initialisé: C:\Users\nolan\AppData\Local\Temp\tmp529yu91r
+2025-05-15 19:30:31,141 - TikSimPro - INFO - Dépendances disponibles: OpenCV, MoviePy, PIL
+2025-05-15 19:30:31,141 - TikSimPro - INFO - Améliorateur de vidéo défini: VideoEnhancer
+2025-05-15 19:30:31,145 - TikSimPro - INFO - Plugin découvert: InstagramPublisher
+2025-05-15 19:30:31,146 - TikSimPro - INFO - Plugin découvert: TikTokPublisher
+2025-05-15 19:30:31,146 - TikSimPro - INFO - Plugin découvert: YouTubePublisher
+2025-05-15 19:30:31,307 - TikSimPro - INFO - TikTokPublisher initialisé
+2025-05-15 19:30:31,309 - TikSimPro - INFO - Système de publication ajouté pour tiktok: TikTokPublisher
+2025-05-15 19:30:31,311 - TikSimPro - INFO - YouTubePublisher initialisé
+2025-05-15 19:30:31,312 - TikSimPro - INFO - Système de publication ajouté pour youtube: YouTubePublisher
+2025-05-15 19:30:31,313 - TikSimPro - INFO - Pipeline configuré avec succès
+2025-05-15 19:30:31,313 - TikSimPro - INFO - Démarrage du pipeline de contenu...
+2025-05-15 19:30:31,313 - TikSimPro - INFO - Démarrage du pipeline de contenu...
+2025-05-15 19:30:31,313 - TikSimPro - INFO - Fichiers générés: videos\final_1747330231.mp4
+2025-05-15 19:30:31,313 - TikSimPro - INFO - Étape 1/6: Analyse des tendances...
+2025-05-15 19:30:31,314 - TikSimPro - INFO - Analyse des tendances en cours...
+2025-05-15 19:30:31,314 - TikSimPro - INFO - Analyse des tendances chargée depuis le cache
+2025-05-15 19:30:31,315 - TikSimPro - INFO - Analyse des tendances terminée
+2025-05-15 19:30:31,315 - TikSimPro - INFO - Étape 2/6: Génération de la vidéo...
+2025-05-15 19:30:31,315 - TikSimPro - INFO - Configuration du générateur de vidéo...
+2025-05-15 19:30:31,330 - TikSimPro - INFO - Simulateur configuré: 1080x1920, 60 FPS, 61.0s, 2 balles
+2025-05-15 19:30:31,331 - TikSimPro - INFO - Palette de couleurs appliquée: ['#000000', '#FFFFFF', '#FF0050', '#00F2EA']
+2025-05-15 19:30:31,331 - TikSimPro - INFO - Vitesse de rotation appliquée: 180 (BPM: 120.0)
+2025-05-15 19:30:31,333 - TikSimPro - INFO - Génération de la vidéo en cours...
+2025-05-15 19:30:31,441 - TikSimPro - INFO - FFmpeg: C:\ffmpeg\bin\ffmpeg.EXE -y -f rawvideo -vcodec rawvideo -pix_fmt rgb24 -s 1080x1920 -r 60 -i - -c:v h264_nvenc -preset p1 -tune hq -rc vbr -qmin 1 -qmax 51 -b:v 8000k -maxrate 8000k -bufsize 16000k -threads 0 -pix_fmt yuv420p temp\video_1747330231.mp4
+2025-05-15 19:32:29,712 - TikSimPro - INFO - ContentPipeline initialisé
+2025-05-15 19:32:30,575 - TikSimPro - INFO - Plugin découvert: TikTokAnalyzer
+2025-05-15 19:32:31,808 - TikSimPro - INFO - TikTokAnalyzer initialisé: tiktok_data
+2025-05-15 19:32:31,810 - TikSimPro - INFO - Analyseur de tendances défini: TikTokAnalyzer
+2025-05-15 19:32:31,819 - TikSimPro - INFO - Plugin découvert: CircleSimulator
+2025-05-15 19:32:31,834 - TikSimPro - INFO - Générateur de vidéo défini: CircleSimulator
+2025-05-15 19:32:31,847 - TikSimPro - INFO - Plugin découvert: TrendAudioGenerator
+2025-05-15 19:32:31,870 - TikSimPro - INFO - TrendAudioGenerator initialisé
+2025-05-15 19:32:31,879 - TikSimPro - INFO - Générateur audio défini: TrendAudioGenerator
+2025-05-15 19:32:31,882 - TikSimPro - INFO - Plugin découvert: FFmpegMediaCombiner
+2025-05-15 19:32:31,897 - TikSimPro - INFO - Plugin découvert: MoviePyMediaCombiner
+2025-05-15 19:32:31,958 - TikSimPro - INFO - Combineur de médias défini: FFmpegMediaCombiner
+2025-05-15 19:32:31,963 - TikSimPro - INFO - Plugin découvert: VideoEnhancer
+2025-05-15 19:32:31,965 - TikSimPro - INFO - VideoEnhancer initialisé: C:\Users\nolan\AppData\Local\Temp\tmpeh18gb78
+2025-05-15 19:32:32,931 - TikSimPro - INFO - Dépendances disponibles: OpenCV, MoviePy, PIL
+2025-05-15 19:32:32,934 - TikSimPro - INFO - Améliorateur de vidéo défini: VideoEnhancer
+2025-05-15 19:32:32,937 - TikSimPro - INFO - Plugin découvert: InstagramPublisher
+2025-05-15 19:32:32,938 - TikSimPro - INFO - Plugin découvert: TikTokPublisher
+2025-05-15 19:32:32,938 - TikSimPro - INFO - Plugin découvert: YouTubePublisher
+2025-05-15 19:32:33,060 - TikSimPro - INFO - TikTokPublisher initialisé
+2025-05-15 19:32:33,060 - TikSimPro - INFO - Système de publication ajouté pour tiktok: TikTokPublisher
+2025-05-15 19:32:33,060 - TikSimPro - INFO - YouTubePublisher initialisé
+2025-05-15 19:32:33,060 - TikSimPro - INFO - Système de publication ajouté pour youtube: YouTubePublisher
+2025-05-15 19:32:33,061 - TikSimPro - INFO - Pipeline configuré avec succès
+2025-05-15 19:32:33,061 - TikSimPro - INFO - Démarrage du pipeline de contenu...
+2025-05-15 19:32:33,061 - TikSimPro - INFO - Démarrage du pipeline de contenu...
+2025-05-15 19:32:33,061 - TikSimPro - INFO - Fichiers générés: videos\final_1747330353.mp4
+2025-05-15 19:32:33,062 - TikSimPro - INFO - Étape 1/6: Analyse des tendances...
+2025-05-15 19:32:33,062 - TikSimPro - INFO - Analyse des tendances en cours...
+2025-05-15 19:32:33,062 - TikSimPro - INFO - Analyse des tendances chargée depuis le cache
+2025-05-15 19:32:33,062 - TikSimPro - INFO - Analyse des tendances terminée
+2025-05-15 19:32:33,063 - TikSimPro - INFO - Étape 2/6: Génération de la vidéo...
+2025-05-15 19:32:33,063 - TikSimPro - INFO - Configuration du générateur de vidéo...
+2025-05-15 19:32:33,072 - TikSimPro - INFO - Simulateur configuré: 1080x1920, 60 FPS, 61.0s, 2 balles
+2025-05-15 19:32:33,072 - TikSimPro - INFO - Palette de couleurs appliquée: ['#000000', '#FFFFFF', '#FF0050', '#00F2EA']
+2025-05-15 19:32:33,074 - TikSimPro - INFO - Vitesse de rotation appliquée: 180 (BPM: 120.0)
+2025-05-15 19:32:33,075 - TikSimPro - INFO - Génération de la vidéo en cours...
+2025-05-15 19:32:33,149 - TikSimPro - INFO - FFmpeg: C:\ffmpeg\bin\ffmpeg.EXE -y -f rawvideo -vcodec rawvideo -pix_fmt rgb24 -s 1080x1920 -r 60 -i - -c:v h264_nvenc -preset p1 -tune hq -rc vbr -qmin 1 -qmax 51 -b:v 8000k -maxrate 8000k -bufsize 16000k -threads 0 -pix_fmt yuv420p temp\video_1747330353.mp4
+2025-05-15 19:32:59,312 - TikSimPro - INFO - ContentPipeline initialisé
+2025-05-15 19:32:59,909 - TikSimPro - INFO - Plugin découvert: TikTokAnalyzer
+2025-05-15 19:33:00,640 - TikSimPro - INFO - TikTokAnalyzer initialisé: tiktok_data
+2025-05-15 19:33:00,640 - TikSimPro - INFO - Analyseur de tendances défini: TikTokAnalyzer
+2025-05-15 19:33:00,641 - TikSimPro - INFO - Plugin découvert: CircleSimulator
+2025-05-15 19:33:00,641 - TikSimPro - INFO - Générateur de vidéo défini: CircleSimulator
+2025-05-15 19:33:00,642 - TikSimPro - INFO - Plugin découvert: TrendAudioGenerator
+2025-05-15 19:33:00,643 - TikSimPro - INFO - TrendAudioGenerator initialisé
+2025-05-15 19:33:00,643 - TikSimPro - INFO - Générateur audio défini: TrendAudioGenerator
+2025-05-15 19:33:00,645 - TikSimPro - INFO - Plugin découvert: FFmpegMediaCombiner
+2025-05-15 19:33:00,645 - TikSimPro - INFO - Plugin découvert: MoviePyMediaCombiner
+2025-05-15 19:33:00,682 - TikSimPro - INFO - Combineur de médias défini: FFmpegMediaCombiner
+2025-05-15 19:33:00,684 - TikSimPro - INFO - Plugin découvert: VideoEnhancer
+2025-05-15 19:33:00,688 - TikSimPro - INFO - VideoEnhancer initialisé: C:\Users\nolan\AppData\Local\Temp\tmpx3futfqp
+2025-05-15 19:33:01,596 - TikSimPro - INFO - Dépendances disponibles: OpenCV, MoviePy, PIL
+2025-05-15 19:33:01,597 - TikSimPro - INFO - Améliorateur de vidéo défini: VideoEnhancer
+2025-05-15 19:33:01,598 - TikSimPro - INFO - Plugin découvert: InstagramPublisher
+2025-05-15 19:33:01,598 - TikSimPro - INFO - Plugin découvert: TikTokPublisher
+2025-05-15 19:33:01,599 - TikSimPro - INFO - Plugin découvert: YouTubePublisher
+2025-05-15 19:33:01,734 - TikSimPro - INFO - TikTokPublisher initialisé
+2025-05-15 19:33:01,734 - TikSimPro - INFO - Système de publication ajouté pour tiktok: TikTokPublisher
+2025-05-15 19:33:01,735 - TikSimPro - INFO - YouTubePublisher initialisé
+2025-05-15 19:33:01,737 - TikSimPro - INFO - Système de publication ajouté pour youtube: YouTubePublisher
+2025-05-15 19:33:01,738 - TikSimPro - INFO - Pipeline configuré avec succès
+2025-05-15 19:33:01,738 - TikSimPro - INFO - Démarrage du pipeline de contenu...
+2025-05-15 19:33:01,738 - TikSimPro - INFO - Démarrage du pipeline de contenu...
+2025-05-15 19:33:01,738 - TikSimPro - INFO - Fichiers générés: videos\final_1747330381.mp4
+2025-05-15 19:33:01,738 - TikSimPro - INFO - Étape 1/6: Analyse des tendances...
+2025-05-15 19:33:01,739 - TikSimPro - INFO - Analyse des tendances en cours...
+2025-05-15 19:33:01,740 - TikSimPro - INFO - Analyse des tendances chargée depuis le cache
+2025-05-15 19:33:01,740 - TikSimPro - INFO - Analyse des tendances terminée
+2025-05-15 19:33:01,740 - TikSimPro - INFO - Étape 2/6: Génération de la vidéo...
+2025-05-15 19:33:01,740 - TikSimPro - INFO - Configuration du générateur de vidéo...
+2025-05-15 19:33:01,748 - TikSimPro - INFO - Simulateur configuré: 1080x1920, 60 FPS, 61.0s, 2 balles
+2025-05-15 19:33:01,748 - TikSimPro - INFO - Palette de couleurs appliquée: ['#000000', '#FFFFFF', '#FF0050', '#00F2EA']
+2025-05-15 19:33:01,749 - TikSimPro - INFO - Vitesse de rotation appliquée: 180 (BPM: 120.0)
+2025-05-15 19:33:01,749 - TikSimPro - INFO - Génération de la vidéo en cours...
+2025-05-15 19:33:01,886 - TikSimPro - INFO - FFmpeg: C:\ffmpeg\bin\ffmpeg.EXE -y -f rawvideo -vcodec rawvideo -pix_fmt rgb24 -s 1080x1920 -r 60 -i - -c:v h264_nvenc -preset p1 -tune hq -rc vbr -qmin 1 -qmax 51 -b:v 8000k -maxrate 8000k -bufsize 16000k -threads 0 -pix_fmt yuv420p temp\video_1747330381.mp4
+2025-05-15 19:35:36,221 - TikSimPro - INFO - 568 événements audio collectés
+2025-05-15 19:35:36,230 - TikSimPro - INFO - Étape 3/6: Génération de la piste audio...
+2025-05-15 19:35:36,230 - TikSimPro - INFO - Configuration du générateur audio...
+2025-05-15 19:35:36,232 - TikSimPro - INFO - Générateur audio configuré: 44100 Hz, 61.0s
+2025-05-15 19:35:36,232 - TikSimPro - INFO - BPM appliqué: 120.0 BPM
+2025-05-15 19:35:36,243 - TikSimPro - INFO - 568 événements audio ajoutés, total: 568
+2025-05-15 19:35:36,244 - TikSimPro - INFO - Génération de la piste audio en cours...
+2025-05-15 19:35:36,244 - TikSimPro - INFO - Génération des sons de notes...
+2025-05-15 19:35:36,246 - TikSimPro - INFO - Génération des sons d'effets...
+2025-05-15 19:35:36,249 - TikSimPro - INFO - Génération de la piste audio à partir de 568 événements...
+2025-05-15 19:35:36,783 - TikSimPro - INFO - Piste audio générée avec succès: temp\audio_1747330381.wav (568/568 événements traités)
+2025-05-15 19:35:36,787 - TikSimPro - INFO - Étape 4/6: Combinaison des médias...
+2025-05-15 19:35:36,787 - TikSimPro - INFO - Combinaison de la vidéo et de l'audio en cours...
+2025-05-15 19:35:36,788 - TikSimPro - INFO - Combinaison de temp\video_1747330381.mp4 et temp\audio_1747330381.wav en temp\combined_1747330381.mp4
+2025-05-15 19:35:38,721 - TikSimPro - INFO - Combinaison réussie: temp\combined_1747330381.mp4
+2025-05-15 19:35:38,721 - TikSimPro - INFO - Étape 5/6: Amélioration de la vidéo...
+2025-05-15 19:35:38,723 - TikSimPro - INFO - Amélioration de la vidéo en cours...
+2025-05-15 19:35:38,725 - TikSimPro - INFO - Application des améliorations...
+2025-05-15 19:35:39,297 - TikSimPro - WARNING - Aucune police disponible, utilisation de Arial par défaut
+2025-05-15 19:35:39,299 - TikSimPro - ERROR - Erreur lors de l'ajout de l'appel à l'action: MoviePy Error: creation of None failed because of the following error:
+
+[WinError 2] Le fichier spécifié est introuvable.
+
+.This error can be due to the fact that ImageMagick is not installed on your computer, or (for Windows users) that you didn't specify the path to the ImageMagick binary in file conf.py, or that the path you specified is incorrect
+2025-05-15 19:35:39,503 - TikSimPro - INFO - Vidéo finale copiée vers: videos\final_1747330381.mp4
+2025-05-15 19:35:39,506 - TikSimPro - INFO - Amélioration terminée: videos\final_1747330381.mp4
+2025-05-15 19:35:39,508 - TikSimPro - INFO - Étape 6/6: Publication du contenu...
+2025-05-15 19:35:39,509 - TikSimPro - INFO - Initialisation du navigateur pour l'authentification TikTok...
+2025-05-15 19:35:39,613 - TikSimPro - INFO - Initialisation du webdriver Chrome...
+2025-05-15 19:35:39,613 - WDM - INFO - ====== WebDriver manager ======
+2025-05-15 19:35:40,912 - WDM - INFO - Get LATEST chromedriver version for google-chrome
+2025-05-15 19:35:40,974 - WDM - INFO - Get LATEST chromedriver version for google-chrome
+2025-05-15 19:35:41,014 - WDM - INFO - Driver [C:\Users\nolan\.wdm\drivers\chromedriver\win64\136.0.7103.94\chromedriver-win32/chromedriver.exe] found in cache
+2025-05-15 19:35:42,493 - TikSimPro - INFO - Navigateur configuré pour TikTok
+2025-05-15 19:35:53,040 - TikSimPro - INFO - Session TikTok restaurée avec succès via les cookies
+2025-05-15 19:35:53,042 - TikSimPro - INFO - Publication sur tiktok en cours...
+2025-05-15 19:35:53,046 - TikSimPro - INFO - Navigation vers TikTok Studio...
+2025-05-15 19:35:58,929 - TikSimPro - INFO - Recherche du champ de téléchargement...
+2025-05-15 19:35:58,949 - TikSimPro - INFO - Téléchargement de la vidéo: videos\final_1747330381.mp4
+2025-05-15 19:35:59,008 - TikSimPro - INFO - Traitement de la vidéo en cours...
+2025-05-15 19:36:14,032 - TikSimPro - INFO - Ajout de la description et des hashtags: Watch till the end for a surprise!
+
+#dance #animation #pets #diy #challenge #nature #food #fashion #science #funny
+2025-05-15 19:36:25,814 - TikSimPro - INFO - Recherche du bouton de publication...
+2025-05-15 19:36:25,900 - TikSimPro - INFO - Publication de la vidéo...
+2025-05-15 19:36:26,061 - TikSimPro - INFO - Attente de la confirmation de publication...
+2025-05-15 19:36:36,071 - TikSimPro - INFO - Redirection vers la page de contenu détectée : Publication réussie !
+2025-05-15 19:36:36,072 - TikSimPro - INFO - Fermeture du navigateur...
+2025-05-15 19:36:38,624 - TikSimPro - INFO - Publication sur tiktok: réussie
+2025-05-15 19:36:38,624 - TikSimPro - INFO - Initialisation du navigateur pour l'authentification YouTube...
+2025-05-15 19:36:38,625 - TikSimPro - INFO - Initialisation du webdriver Chrome...
+2025-05-15 19:36:38,625 - WDM - INFO - ====== WebDriver manager ======
+2025-05-15 19:36:39,725 - WDM - INFO - Get LATEST chromedriver version for google-chrome
+2025-05-15 19:36:39,805 - WDM - INFO - Get LATEST chromedriver version for google-chrome
+2025-05-15 19:36:39,845 - WDM - INFO - Driver [C:\Users\nolan\.wdm\drivers\chromedriver\win64\136.0.7103.94\chromedriver-win32/chromedriver.exe] found in cache
+2025-05-15 19:36:41,253 - TikSimPro - INFO - Navigateur configuré pour YouTube
+2025-05-15 19:36:49,274 - TikSimPro - INFO - Session YouTube restaurée avec succès via les cookies
+2025-05-15 19:36:49,275 - TikSimPro - INFO - Publication sur youtube en cours...
+2025-05-15 19:36:49,275 - TikSimPro - INFO - Navigation vers la page d'upload YouTube...
+2025-05-15 19:36:58,057 - TikSimPro - INFO - Téléchargement de la vidéo: videos\final_1747330381.mp4
+2025-05-15 19:37:01,007 - TikSimPro - INFO - Formulaire d'édition détecté
+2025-05-15 19:37:05,043 - TikSimPro - INFO - Titre saisi: Satisfying Physics Simulation - 2025-05-15
+2025-05-15 19:37:07,670 - TikSimPro - INFO - Description et hashtags saisis
+2025-05-15 19:37:08,835 - TikSimPro - INFO - Option 'Non destiné aux enfants' sélectionnée
+2025-05-15 19:37:16,507 - TikSimPro - INFO - Visibilité définie: public
+2025-05-15 19:37:16,673 - TikSimPro - INFO - Bouton de publication cliqué
+2025-05-15 19:37:26,698 - TikSimPro - INFO - Dialogue de traitement détecté, publication réussie
+2025-05-15 19:37:29,097 - TikSimPro - INFO - Publication sur youtube: réussie
+2025-05-15 19:37:29,098 - TikSimPro - INFO - Résumé de la publication:
+2025-05-15 19:37:29,098 - TikSimPro - INFO - - tiktok: réussie
+2025-05-15 19:37:29,098 - TikSimPro - INFO - - youtube: réussie
+2025-05-15 19:37:29,098 - TikSimPro - INFO - Pipeline terminé avec succès: videos\final_1747330381.mp4
+2025-05-15 19:37:29,099 - TikSimPro - INFO - Pipeline exécuté en 267.36 secondes
+2025-05-15 19:37:29,099 - TikSimPro - INFO - Vidéo générée: videos\final_1747330381.mp4
+2025-05-15 19:50:53,412 - TikSimPro - INFO - ContentPipeline initialisé
+2025-05-15 19:50:54,513 - TikSimPro - INFO - Plugin découvert: TikTokAnalyzer
+2025-05-15 19:50:55,301 - TikSimPro - INFO - TikTokAnalyzer initialisé: tiktok_data (API: True)
+2025-05-15 19:50:55,301 - TikSimPro - INFO - Analyseur de tendances défini: TikTokAnalyzer
+2025-05-15 19:50:55,302 - TikSimPro - INFO - Plugin découvert: CircleSimulator
+2025-05-15 19:50:55,304 - TikSimPro - INFO - Générateur de vidéo défini: CircleSimulator
+2025-05-15 19:50:55,305 - TikSimPro - INFO - Plugin découvert: TrendAudioGenerator
+2025-05-15 19:50:55,306 - TikSimPro - INFO - TrendAudioGenerator initialisé
+2025-05-15 19:50:55,306 - TikSimPro - INFO - Générateur audio défini: TrendAudioGenerator
+2025-05-15 19:50:55,308 - TikSimPro - INFO - Plugin découvert: FFmpegMediaCombiner
+2025-05-15 19:50:55,309 - TikSimPro - INFO - Plugin découvert: MoviePyMediaCombiner
+2025-05-15 19:50:55,354 - TikSimPro - INFO - Combineur de médias défini: FFmpegMediaCombiner
+2025-05-15 19:50:55,355 - TikSimPro - INFO - Plugin découvert: VideoEnhancer
+2025-05-15 19:50:55,357 - TikSimPro - INFO - VideoEnhancer initialisé: C:\Users\nolan\AppData\Local\Temp\tmpx8cv9s51
+2025-05-15 19:50:56,231 - TikSimPro - INFO - Dépendances disponibles: OpenCV, MoviePy, PIL
+2025-05-15 19:50:56,232 - TikSimPro - INFO - Améliorateur de vidéo défini: VideoEnhancer
+2025-05-15 19:50:56,233 - TikSimPro - INFO - Plugin découvert: InstagramPublisher
+2025-05-15 19:50:56,233 - TikSimPro - INFO - Plugin découvert: TikTokPublisher
+2025-05-15 19:50:56,234 - TikSimPro - INFO - Plugin découvert: YouTubePublisher
+2025-05-15 19:50:56,408 - TikSimPro - INFO - TikTokPublisher initialisé
+2025-05-15 19:50:56,409 - TikSimPro - INFO - Système de publication ajouté pour tiktok: TikTokPublisher
+2025-05-15 19:50:56,409 - TikSimPro - INFO - YouTubePublisher initialisé
+2025-05-15 19:50:56,409 - TikSimPro - INFO - Système de publication ajouté pour youtube: YouTubePublisher
+2025-05-15 19:50:56,409 - TikSimPro - INFO - Pipeline configuré avec succès
+2025-05-15 19:50:56,409 - TikSimPro - INFO - Démarrage du pipeline de contenu...
+2025-05-15 19:50:56,410 - TikSimPro - INFO - Démarrage du pipeline de contenu...
+2025-05-15 19:50:56,410 - TikSimPro - INFO - Fichiers générés: videos\final_1747331456.mp4
+2025-05-15 19:50:56,410 - TikSimPro - INFO - Étape 1/6: Analyse des tendances...
+2025-05-15 19:50:56,410 - TikSimPro - INFO - Analyse des tendances en cours...
+2025-05-15 19:50:56,411 - TikSimPro - INFO - Génération de l'analyse des tendances TikTok à partir de données réelles
+2025-05-15 19:50:56,413 - TikSimPro - INFO - Récupération des hashtags tendance depuis l'API TikTok
+2025-05-15 19:50:56,415 - TikSimPro - INFO - Récupération des musiques populaires depuis l'API TikTok
+2025-05-15 19:50:56,416 - TikSimPro - INFO - Récupération des vidéos tendance pour analyse
+2025-05-15 19:50:56,568 - TikSimPro - WARNING - Échec de la requête API musiques: 400
+2025-05-15 19:50:56,568 - TikSimPro - INFO - Tentative de récupération des musiques par scraping
+2025-05-15 19:50:56,590 - TikSimPro - WARNING - Échec de la requête API hashtags: 400
+2025-05-15 19:50:56,591 - TikSimPro - INFO - Tentative de récupération des hashtags par scraping
+2025-05-15 19:50:56,615 - TikSimPro - WARNING - Format de réponse API inattendu pour les vidéos
+2025-05-15 19:50:56,876 - TikSimPro - WARNING - Aucun hashtag trouvé par scraping
+2025-05-15 19:50:56,878 - TikSimPro - INFO - Génération de hashtags tendance simulés (fallback)
+2025-05-15 19:50:56,878 - TikSimPro - INFO - 35 hashtags simulés générés
+2025-05-15 19:50:56,910 - TikSimPro - WARNING - Aucune musique trouvée par scraping
+2025-05-15 19:50:56,910 - TikSimPro - INFO - Génération de musiques populaires simulées (fallback)
+2025-05-15 19:50:56,911 - TikSimPro - INFO - 10 musiques simulées générées
+2025-05-15 19:50:56,914 - TikSimPro - INFO - Analyse des vidéos pour en extraire des tendances
+2025-05-15 19:50:56,915 - TikSimPro - INFO - Analyse des tendances générée à partir de données réelles
+2025-05-15 19:50:56,916 - TikSimPro - INFO - Analyse des tendances terminée
+2025-05-15 19:50:56,916 - TikSimPro - INFO - Étape 2/6: Génération de la vidéo...
+2025-05-15 19:50:56,917 - TikSimPro - INFO - Configuration du générateur de vidéo...
+2025-05-15 19:50:56,929 - TikSimPro - INFO - Simulateur configuré: 1080x1920, 60 FPS, 61.0s, 2 balles
+2025-05-15 19:50:56,933 - TikSimPro - INFO - Palette de couleurs appliquée: ['#25F4EE', '#FE2C55', '#FFFFFF', '#000000']
+2025-05-15 19:50:56,936 - TikSimPro - INFO - Vitesse de rotation appliquée: 111 (BPM: 74.36862888889799)
+2025-05-15 19:50:56,936 - TikSimPro - INFO - Génération de la vidéo en cours...
+2025-05-15 19:50:57,053 - TikSimPro - INFO - FFmpeg: C:\ffmpeg\bin\ffmpeg.EXE -y -f rawvideo -vcodec rawvideo -pix_fmt rgb24 -s 1080x1920 -r 60 -i - -c:v h264_nvenc -preset p1 -tune hq -rc vbr -qmin 1 -qmax 51 -b:v 8000k -maxrate 8000k -bufsize 16000k -threads 0 -pix_fmt yuv420p temp\video_1747331456.mp4
+2025-05-15 19:58:26,708 - TikSimPro - INFO - ContentPipeline initialisé
+2025-05-15 19:58:27,263 - TikSimPro - INFO - Plugin découvert: TikTokAnalyzer
+2025-05-15 19:58:27,863 - TikSimPro - INFO - TikTokAnalyzer initialisé: tiktok_data (API: True)
+2025-05-15 19:58:27,864 - TikSimPro - INFO - Analyseur de tendances défini: TikTokAnalyzer
+2025-05-15 19:58:27,865 - TikSimPro - INFO - Plugin découvert: CircleSimulator
+2025-05-15 19:58:27,866 - TikSimPro - INFO - Générateur de vidéo défini: CircleSimulator
+2025-05-15 19:58:27,868 - TikSimPro - INFO - Plugin découvert: TrendAudioGenerator
+2025-05-15 19:58:27,869 - TikSimPro - INFO - TrendAudioGenerator initialisé
+2025-05-15 19:58:27,870 - TikSimPro - INFO - Générateur audio défini: TrendAudioGenerator
+2025-05-15 19:58:27,870 - TikSimPro - INFO - Plugin découvert: FFmpegMediaCombiner
+2025-05-15 19:58:27,871 - TikSimPro - INFO - Plugin découvert: MoviePyMediaCombiner
+2025-05-15 19:58:27,908 - TikSimPro - INFO - Combineur de médias défini: FFmpegMediaCombiner
+2025-05-15 19:58:27,909 - TikSimPro - INFO - Plugin découvert: VideoEnhancer
+2025-05-15 19:58:27,911 - TikSimPro - INFO - VideoEnhancer initialisé: C:\Users\nolan\AppData\Local\Temp\tmpj4yniw8u
+2025-05-15 19:58:28,686 - TikSimPro - INFO - Dépendances disponibles: OpenCV, MoviePy, PIL
+2025-05-15 19:58:28,686 - TikSimPro - INFO - Améliorateur de vidéo défini: VideoEnhancer
+2025-05-15 19:58:28,687 - TikSimPro - INFO - Plugin découvert: InstagramPublisher
+2025-05-15 19:58:28,687 - TikSimPro - INFO - Plugin découvert: TikTokPublisher
+2025-05-15 19:58:28,688 - TikSimPro - INFO - Plugin découvert: YouTubePublisher
+2025-05-15 19:58:28,820 - TikSimPro - INFO - TikTokPublisher initialisé
+2025-05-15 19:58:28,821 - TikSimPro - INFO - Système de publication ajouté pour tiktok: TikTokPublisher
+2025-05-15 19:58:28,821 - TikSimPro - INFO - YouTubePublisher initialisé
+2025-05-15 19:58:28,821 - TikSimPro - INFO - Système de publication ajouté pour youtube: YouTubePublisher
+2025-05-15 19:58:28,821 - TikSimPro - INFO - Pipeline configuré avec succès
+2025-05-15 19:58:28,822 - TikSimPro - INFO - Démarrage du pipeline de contenu...
+2025-05-15 19:58:28,822 - TikSimPro - INFO - Démarrage du pipeline de contenu...
+2025-05-15 19:58:28,822 - TikSimPro - INFO - Fichiers générés: videos\final_1747331908.mp4
+2025-05-15 19:58:28,822 - TikSimPro - INFO - Étape 1/6: Analyse des tendances...
+2025-05-15 19:58:28,822 - TikSimPro - INFO - Analyse des tendances en cours...
+2025-05-15 19:58:28,823 - TikSimPro - INFO - Analyse des tendances chargée depuis le cache
+2025-05-15 19:58:28,823 - TikSimPro - INFO - Analyse des tendances terminée
+2025-05-15 19:58:28,823 - TikSimPro - INFO - Étape 2/6: Génération de la vidéo...
+2025-05-15 19:58:28,823 - TikSimPro - INFO - Configuration du générateur de vidéo...
+2025-05-15 19:58:28,830 - TikSimPro - INFO - Simulateur configuré: 1080x1920, 60 FPS, 61.0s, 2 balles
+2025-05-15 19:58:28,832 - TikSimPro - INFO - Palette de couleurs appliquée: ['#25F4EE', '#FE2C55', '#FFFFFF', '#000000']
+2025-05-15 19:58:28,832 - TikSimPro - INFO - Vitesse de rotation appliquée: 111 (BPM: 74.36862888889799)
+2025-05-15 19:58:28,832 - TikSimPro - INFO - Génération de la vidéo en cours...
+2025-05-15 19:58:28,923 - TikSimPro - INFO - FFmpeg: C:\ffmpeg\bin\ffmpeg.EXE -y -f rawvideo -vcodec rawvideo -pix_fmt rgb24 -s 1080x1920 -r 60 -i - -c:v h264_nvenc -preset p1 -tune hq -rc vbr -qmin 1 -qmax 51 -b:v 8000k -maxrate 8000k -bufsize 16000k -threads 0 -pix_fmt yuv420p temp\video_1747331908.mp4
+2025-05-15 19:58:39,351 - TikSimPro - INFO - ContentPipeline initialisé
+2025-05-15 19:58:39,923 - TikSimPro - INFO - Plugin découvert: TikTokAnalyzer
+2025-05-15 19:58:40,561 - TikSimPro - INFO - TikTokAnalyzer initialisé: tiktok_data (API: True)
+2025-05-15 19:58:40,561 - TikSimPro - INFO - Analyseur de tendances défini: TikTokAnalyzer
+2025-05-15 19:58:40,562 - TikSimPro - INFO - Plugin découvert: CircleSimulator
+2025-05-15 19:58:40,563 - TikSimPro - INFO - Générateur de vidéo défini: CircleSimulator
+2025-05-15 19:58:40,563 - TikSimPro - INFO - Plugin découvert: TrendAudioGenerator
+2025-05-15 19:58:40,565 - TikSimPro - INFO - TrendAudioGenerator initialisé
+2025-05-15 19:58:40,565 - TikSimPro - INFO - Générateur audio défini: TrendAudioGenerator
+2025-05-15 19:58:40,566 - TikSimPro - INFO - Plugin découvert: FFmpegMediaCombiner
+2025-05-15 19:58:40,566 - TikSimPro - INFO - Plugin découvert: MoviePyMediaCombiner
+2025-05-15 19:58:40,600 - TikSimPro - INFO - Combineur de médias défini: FFmpegMediaCombiner
+2025-05-15 19:58:40,602 - TikSimPro - INFO - Plugin découvert: VideoEnhancer
+2025-05-15 19:58:40,603 - TikSimPro - INFO - VideoEnhancer initialisé: C:\Users\nolan\AppData\Local\Temp\tmpr6e9ode5
+2025-05-15 19:58:41,501 - TikSimPro - INFO - Dépendances disponibles: OpenCV, MoviePy, PIL
+2025-05-15 19:58:41,501 - TikSimPro - INFO - Améliorateur de vidéo défini: VideoEnhancer
+2025-05-15 19:58:41,506 - TikSimPro - INFO - Plugin découvert: InstagramPublisher
+2025-05-15 19:58:41,506 - TikSimPro - INFO - Plugin découvert: TikTokPublisher
+2025-05-15 19:58:41,507 - TikSimPro - INFO - Plugin découvert: YouTubePublisher
+2025-05-15 19:58:41,662 - TikSimPro - INFO - TikTokPublisher initialisé
+2025-05-15 19:58:41,662 - TikSimPro - INFO - Système de publication ajouté pour tiktok: TikTokPublisher
+2025-05-15 19:58:41,662 - TikSimPro - INFO - YouTubePublisher initialisé
+2025-05-15 19:58:41,662 - TikSimPro - INFO - Système de publication ajouté pour youtube: YouTubePublisher
+2025-05-15 19:58:41,664 - TikSimPro - INFO - Pipeline configuré avec succès
+2025-05-15 19:58:41,665 - TikSimPro - INFO - Démarrage du pipeline de contenu...
+2025-05-15 19:58:41,665 - TikSimPro - INFO - Démarrage du pipeline de contenu...
+2025-05-15 19:58:41,666 - TikSimPro - INFO - Fichiers générés: videos\final_1747331921.mp4
+2025-05-15 19:58:41,666 - TikSimPro - INFO - Étape 1/6: Analyse des tendances...
+2025-05-15 19:58:41,666 - TikSimPro - INFO - Analyse des tendances en cours...
+2025-05-15 19:58:41,666 - TikSimPro - INFO - Génération de l'analyse des tendances TikTok à partir de données réelles
+2025-05-15 19:58:41,668 - TikSimPro - INFO - Récupération des hashtags tendance depuis l'API TikTok
+2025-05-15 19:58:41,669 - TikSimPro - INFO - Récupération des musiques populaires depuis l'API TikTok
+2025-05-15 19:58:41,670 - TikSimPro - INFO - Récupération des vidéos tendance pour analyse
+2025-05-15 19:58:41,856 - TikSimPro - WARNING - Échec de la requête API trending_hashtags (endpoint https://www.tiktok.com/api/discover/challenge/): 400
+2025-05-15 19:58:41,869 - TikSimPro - INFO - 0 vidéos tendance récupérées pour analyse
+2025-05-15 19:58:41,921 - TikSimPro - WARNING - Échec de la requête API trending_music (endpoint https://www.tiktok.com/api/music/item_list/): 400
+2025-05-15 19:58:43,768 - TikSimPro - WARNING - Échec de la requête API trending_music (endpoint https://www.tiktok.com/api/music/item_list/): 400
+2025-05-15 19:58:44,457 - TikSimPro - WARNING - Échec de la requête API trending_hashtags (endpoint https://www.tiktok.com/api/discover/challenge/): 400
+2025-05-15 19:58:46,462 - TikSimPro - WARNING - Échec de la requête API trending_hashtags (endpoint https://www.tiktok.com/api/discover/challenge/): 400
+2025-05-15 19:58:46,547 - TikSimPro - WARNING - Échec de la requête API trending_music (endpoint https://www.tiktok.com/api/music/item_list/): 400
+2025-05-15 19:58:46,670 - TikSimPro - INFO - 0 hashtags récupérés depuis l'API TikTok
+2025-05-15 19:58:46,670 - TikSimPro - INFO - 12 hashtags extraits des données brutes
+2025-05-15 19:58:46,671 - TikSimPro - INFO - 0 musiques récupérées depuis l'API TikTok
+2025-05-15 19:58:46,672 - TikSimPro - INFO - Tentative de récupération des musiques via les sites miroirs
+2025-05-15 19:58:46,991 - TikSimPro - ERROR - Erreur lors du scraping de https://www.tiktokvideo.online/trending: HTTPSConnectionPool(host='www.tiktokvideo.online', port=443): Max retries exceeded with url: /trending (Caused by NameResolutionError("<urllib3.connection.HTTPSConnection object at 0x0000025D23F6F490>: Failed to resolve 'www.tiktokvideo.online' ([Errno 11001] getaddrinfo failed)"))
+2025-05-15 19:58:47,106 - TikSimPro - ERROR - Erreur lors du scraping de https://tiktokder.com/trending: HTTPSConnectionPool(host='tiktokder.com', port=443): Max retries exceeded with url: /trending (Caused by NameResolutionError("<urllib3.connection.HTTPSConnection object at 0x0000025D26999090>: Failed to resolve 'tiktokder.com' ([Errno 11001] getaddrinfo failed)"))
+2025-05-15 19:58:47,106 - TikSimPro - INFO - Génération de musiques populaires simulées (fallback)
+2025-05-15 19:58:47,108 - TikSimPro - INFO - 10 musiques simulées générées
+2025-05-15 21:57:46,843 - TikSimPro - INFO - ContentPipeline initialisé
+2025-05-15 21:57:48,803 - TikSimPro - INFO - Plugin découvert: TikTokAnalyzer
+2025-05-15 21:57:52,275 - TikSimPro.Connector - INFO - Initialisation du webdriver Chrome...
+2025-05-15 21:57:52,275 - TikSimPro - INFO - TikTokAnalyzer initialisé: tiktok_data, région: global, web search: True
+2025-05-15 21:57:52,279 - WDM - INFO - ====== WebDriver manager ======
+2025-05-15 21:57:52,280 - TikSimPro - INFO - Analyseur de tendances défini: TikTokAnalyzer
+2025-05-15 21:57:52,282 - TikSimPro - INFO - Plugin découvert: CircleSimulator
+2025-05-15 21:57:52,284 - TikSimPro - INFO - Générateur de vidéo défini: CircleSimulator
+2025-05-15 21:57:52,285 - TikSimPro - INFO - Plugin découvert: TrendAudioGenerator
+2025-05-15 21:57:52,288 - TikSimPro - INFO - TrendAudioGenerator initialisé
+2025-05-15 21:57:52,288 - TikSimPro - INFO - Générateur audio défini: TrendAudioGenerator
+2025-05-15 21:57:52,289 - TikSimPro - INFO - Plugin découvert: FFmpegMediaCombiner
+2025-05-15 21:57:52,289 - TikSimPro - INFO - Plugin découvert: MoviePyMediaCombiner
+2025-05-15 21:57:53,090 - TikSimPro - INFO - Combineur de médias défini: FFmpegMediaCombiner
+2025-05-15 21:57:53,092 - TikSimPro - INFO - Plugin découvert: VideoEnhancer
+2025-05-15 21:57:53,095 - TikSimPro - INFO - VideoEnhancer initialisé: C:\Users\nolan\AppData\Local\Temp\tmpa_7p5bqg
+2025-05-15 21:57:57,413 - WDM - INFO - Get LATEST chromedriver version for google-chrome
+2025-05-15 21:57:57,469 - WDM - INFO - Get LATEST chromedriver version for google-chrome
+2025-05-15 21:57:57,516 - WDM - INFO - Driver [C:\Users\nolan\.wdm\drivers\chromedriver\win64\136.0.7103.94\chromedriver-win32/chromedriver.exe] found in cache
+2025-05-15 21:58:01,490 - TikSimPro.Connector - INFO - Navigateur configuré pour TikTok
+2025-05-15 21:58:01,490 - TikSimPro - ERROR - Erreur dans le thread de recherche web: 'TikTokAdsConnector' object has no attribute 'search_trending_hashtags'
+2025-05-15 21:58:03,006 - TikSimPro - INFO - Dépendances disponibles: OpenCV, MoviePy, PIL
+2025-05-15 21:58:03,013 - TikSimPro - INFO - Améliorateur de vidéo défini: VideoEnhancer
+2025-05-15 21:58:03,015 - TikSimPro - INFO - Plugin découvert: InstagramPublisher
+2025-05-15 21:58:03,020 - TikSimPro - INFO - Plugin découvert: TikTokPublisher
+2025-05-15 21:58:03,021 - TikSimPro - INFO - Plugin découvert: YouTubePublisher
+2025-05-15 21:58:03,022 - TikSimPro - ERROR - Erreur lors de la configuration des composants: Can't instantiate abstract class TikTokPublisher with abstract method authenticate
+2025-05-15 21:59:28,580 - TikSimPro - INFO - ContentPipeline initialisé
+2025-05-15 21:59:29,923 - TikSimPro - INFO - Plugin découvert: TikTokAnalyzer
+2025-05-15 21:59:30,586 - TikSimPro.Connector - INFO - Initialisation du webdriver Chrome...
+2025-05-15 21:59:30,586 - TikSimPro - INFO - TikTokAnalyzer initialisé: tiktok_data, région: global, web search: True
+2025-05-15 21:59:30,588 - WDM - INFO - ====== WebDriver manager ======
+2025-05-15 21:59:30,588 - TikSimPro - INFO - Analyseur de tendances défini: TikTokAnalyzer
+2025-05-15 21:59:30,589 - TikSimPro - INFO - Plugin découvert: CircleSimulator
+2025-05-15 21:59:30,590 - TikSimPro - INFO - Générateur de vidéo défini: CircleSimulator
+2025-05-15 21:59:30,591 - TikSimPro - INFO - Plugin découvert: TrendAudioGenerator
+2025-05-15 21:59:30,593 - TikSimPro - INFO - TrendAudioGenerator initialisé
+2025-05-15 21:59:30,593 - TikSimPro - INFO - Générateur audio défini: TrendAudioGenerator
+2025-05-15 21:59:30,595 - TikSimPro - INFO - Plugin découvert: FFmpegMediaCombiner
+2025-05-15 21:59:30,595 - TikSimPro - INFO - Plugin découvert: MoviePyMediaCombiner
+2025-05-15 21:59:30,652 - TikSimPro - INFO - Combineur de médias défini: FFmpegMediaCombiner
+2025-05-15 21:59:30,654 - TikSimPro - INFO - Plugin découvert: VideoEnhancer
+2025-05-15 21:59:30,655 - TikSimPro - INFO - VideoEnhancer initialisé: C:\Users\nolan\AppData\Local\Temp\tmpebkq7kf7
+2025-05-15 21:59:31,607 - TikSimPro - INFO - Dépendances disponibles: OpenCV, MoviePy, PIL
+2025-05-15 21:59:31,607 - TikSimPro - INFO - Améliorateur de vidéo défini: VideoEnhancer
+2025-05-15 21:59:31,608 - TikSimPro - INFO - Plugin découvert: InstagramPublisher
+2025-05-15 21:59:31,611 - TikSimPro - INFO - Plugin découvert: TikTokPublisher
+2025-05-15 21:59:31,612 - TikSimPro - INFO - Plugin découvert: YouTubePublisher
+2025-05-15 21:59:31,613 - TikSimPro - ERROR - Erreur lors de la configuration des composants: Can't instantiate abstract class TikTokPublisher with abstract method authenticate
+2025-05-15 22:03:15,340 - TikSimPro - INFO - ContentPipeline initialisé
+2025-05-15 22:03:16,769 - TikSimPro - INFO - Plugin découvert: TikTokAnalyzer
+2025-05-15 22:03:17,450 - TikSimPro.Connector - INFO - Initialisation du webdriver Chrome...
+2025-05-15 22:03:17,450 - TikSimPro - INFO - TikTokAnalyzer initialisé: tiktok_data, région: global, web search: True
+2025-05-15 22:03:17,451 - WDM - INFO - ====== WebDriver manager ======
+2025-05-15 22:03:17,452 - TikSimPro - INFO - Analyseur de tendances défini: TikTokAnalyzer
+2025-05-15 22:03:17,453 - TikSimPro - INFO - Plugin découvert: CircleSimulator
+2025-05-15 22:03:17,454 - TikSimPro - INFO - Générateur de vidéo défini: CircleSimulator
+2025-05-15 22:03:17,454 - TikSimPro - INFO - Plugin découvert: TrendAudioGenerator
+2025-05-15 22:03:17,455 - TikSimPro - INFO - TrendAudioGenerator initialisé
+2025-05-15 22:03:17,455 - TikSimPro - INFO - Générateur audio défini: TrendAudioGenerator
+2025-05-15 22:03:17,456 - TikSimPro - INFO - Plugin découvert: FFmpegMediaCombiner
+2025-05-15 22:03:17,456 - TikSimPro - INFO - Plugin découvert: MoviePyMediaCombiner
+2025-05-15 22:03:17,538 - TikSimPro - INFO - Combineur de médias défini: FFmpegMediaCombiner
+2025-05-15 22:03:17,543 - TikSimPro - INFO - Plugin découvert: VideoEnhancer
+2025-05-15 22:03:17,545 - TikSimPro - INFO - VideoEnhancer initialisé: C:\Users\nolan\AppData\Local\Temp\tmpdi3mr508
+2025-05-15 22:03:18,980 - TikSimPro - INFO - Dépendances disponibles: OpenCV, MoviePy, PIL
+2025-05-15 22:03:18,984 - TikSimPro - INFO - Améliorateur de vidéo défini: VideoEnhancer
+2025-05-15 22:03:18,987 - TikSimPro - INFO - Plugin découvert: InstagramPublisher
+2025-05-15 22:03:18,988 - TikSimPro - INFO - Plugin découvert: TikTokPublisher
+2025-05-15 22:03:18,989 - TikSimPro - INFO - Plugin découvert: YouTubePublisher
+2025-05-15 22:03:18,990 - TikSimPro - INFO - TikTokPublisher initialisé
+2025-05-15 22:03:18,990 - TikSimPro - INFO - Système de publication ajouté pour tiktok: TikTokPublisher
+2025-05-15 22:03:18,992 - TikSimPro - INFO - YouTubePublisher initialisé
+2025-05-15 22:03:18,995 - TikSimPro - INFO - Système de publication ajouté pour youtube: YouTubePublisher
+2025-05-15 22:03:18,996 - TikSimPro - INFO - Pipeline configuré avec succès
+2025-05-15 22:03:18,996 - TikSimPro - INFO - Démarrage du pipeline de contenu...
+2025-05-15 22:03:18,996 - TikSimPro - INFO - Démarrage du pipeline de contenu...
+2025-05-15 22:03:18,996 - TikSimPro - INFO - Fichiers générés: videos\final_1747339398.mp4
+2025-05-15 22:03:18,996 - TikSimPro - INFO - Étape 1/6: Analyse des tendances...
+2025-05-15 22:03:18,996 - TikSimPro - INFO - Analyse des tendances en cours...
+2025-05-15 22:03:18,996 - TikSimPro - INFO - Génération de l'analyse des tendances TikTok
+2025-05-15 22:03:18,996 - TikSimPro - INFO - Génération des hashtags tendance par simulation
+2025-05-15 22:03:18,998 - TikSimPro - INFO - 64 hashtags générés par simulation
+2025-05-15 22:03:19,000 - TikSimPro - INFO - Simulation des musiques populaires TikTok
+2025-05-15 22:03:19,003 - TikSimPro - INFO - 15 musiques générées
+2025-05-15 22:03:19,010 - TikSimPro - INFO - Simulation des tendances de couleurs
+2025-05-15 22:03:19,025 - TikSimPro - INFO - Analyse des tendances générée
+2025-05-15 22:03:19,043 - TikSimPro - INFO - Analyse des tendances terminée
+2025-05-15 22:03:19,060 - TikSimPro - INFO - Étape 2/6: Génération de la vidéo...
+2025-05-15 22:03:19,064 - TikSimPro - INFO - Configuration du générateur de vidéo...
+2025-05-15 22:03:19,085 - TikSimPro - INFO - Simulateur configuré: 1080x1920, 60 FPS, 61.0s, 2 balles
+2025-05-15 22:03:19,095 - TikSimPro - INFO - Palette de couleurs appliquée: ['#FF0000', '#76d275', '#76d275', '#c1ff9b', '#00FF00']
+2025-05-15 22:03:19,101 - TikSimPro - INFO - Génération de la vidéo en cours...
+2025-05-15 22:03:19,212 - TikSimPro - INFO - FFmpeg: C:\ffmpeg\bin\ffmpeg.EXE -y -f rawvideo -vcodec rawvideo -pix_fmt rgb24 -s 1080x1920 -r 60 -i - -c:v h264_nvenc -preset p1 -tune hq -rc vbr -qmin 1 -qmax 51 -b:v 8000k -maxrate 8000k -bufsize 16000k -threads 0 -pix_fmt yuv420p temp\video_1747339398.mp4
+2025-05-15 22:03:21,868 - WDM - INFO - Get LATEST chromedriver version for google-chrome
+2025-05-15 22:03:22,133 - WDM - INFO - Get LATEST chromedriver version for google-chrome
+2025-05-15 22:03:22,356 - WDM - INFO - Driver [C:\Users\nolan\.wdm\drivers\chromedriver\win64\136.0.7103.94\chromedriver-win32/chromedriver.exe] found in cache
+2025-05-15 22:03:24,762 - TikSimPro.Connector - INFO - Navigateur configuré pour TikTok
+2025-05-15 22:03:24,780 - TikSimPro - ERROR - Erreur dans le thread de recherche web: 'TikTokAdsConnector' object has no attribute 'search_trending_hashtags'
+2025-05-15 22:05:53,772 - TikSimPro - INFO - 355 événements audio collectés
+2025-05-15 22:05:53,777 - TikSimPro - INFO - Étape 3/6: Génération de la piste audio...
+2025-05-15 22:05:53,781 - TikSimPro - INFO - Configuration du générateur audio...
+2025-05-15 22:05:53,783 - TikSimPro - INFO - Générateur audio configuré: 44100 Hz, 61.0s
+2025-05-15 22:05:53,784 - TikSimPro - INFO - 355 événements audio ajoutés, total: 355
+2025-05-15 22:05:53,784 - TikSimPro - INFO - Génération de la piste audio en cours...
+2025-05-15 22:05:53,784 - TikSimPro - INFO - Génération des sons de notes...
+2025-05-15 22:05:53,956 - TikSimPro - INFO - Génération des sons d'effets...
+2025-05-15 22:05:54,017 - TikSimPro - INFO - Génération de la piste audio à partir de 355 événements...
+2025-05-15 22:05:54,661 - TikSimPro - WARNING - Type d'événement audio non géré: victory
+2025-05-15 22:05:54,768 - TikSimPro - INFO - Piste audio générée avec succès: temp\audio_1747339398.wav (354/355 événements traités)
+2025-05-15 22:05:54,777 - TikSimPro - INFO - Étape 4/6: Combinaison des médias...
+2025-05-15 22:05:54,778 - TikSimPro - INFO - Combinaison de la vidéo et de l'audio en cours...
+2025-05-15 22:05:54,779 - TikSimPro - INFO - Combinaison de temp\video_1747339398.mp4 et temp\audio_1747339398.wav en temp\combined_1747339398.mp4
+2025-05-15 22:05:58,837 - TikSimPro - INFO - Combinaison réussie: temp\combined_1747339398.mp4
+2025-05-15 22:05:58,844 - TikSimPro - INFO - Étape 5/6: Amélioration de la vidéo...
+2025-05-15 22:05:58,845 - TikSimPro - INFO - Amélioration de la vidéo en cours...
+2025-05-15 22:05:58,845 - TikSimPro - INFO - Application des améliorations...
+2025-05-15 22:05:59,568 - TikSimPro - WARNING - Aucune police disponible, utilisation de Arial par défaut
+2025-05-15 22:05:59,576 - TikSimPro - ERROR - Erreur lors de l'ajout de l'appel à l'action: MoviePy Error: creation of None failed because of the following error:
+
+[WinError 2] Le fichier spécifié est introuvable.
+
+.This error can be due to the fact that ImageMagick is not installed on your computer, or (for Windows users) that you didn't specify the path to the ImageMagick binary in file conf.py, or that the path you specified is incorrect
+2025-05-15 22:05:59,627 - TikSimPro - INFO - Vidéo finale copiée vers: videos\final_1747339398.mp4
+2025-05-15 22:05:59,631 - TikSimPro - INFO - Amélioration terminée: videos\final_1747339398.mp4
+2025-05-15 22:05:59,631 - TikSimPro - INFO - Étape 6/6: Publication du contenu...
+2025-05-15 22:05:59,633 - TikSimPro - INFO - Initialisation du navigateur pour l'authentification TikTok...
+2025-05-15 22:05:59,633 - TikSimPro - INFO - Initialisation du webdriver Chrome...
+2025-05-15 22:05:59,633 - WDM - INFO - ====== WebDriver manager ======
+2025-05-15 22:06:02,950 - WDM - INFO - Get LATEST chromedriver version for google-chrome
+2025-05-15 22:06:03,064 - WDM - INFO - Get LATEST chromedriver version for google-chrome
+2025-05-15 22:06:03,108 - WDM - INFO - Driver [C:\Users\nolan\.wdm\drivers\chromedriver\win64\136.0.7103.94\chromedriver-win32/chromedriver.exe] found in cache
+2025-05-15 22:06:06,331 - TikSimPro - INFO - Navigateur configuré pour TikTok
+2025-05-15 22:06:06,335 - TikSimPro - ERROR - Erreur lors de la publication sur tiktok: 'TikTokPublisher' object has no attribute 'cookies_file'
+2025-05-15 22:06:06,341 - TikSimPro - INFO - Initialisation du navigateur pour l'authentification YouTube...
+2025-05-15 22:06:06,345 - TikSimPro - INFO - Initialisation du webdriver Chrome...
+2025-05-15 22:06:06,347 - WDM - INFO - ====== WebDriver manager ======
+2025-05-15 22:06:10,275 - WDM - INFO - Get LATEST chromedriver version for google-chrome
+2025-05-15 22:06:10,317 - WDM - INFO - Get LATEST chromedriver version for google-chrome
+2025-05-15 22:06:10,356 - WDM - INFO - Driver [C:\Users\nolan\.wdm\drivers\chromedriver\win64\136.0.7103.94\chromedriver-win32/chromedriver.exe] found in cache
+2025-05-15 22:06:12,869 - TikSimPro - INFO - Navigateur configuré pour YouTube
+2025-05-15 22:06:30,844 - TikSimPro - INFO - Session YouTube restaurée avec succès via les cookies
+2025-05-15 22:06:30,844 - TikSimPro - INFO - Publication sur youtube en cours...
+2025-05-15 22:06:30,845 - TikSimPro - INFO - Navigation vers la page d'upload YouTube...
+2025-05-15 22:06:42,596 - TikSimPro - INFO - Téléchargement de la vidéo: videos\final_1747339398.mp4
+2025-05-15 22:06:45,660 - TikSimPro - INFO - Formulaire d'édition détecté
+2025-05-15 22:06:50,395 - TikSimPro - INFO - Titre saisi: Satisfying Physics Simulation - 2025-05-15
+2025-05-15 22:06:54,042 - TikSimPro - INFO - Description et hashtags saisis
+2025-05-15 22:06:55,450 - TikSimPro - INFO - Option 'Non destiné aux enfants' sélectionnée
+2025-05-15 22:07:03,386 - TikSimPro - INFO - Visibilité définie: public
+2025-05-15 22:07:03,630 - TikSimPro - INFO - Bouton de publication cliqué
+2025-05-15 22:07:13,660 - TikSimPro - INFO - Dialogue de traitement détecté, publication réussie
+2025-05-15 22:07:17,339 - TikSimPro - INFO - Publication sur youtube: réussie
+2025-05-15 22:07:17,340 - TikSimPro - INFO - Résumé de la publication:
+2025-05-15 22:07:17,340 - TikSimPro - INFO - - tiktok: échouée
+2025-05-15 22:07:17,341 - TikSimPro - INFO - - youtube: réussie
+2025-05-15 22:07:17,341 - TikSimPro - INFO - Pipeline terminé avec succès: videos\final_1747339398.mp4
+2025-05-15 22:07:17,341 - TikSimPro - INFO - Pipeline exécuté en 238.35 secondes
+2025-05-15 22:07:17,341 - TikSimPro - INFO - Vidéo générée: videos\final_1747339398.mp4
+2025-05-15 22:11:19,517 - TikSimPro - INFO - ContentPipeline initialisé
+2025-05-15 22:11:21,033 - TikSimPro - INFO - Plugin découvert: TikTokAnalyzer
+2025-05-15 22:11:21,905 - TikSimPro.Connector - INFO - Initialisation du webdriver Chrome...
+2025-05-15 22:11:21,905 - TikSimPro - INFO - TikTokAnalyzer initialisé: tiktok_data, région: global, web search: True
+2025-05-15 22:11:21,913 - WDM - INFO - ====== WebDriver manager ======
+2025-05-15 22:11:21,914 - TikSimPro - INFO - Analyseur de tendances défini: TikTokAnalyzer
+2025-05-15 22:11:21,916 - TikSimPro - INFO - Plugin découvert: CircleSimulator
+2025-05-15 22:11:21,919 - TikSimPro - INFO - Générateur de vidéo défini: CircleSimulator
+2025-05-15 22:11:21,920 - TikSimPro - INFO - Plugin découvert: TrendAudioGenerator
+2025-05-15 22:11:21,922 - TikSimPro - INFO - TrendAudioGenerator initialisé
+2025-05-15 22:11:21,927 - TikSimPro - INFO - Générateur audio défini: TrendAudioGenerator
+2025-05-15 22:11:21,930 - TikSimPro - INFO - Plugin découvert: FFmpegMediaCombiner
+2025-05-15 22:11:21,932 - TikSimPro - INFO - Plugin découvert: MoviePyMediaCombiner
+2025-05-15 22:11:22,023 - TikSimPro - INFO - Combineur de médias défini: FFmpegMediaCombiner
+2025-05-15 22:11:22,025 - TikSimPro - INFO - Plugin découvert: VideoEnhancer
+2025-05-15 22:11:22,027 - TikSimPro - INFO - VideoEnhancer initialisé: C:\Users\nolan\AppData\Local\Temp\tmp0a2norg6
+2025-05-15 22:11:23,631 - TikSimPro - INFO - Dépendances disponibles: OpenCV, MoviePy, PIL
+2025-05-15 22:11:23,637 - TikSimPro - INFO - Améliorateur de vidéo défini: VideoEnhancer
+2025-05-15 22:11:23,639 - TikSimPro - INFO - Plugin découvert: InstagramPublisher
+2025-05-15 22:11:23,647 - TikSimPro - INFO - Plugin découvert: TikTokPublisher
+2025-05-15 22:11:23,647 - TikSimPro - INFO - Plugin découvert: YouTubePublisher
+2025-05-15 22:11:23,647 - TikSimPro - ERROR - Erreur lors de la configuration des composants: Can't instantiate abstract class TikTokPublisher with abstract method authenticate
+2025-05-15 22:12:44,307 - TikSimPro - INFO - ContentPipeline initialisé
+2025-05-15 22:12:46,031 - TikSimPro - INFO - Plugin découvert: TikTokAnalyzer
+2025-05-15 22:12:46,978 - TikSimPro.Connector - INFO - Initialisation du webdriver Chrome...
+2025-05-15 22:12:46,979 - TikSimPro - INFO - TikTokAnalyzer initialisé: tiktok_data, région: global, web search: True
+2025-05-15 22:12:46,979 - WDM - INFO - ====== WebDriver manager ======
+2025-05-15 22:12:46,980 - TikSimPro - INFO - Analyseur de tendances défini: TikTokAnalyzer
+2025-05-15 22:12:46,983 - TikSimPro - INFO - Plugin découvert: CircleSimulator
+2025-05-15 22:12:46,984 - TikSimPro - INFO - Générateur de vidéo défini: CircleSimulator
+2025-05-15 22:12:46,986 - TikSimPro - INFO - Plugin découvert: TrendAudioGenerator
+2025-05-15 22:12:46,999 - TikSimPro - INFO - TrendAudioGenerator initialisé
+2025-05-15 22:12:47,006 - TikSimPro - INFO - Générateur audio défini: TrendAudioGenerator
+2025-05-15 22:12:47,011 - TikSimPro - INFO - Plugin découvert: FFmpegMediaCombiner
+2025-05-15 22:12:47,011 - TikSimPro - INFO - Plugin découvert: MoviePyMediaCombiner
+2025-05-15 22:12:47,061 - TikSimPro - INFO - Combineur de médias défini: FFmpegMediaCombiner
+2025-05-15 22:12:47,063 - TikSimPro - INFO - Plugin découvert: VideoEnhancer
+2025-05-15 22:12:47,065 - TikSimPro - INFO - VideoEnhancer initialisé: C:\Users\nolan\AppData\Local\Temp\tmpqg4s7tnh
+2025-05-15 22:12:48,351 - TikSimPro - INFO - Dépendances disponibles: OpenCV, MoviePy, PIL
+2025-05-15 22:12:48,366 - TikSimPro - INFO - Améliorateur de vidéo défini: VideoEnhancer
+2025-05-15 22:12:48,372 - TikSimPro - INFO - Plugin découvert: InstagramPublisher
+2025-05-15 22:12:48,373 - TikSimPro - INFO - Plugin découvert: TikTokPublisher
+2025-05-15 22:12:48,374 - TikSimPro - INFO - Plugin découvert: YouTubePublisher
+2025-05-15 22:12:48,376 - TikSimPro - INFO - TikTokPublisher initialisé
+2025-05-15 22:12:48,382 - TikSimPro - INFO - Système de publication ajouté pour tiktok: TikTokPublisher
+2025-05-15 22:12:48,382 - TikSimPro - INFO - YouTubePublisher initialisé
+2025-05-15 22:12:48,383 - TikSimPro - INFO - Système de publication ajouté pour youtube: YouTubePublisher
+2025-05-15 22:12:48,383 - TikSimPro - INFO - Pipeline configuré avec succès
+2025-05-15 22:12:48,384 - TikSimPro - INFO - Démarrage du pipeline de contenu...
+2025-05-15 22:12:48,384 - TikSimPro - INFO - Démarrage du pipeline de contenu...
+2025-05-15 22:12:48,384 - TikSimPro - INFO - Fichiers générés: videos\final_1747339968.mp4
+2025-05-15 22:12:48,384 - TikSimPro - INFO - Étape 1/6: Analyse des tendances...
+2025-05-15 22:12:48,384 - TikSimPro - INFO - Analyse des tendances en cours...
+2025-05-15 22:12:48,384 - TikSimPro - INFO - Génération de l'analyse des tendances TikTok
+2025-05-15 22:12:48,384 - TikSimPro - INFO - Utilisation des hashtags fournis par l'utilisateur: 7
+2025-05-15 22:12:48,392 - TikSimPro - INFO - Simulation des musiques populaires TikTok
+2025-05-15 22:12:48,393 - TikSimPro - INFO - 15 musiques générées
+2025-05-15 22:12:48,393 - TikSimPro - INFO - Simulation des tendances de couleurs
+2025-05-15 22:12:48,394 - TikSimPro - INFO - Analyse des tendances générée
+2025-05-15 22:12:48,396 - TikSimPro - INFO - Analyse des tendances terminée
+2025-05-15 22:12:48,396 - TikSimPro - INFO - Étape 2/6: Génération de la vidéo...
+2025-05-15 22:12:48,397 - TikSimPro - INFO - Configuration du générateur de vidéo...
+2025-05-15 22:12:48,412 - TikSimPro - INFO - Simulateur configuré: 1080x1920, 60 FPS, 61.0s, 2 balles
+2025-05-15 22:12:48,418 - TikSimPro - INFO - Palette de couleurs appliquée: ['#FF0000', '#76d275', '#76d275', '#c1ff9b', '#00FF00']
+2025-05-15 22:12:48,422 - TikSimPro - INFO - Génération de la vidéo en cours...
+2025-05-15 22:12:48,684 - TikSimPro - INFO - FFmpeg: C:\ffmpeg\bin\ffmpeg.EXE -y -f rawvideo -vcodec rawvideo -pix_fmt rgb24 -s 1080x1920 -r 60 -i - -c:v h264_nvenc -preset p1 -tune hq -rc vbr -qmin 1 -qmax 51 -b:v 8000k -maxrate 8000k -bufsize 16000k -threads 0 -pix_fmt yuv420p temp\video_1747339968.mp4
+2025-05-15 22:12:49,767 - WDM - INFO - Get LATEST chromedriver version for google-chrome
+2025-05-15 22:12:49,883 - WDM - INFO - Get LATEST chromedriver version for google-chrome
+2025-05-15 22:12:49,972 - WDM - INFO - Driver [C:\Users\nolan\.wdm\drivers\chromedriver\win64\136.0.7103.94\chromedriver-win32/chromedriver.exe] found in cache
+2025-05-15 22:12:51,924 - TikSimPro.Connector - INFO - Navigateur configuré pour TikTok
+2025-05-15 22:12:51,934 - TikSimPro - ERROR - Erreur dans le thread de recherche web: 'TikTokAdsConnector' object has no attribute 'search_trending_hashtags'
+2025-05-15 22:14:26,225 - TikSimPro - INFO - 319 événements audio collectés
+2025-05-15 22:14:26,227 - TikSimPro - INFO - Étape 3/6: Génération de la piste audio...
+2025-05-15 22:14:26,227 - TikSimPro - INFO - Configuration du générateur audio...
+2025-05-15 22:14:26,228 - TikSimPro - INFO - Générateur audio configuré: 44100 Hz, 61.0s
+2025-05-15 22:14:26,228 - TikSimPro - INFO - 319 événements audio ajoutés, total: 319
+2025-05-15 22:14:26,233 - TikSimPro - INFO - Génération de la piste audio en cours...
+2025-05-15 22:14:26,234 - TikSimPro - INFO - Génération des sons de notes...
+2025-05-15 22:14:26,239 - TikSimPro - INFO - Génération des sons d'effets...
+2025-05-15 22:14:26,247 - TikSimPro - INFO - Génération de la piste audio à partir de 319 événements...
+2025-05-15 22:14:26,925 - TikSimPro - WARNING - Type d'événement audio non géré: victory
+2025-05-15 22:14:27,050 - TikSimPro - INFO - Piste audio générée avec succès: temp\audio_1747339968.wav (318/319 événements traités)
+2025-05-15 22:14:27,065 - TikSimPro - INFO - Étape 4/6: Combinaison des médias...
+2025-05-15 22:14:27,071 - TikSimPro - INFO - Combinaison de la vidéo et de l'audio en cours...
+2025-05-15 22:14:27,072 - TikSimPro - INFO - Combinaison de temp\video_1747339968.mp4 et temp\audio_1747339968.wav en temp\combined_1747339968.mp4
+2025-05-15 22:14:29,395 - TikSimPro - INFO - Combinaison réussie: temp\combined_1747339968.mp4
+2025-05-15 22:14:29,395 - TikSimPro - INFO - Étape 5/6: Amélioration de la vidéo...
+2025-05-15 22:14:29,396 - TikSimPro - INFO - Amélioration de la vidéo en cours...
+2025-05-15 22:14:29,396 - TikSimPro - INFO - Application des améliorations...
+2025-05-15 22:14:30,043 - TikSimPro - WARNING - Aucune police disponible, utilisation de Arial par défaut
+2025-05-15 22:14:30,045 - TikSimPro - ERROR - Erreur lors de l'ajout de l'appel à l'action: MoviePy Error: creation of None failed because of the following error:
+
+[WinError 2] Le fichier spécifié est introuvable.
+
+.This error can be due to the fact that ImageMagick is not installed on your computer, or (for Windows users) that you didn't specify the path to the ImageMagick binary in file conf.py, or that the path you specified is incorrect
+2025-05-15 22:14:30,098 - TikSimPro - INFO - Vidéo finale copiée vers: videos\final_1747339968.mp4
+2025-05-15 22:14:30,100 - TikSimPro - INFO - Amélioration terminée: videos\final_1747339968.mp4
+2025-05-15 22:14:30,100 - TikSimPro - INFO - Étape 6/6: Publication du contenu...
+2025-05-15 22:14:30,102 - TikSimPro - ERROR - Erreur lors de la publication sur tiktok: 'TikTokPublisher' object has no attribute 'authenticate'
+2025-05-15 22:14:30,102 - TikSimPro - INFO - Initialisation du navigateur pour l'authentification YouTube...
+2025-05-15 22:14:30,105 - TikSimPro - INFO - Initialisation du webdriver Chrome...
+2025-05-15 22:14:30,107 - WDM - INFO - ====== WebDriver manager ======
+2025-05-15 22:14:31,882 - WDM - INFO - Get LATEST chromedriver version for google-chrome
+2025-05-15 22:14:31,947 - WDM - INFO - Get LATEST chromedriver version for google-chrome
+2025-05-15 22:14:31,990 - WDM - INFO - Driver [C:\Users\nolan\.wdm\drivers\chromedriver\win64\136.0.7103.94\chromedriver-win32/chromedriver.exe] found in cache
+2025-05-15 22:14:33,855 - TikSimPro - INFO - Navigateur configuré pour YouTube
+2025-05-15 22:14:46,818 - TikSimPro - INFO - Session YouTube restaurée avec succès via les cookies
+2025-05-15 22:14:46,828 - TikSimPro - INFO - Publication sur youtube en cours...
+2025-05-15 22:14:46,828 - TikSimPro - INFO - Navigation vers la page d'upload YouTube...
+2025-05-15 22:14:52,366 - TikSimPro - INFO - Téléchargement de la vidéo: videos\final_1747339968.mp4
+2025-05-15 22:14:56,866 - TikSimPro - INFO - Formulaire d'édition détecté
+2025-05-15 22:15:02,459 - TikSimPro - INFO - Titre saisi: Satisfying Physics Simulation - 2025-05-15
+2025-05-15 22:15:11,092 - TikSimPro - INFO - Description et hashtags saisis
+2025-05-15 22:15:12,333 - TikSimPro - INFO - Option 'Non destiné aux enfants' sélectionnée
+2025-05-15 22:15:24,789 - TikSimPro - INFO - Visibilité définie: public
+2025-05-15 22:15:25,280 - TikSimPro - INFO - Bouton de publication cliqué
+2025-05-15 22:15:35,614 - TikSimPro - INFO - Redirection vers YouTube Studio: https://studio.youtube.com/channel/UCwCfobGYooGLwImfZnXuWEg/videos/upload?d=ud&filter=%5B%5D&sort=%7B%22columnType%22%3A%22date%22%2C%22sortOrder%22%3A%22DESCENDING%22%7D
+2025-05-15 22:15:39,679 - TikSimPro - INFO - Publication sur youtube: réussie
+2025-05-15 22:15:39,682 - TikSimPro - INFO - Résumé de la publication:
+2025-05-15 22:15:39,682 - TikSimPro - INFO - - tiktok: échouée
+2025-05-15 22:15:39,683 - TikSimPro - INFO - - youtube: réussie
+2025-05-15 22:15:39,683 - TikSimPro - INFO - Pipeline terminé avec succès: videos\final_1747339968.mp4
+2025-05-15 22:15:39,683 - TikSimPro - INFO - Pipeline exécuté en 171.30 secondes
+2025-05-15 22:15:39,683 - TikSimPro - INFO - Vidéo générée: videos\final_1747339968.mp4
+2025-05-15 23:05:44,397 - TikSimPro - INFO - ContentPipeline initialisé
+2025-05-15 23:05:45,191 - TikSimPro - INFO - Plugin découvert: TikTokAnalyzer
+2025-05-15 23:05:45,746 - TikSimPro.Connector - INFO - Initialisation du webdriver Chrome...
+2025-05-15 23:05:45,746 - TikSimPro - INFO - TikTokAnalyzer initialisé: tiktok_data, région: global, web search: True
+2025-05-15 23:05:45,746 - WDM - INFO - ====== WebDriver manager ======
+2025-05-15 23:05:45,746 - TikSimPro - INFO - Analyseur de tendances défini: TikTokAnalyzer
+2025-05-15 23:05:45,747 - TikSimPro - INFO - Plugin découvert: CircleSimulator
+2025-05-15 23:05:45,748 - TikSimPro - INFO - Générateur de vidéo défini: CircleSimulator
+2025-05-15 23:05:45,748 - TikSimPro - INFO - Plugin découvert: TrendAudioGenerator
+2025-05-15 23:05:45,749 - TikSimPro - INFO - TrendAudioGenerator initialisé
+2025-05-15 23:05:45,749 - TikSimPro - INFO - Générateur audio défini: TrendAudioGenerator
+2025-05-15 23:05:45,749 - TikSimPro - INFO - Plugin découvert: FFmpegMediaCombiner
+2025-05-15 23:05:45,749 - TikSimPro - INFO - Plugin découvert: MoviePyMediaCombiner
+2025-05-15 23:05:45,807 - TikSimPro - INFO - Combineur de médias défini: FFmpegMediaCombiner
+2025-05-15 23:05:45,807 - TikSimPro - INFO - Plugin découvert: VideoEnhancer
+2025-05-15 23:05:45,808 - TikSimPro - INFO - VideoEnhancer initialisé: C:\Users\nolan\AppData\Local\Temp\tmptx10iyil
+2025-05-15 23:05:46,637 - TikSimPro - INFO - Dépendances disponibles: OpenCV, MoviePy, PIL
+2025-05-15 23:05:46,637 - TikSimPro - INFO - Améliorateur de vidéo défini: VideoEnhancer
+2025-05-15 23:05:46,638 - TikSimPro - INFO - Plugin découvert: InstagramPublisher
+2025-05-15 23:05:46,638 - TikSimPro - INFO - Plugin découvert: TikTokPublisher
+2025-05-15 23:05:46,638 - TikSimPro - INFO - Plugin découvert: YouTubePublisher
+2025-05-15 23:05:46,639 - TikSimPro - INFO - TikTokPublisher initialisé
+2025-05-15 23:05:46,639 - TikSimPro - INFO - Système de publication ajouté pour tiktok: TikTokPublisher
+2025-05-15 23:05:46,639 - TikSimPro - INFO - YouTubePublisher initialisé
+2025-05-15 23:05:46,639 - TikSimPro - INFO - Système de publication ajouté pour youtube: YouTubePublisher
+2025-05-15 23:05:46,640 - TikSimPro - INFO - Pipeline configuré avec succès
+2025-05-15 23:05:46,640 - TikSimPro - INFO - Démarrage du pipeline de contenu...
+2025-05-15 23:05:46,640 - TikSimPro - INFO - Démarrage du pipeline de contenu...
+2025-05-15 23:05:46,640 - TikSimPro - INFO - Fichiers générés: videos\final_1747343146.mp4
+2025-05-15 23:05:46,640 - TikSimPro - INFO - Étape 1/6: Analyse des tendances...
+2025-05-15 23:05:46,640 - TikSimPro - INFO - Analyse des tendances en cours...
+2025-05-15 23:05:46,640 - TikSimPro - INFO - Génération de l'analyse des tendances TikTok
+2025-05-15 23:05:46,640 - TikSimPro - INFO - Utilisation des hashtags fournis par l'utilisateur: 7
+2025-05-15 23:05:46,640 - TikSimPro - INFO - Simulation des musiques populaires TikTok
+2025-05-15 23:05:46,641 - TikSimPro - INFO - 15 musiques générées
+2025-05-15 23:05:46,642 - TikSimPro - INFO - Utilisation de la palette de couleurs spécifiée par l'utilisateur
+2025-05-15 23:05:46,643 - TikSimPro - ERROR - Erreur lors de l'analyse des tendances: 'custom'
+2025-05-15 23:05:46,643 - TikSimPro - ERROR - Échec de l'analyse des tendances
+2025-05-15 23:05:46,643 - TikSimPro - ERROR - Échec de l'exécution du pipeline
+2025-05-15 23:05:46,655 - WDM - INFO - Get LATEST chromedriver version for google-chrome
+2025-05-15 23:06:02,138 - TikSimPro - INFO - ContentPipeline initialisé
+2025-05-15 23:06:02,820 - TikSimPro - INFO - Plugin découvert: TikTokAnalyzer
+2025-05-15 23:06:03,213 - TikSimPro.Connector - INFO - Initialisation du webdriver Chrome...
+2025-05-15 23:06:03,213 - TikSimPro - INFO - TikTokAnalyzer initialisé: tiktok_data, région: global, web search: True
+2025-05-15 23:06:03,213 - WDM - INFO - ====== WebDriver manager ======
+2025-05-15 23:06:03,213 - TikSimPro - INFO - Analyseur de tendances défini: TikTokAnalyzer
+2025-05-15 23:06:03,214 - TikSimPro - INFO - Plugin découvert: CircleSimulator
+2025-05-15 23:06:03,215 - TikSimPro - INFO - Générateur de vidéo défini: CircleSimulator
+2025-05-15 23:06:03,217 - TikSimPro - INFO - Plugin découvert: TrendAudioGenerator
+2025-05-15 23:06:03,217 - TikSimPro - INFO - TrendAudioGenerator initialisé
+2025-05-15 23:06:03,218 - TikSimPro - INFO - Générateur audio défini: TrendAudioGenerator
+2025-05-15 23:06:03,218 - TikSimPro - INFO - Plugin découvert: FFmpegMediaCombiner
+2025-05-15 23:06:03,218 - TikSimPro - INFO - Plugin découvert: MoviePyMediaCombiner
+2025-05-15 23:06:03,246 - TikSimPro - INFO - Combineur de médias défini: FFmpegMediaCombiner
+2025-05-15 23:06:03,248 - TikSimPro - INFO - Plugin découvert: VideoEnhancer
+2025-05-15 23:06:03,249 - TikSimPro - INFO - VideoEnhancer initialisé: C:\Users\nolan\AppData\Local\Temp\tmpbv5rhdwo
+2025-05-15 23:06:03,911 - TikSimPro - INFO - Dépendances disponibles: OpenCV, MoviePy, PIL
+2025-05-15 23:06:03,911 - TikSimPro - INFO - Améliorateur de vidéo défini: VideoEnhancer
+2025-05-15 23:06:03,912 - TikSimPro - INFO - Plugin découvert: InstagramPublisher
+2025-05-15 23:06:03,913 - TikSimPro - INFO - Plugin découvert: TikTokPublisher
+2025-05-15 23:06:03,913 - TikSimPro - INFO - Plugin découvert: YouTubePublisher
+2025-05-15 23:06:03,913 - TikSimPro - INFO - TikTokPublisher initialisé
+2025-05-15 23:06:03,913 - TikSimPro - INFO - Système de publication ajouté pour tiktok: TikTokPublisher
+2025-05-15 23:06:03,913 - TikSimPro - INFO - YouTubePublisher initialisé
+2025-05-15 23:06:03,913 - TikSimPro - INFO - Système de publication ajouté pour youtube: YouTubePublisher
+2025-05-15 23:06:03,914 - TikSimPro - INFO - Pipeline configuré avec succès
+2025-05-15 23:06:03,914 - TikSimPro - INFO - Démarrage du pipeline de contenu...
+2025-05-15 23:06:03,914 - TikSimPro - INFO - Démarrage du pipeline de contenu...
+2025-05-15 23:06:03,914 - TikSimPro - INFO - Fichiers générés: videos\final_1747343163.mp4
+2025-05-15 23:06:03,914 - TikSimPro - INFO - Étape 1/6: Analyse des tendances...
+2025-05-15 23:06:03,914 - TikSimPro - INFO - Analyse des tendances en cours...
+2025-05-15 23:06:03,914 - TikSimPro - INFO - Génération de l'analyse des tendances TikTok
+2025-05-15 23:06:03,915 - TikSimPro - INFO - Utilisation des hashtags fournis par l'utilisateur: 7
+2025-05-15 23:06:03,915 - TikSimPro - INFO - Simulation des musiques populaires TikTok
+2025-05-15 23:06:03,915 - TikSimPro - INFO - 15 musiques générées
+2025-05-15 23:06:03,915 - TikSimPro - INFO - Utilisation de la palette de couleurs spécifiée par l'utilisateur
+2025-05-15 23:06:03,916 - TikSimPro - ERROR - Erreur lors de l'analyse des tendances: 'custom'
+2025-05-15 23:06:03,916 - TikSimPro - ERROR - Échec de l'analyse des tendances
+2025-05-15 23:06:03,916 - TikSimPro - ERROR - Échec de l'exécution du pipeline
+2025-05-15 23:06:31,701 - TikSimPro - INFO - ContentPipeline initialisé
+2025-05-15 23:06:32,422 - TikSimPro - INFO - Plugin découvert: TikTokAnalyzer
+2025-05-15 23:06:32,834 - TikSimPro.Connector - INFO - Initialisation du webdriver Chrome...
+2025-05-15 23:06:32,834 - TikSimPro - INFO - TikTokAnalyzer initialisé: tiktok_data, région: global, web search: True
+2025-05-15 23:06:32,834 - WDM - INFO - ====== WebDriver manager ======
+2025-05-15 23:06:32,834 - TikSimPro - INFO - Analyseur de tendances défini: TikTokAnalyzer
+2025-05-15 23:06:32,835 - TikSimPro - INFO - Plugin découvert: CircleSimulator
+2025-05-15 23:06:32,836 - TikSimPro - INFO - Générateur de vidéo défini: CircleSimulator
+2025-05-15 23:06:32,837 - TikSimPro - INFO - Plugin découvert: TrendAudioGenerator
+2025-05-15 23:06:32,838 - TikSimPro - INFO - TrendAudioGenerator initialisé
+2025-05-15 23:06:32,838 - TikSimPro - INFO - Générateur audio défini: TrendAudioGenerator
+2025-05-15 23:06:32,838 - TikSimPro - INFO - Plugin découvert: FFmpegMediaCombiner
+2025-05-15 23:06:32,839 - TikSimPro - INFO - Plugin découvert: MoviePyMediaCombiner
+2025-05-15 23:06:32,866 - TikSimPro - INFO - Combineur de médias défini: FFmpegMediaCombiner
+2025-05-15 23:06:32,868 - TikSimPro - INFO - Plugin découvert: VideoEnhancer
+2025-05-15 23:06:32,870 - TikSimPro - INFO - VideoEnhancer initialisé: C:\Users\nolan\AppData\Local\Temp\tmps_ntzonv
+2025-05-15 23:06:33,573 - TikSimPro - INFO - Dépendances disponibles: OpenCV, MoviePy, PIL
+2025-05-15 23:06:33,573 - TikSimPro - INFO - Améliorateur de vidéo défini: VideoEnhancer
+2025-05-15 23:06:33,574 - TikSimPro - INFO - Plugin découvert: InstagramPublisher
+2025-05-15 23:06:33,575 - TikSimPro - INFO - Plugin découvert: TikTokPublisher
+2025-05-15 23:06:33,575 - TikSimPro - INFO - Plugin découvert: YouTubePublisher
+2025-05-15 23:06:33,575 - TikSimPro - INFO - TikTokPublisher initialisé
+2025-05-15 23:06:33,575 - TikSimPro - INFO - Système de publication ajouté pour tiktok: TikTokPublisher
+2025-05-15 23:06:33,576 - TikSimPro - INFO - YouTubePublisher initialisé
+2025-05-15 23:06:33,576 - TikSimPro - INFO - Système de publication ajouté pour youtube: YouTubePublisher
+2025-05-15 23:06:33,576 - TikSimPro - INFO - Pipeline configuré avec succès
+2025-05-15 23:06:33,577 - TikSimPro - INFO - Démarrage du pipeline de contenu...
+2025-05-15 23:06:33,577 - TikSimPro - INFO - Démarrage du pipeline de contenu...
+2025-05-15 23:06:33,577 - TikSimPro - INFO - Fichiers générés: videos\final_1747343193.mp4
+2025-05-15 23:06:33,577 - TikSimPro - INFO - Étape 1/6: Analyse des tendances...
+2025-05-15 23:06:33,577 - TikSimPro - INFO - Analyse des tendances en cours...
+2025-05-15 23:06:33,577 - TikSimPro - INFO - Génération de l'analyse des tendances TikTok
+2025-05-15 23:06:33,577 - TikSimPro - INFO - Utilisation des hashtags fournis par l'utilisateur: 7
+2025-05-15 23:06:33,577 - TikSimPro - INFO - Simulation des musiques populaires TikTok
+2025-05-15 23:06:33,578 - TikSimPro - INFO - 15 musiques générées
+2025-05-15 23:06:33,578 - TikSimPro - INFO - Utilisation de la palette de couleurs spécifiée par l'utilisateur
+2025-05-15 23:06:33,578 - TikSimPro - ERROR - Erreur lors de l'analyse des tendances: 'custom'
+2025-05-15 23:06:33,579 - TikSimPro - ERROR - Échec de l'analyse des tendances
+2025-05-15 23:06:33,579 - TikSimPro - ERROR - Échec de l'exécution du pipeline
+2025-05-15 23:07:09,761 - TikSimPro - INFO - ContentPipeline initialisé
+2025-05-15 23:07:10,485 - TikSimPro - INFO - Plugin découvert: TikTokAnalyzer
+2025-05-15 23:07:10,872 - TikSimPro.Connector - INFO - Initialisation du webdriver Chrome...
+2025-05-15 23:07:10,872 - TikSimPro - INFO - TikTokAnalyzer initialisé: tiktok_data, région: global, web search: True
+2025-05-15 23:07:10,872 - WDM - INFO - ====== WebDriver manager ======
+2025-05-15 23:07:10,872 - TikSimPro - INFO - Analyseur de tendances défini: TikTokAnalyzer
+2025-05-15 23:07:10,874 - TikSimPro - INFO - Plugin découvert: CircleSimulator
+2025-05-15 23:07:10,875 - TikSimPro - INFO - Générateur de vidéo défini: CircleSimulator
+2025-05-15 23:07:10,876 - TikSimPro - INFO - Plugin découvert: TrendAudioGenerator
+2025-05-15 23:07:10,876 - TikSimPro - INFO - TrendAudioGenerator initialisé
+2025-05-15 23:07:10,877 - TikSimPro - INFO - Générateur audio défini: TrendAudioGenerator
+2025-05-15 23:07:10,877 - TikSimPro - INFO - Plugin découvert: FFmpegMediaCombiner
+2025-05-15 23:07:10,877 - TikSimPro - INFO - Plugin découvert: MoviePyMediaCombiner
+2025-05-15 23:07:10,904 - TikSimPro - INFO - Combineur de médias défini: FFmpegMediaCombiner
+2025-05-15 23:07:10,905 - TikSimPro - INFO - Plugin découvert: VideoEnhancer
+2025-05-15 23:07:10,907 - TikSimPro - INFO - VideoEnhancer initialisé: C:\Users\nolan\AppData\Local\Temp\tmpma3vq3ax
+2025-05-15 23:07:11,552 - TikSimPro - INFO - Dépendances disponibles: OpenCV, MoviePy, PIL
+2025-05-15 23:07:11,554 - TikSimPro - INFO - Améliorateur de vidéo défini: VideoEnhancer
+2025-05-15 23:07:11,555 - TikSimPro - INFO - Plugin découvert: InstagramPublisher
+2025-05-15 23:07:11,555 - TikSimPro - INFO - Plugin découvert: TikTokPublisher
+2025-05-15 23:07:11,555 - TikSimPro - INFO - Plugin découvert: YouTubePublisher
+2025-05-15 23:07:11,555 - TikSimPro - INFO - TikTokPublisher initialisé
+2025-05-15 23:07:11,556 - TikSimPro - INFO - Système de publication ajouté pour tiktok: TikTokPublisher
+2025-05-15 23:07:11,556 - TikSimPro - INFO - YouTubePublisher initialisé
+2025-05-15 23:07:11,556 - TikSimPro - INFO - Système de publication ajouté pour youtube: YouTubePublisher
+2025-05-15 23:07:11,556 - TikSimPro - INFO - Pipeline configuré avec succès
+2025-05-15 23:07:11,556 - TikSimPro - INFO - Démarrage du pipeline de contenu...
+2025-05-15 23:07:11,556 - TikSimPro - INFO - Démarrage du pipeline de contenu...
+2025-05-15 23:07:11,557 - TikSimPro - INFO - Fichiers générés: videos\final_1747343231.mp4
+2025-05-15 23:07:11,557 - TikSimPro - INFO - Étape 1/6: Analyse des tendances...
+2025-05-15 23:07:11,557 - TikSimPro - INFO - Analyse des tendances en cours...
+2025-05-15 23:07:11,557 - TikSimPro - INFO - Génération de l'analyse des tendances TikTok
+2025-05-15 23:07:11,557 - TikSimPro - INFO - Utilisation des hashtags fournis par l'utilisateur: 7
+2025-05-15 23:07:11,557 - TikSimPro - INFO - Simulation des musiques populaires TikTok
+2025-05-15 23:07:11,558 - TikSimPro - INFO - 15 musiques générées
+2025-05-15 23:07:11,558 - TikSimPro - INFO - Utilisation de la palette de couleurs spécifiée par l'utilisateur
+2025-05-15 23:07:11,558 - TikSimPro - ERROR - Erreur lors de l'analyse des tendances: 'custom'
+2025-05-15 23:07:11,559 - TikSimPro - ERROR - Échec de l'analyse des tendances
+2025-05-15 23:07:11,559 - TikSimPro - ERROR - Échec de l'exécution du pipeline
+2025-05-15 23:07:27,112 - TikSimPro - INFO - ContentPipeline initialisé
+2025-05-15 23:07:27,909 - TikSimPro - INFO - Plugin découvert: TikTokAnalyzer
+2025-05-15 23:07:28,329 - TikSimPro - INFO - TikTokAdsConnector initialisé
+2025-05-15 23:07:28,329 - TikSimPro - INFO - Initialisation du webdriver Chrome...
+2025-05-15 23:07:28,329 - TikSimPro - INFO - TikTokAnalyzer initialisé: tiktok_data, région: global, web search: True
+2025-05-15 23:07:28,330 - WDM - INFO - ====== WebDriver manager ======
+2025-05-15 23:07:28,330 - TikSimPro - INFO - Analyseur de tendances défini: TikTokAnalyzer
+2025-05-15 23:07:28,330 - TikSimPro - INFO - Plugin découvert: CircleSimulator
+2025-05-15 23:07:28,332 - TikSimPro - INFO - Générateur de vidéo défini: CircleSimulator
+2025-05-15 23:07:28,332 - TikSimPro - INFO - Plugin découvert: TrendAudioGenerator
+2025-05-15 23:07:28,333 - TikSimPro - INFO - TrendAudioGenerator initialisé
+2025-05-15 23:07:28,333 - TikSimPro - INFO - Générateur audio défini: TrendAudioGenerator
+2025-05-15 23:07:28,334 - TikSimPro - INFO - Plugin découvert: FFmpegMediaCombiner
+2025-05-15 23:07:28,334 - TikSimPro - INFO - Plugin découvert: MoviePyMediaCombiner
+2025-05-15 23:07:28,365 - TikSimPro - INFO - Combineur de médias défini: FFmpegMediaCombiner
+2025-05-15 23:07:28,373 - TikSimPro - INFO - Plugin découvert: VideoEnhancer
+2025-05-15 23:07:28,375 - TikSimPro - INFO - VideoEnhancer initialisé: C:\Users\nolan\AppData\Local\Temp\tmp3faqksw8
+2025-05-15 23:07:29,038 - TikSimPro - INFO - Dépendances disponibles: OpenCV, MoviePy, PIL
+2025-05-15 23:07:29,038 - TikSimPro - INFO - Améliorateur de vidéo défini: VideoEnhancer
+2025-05-15 23:07:29,040 - TikSimPro - INFO - Plugin découvert: InstagramPublisher
+2025-05-15 23:07:29,040 - TikSimPro - INFO - Plugin découvert: TikTokPublisher
+2025-05-15 23:07:29,040 - TikSimPro - INFO - Plugin découvert: YouTubePublisher
+2025-05-15 23:07:29,041 - TikSimPro - INFO - TikTokPublisher initialisé
+2025-05-15 23:07:29,041 - TikSimPro - INFO - Système de publication ajouté pour tiktok: TikTokPublisher
+2025-05-15 23:07:29,041 - TikSimPro - INFO - YouTubePublisher initialisé
+2025-05-15 23:07:29,041 - TikSimPro - INFO - Système de publication ajouté pour youtube: YouTubePublisher
+2025-05-15 23:07:29,041 - TikSimPro - INFO - Pipeline configuré avec succès
+2025-05-15 23:07:29,041 - TikSimPro - INFO - Démarrage du pipeline de contenu...
+2025-05-15 23:07:29,041 - TikSimPro - INFO - Démarrage du pipeline de contenu...
+2025-05-15 23:07:29,042 - TikSimPro - INFO - Fichiers générés: videos\final_1747343249.mp4
+2025-05-15 23:07:29,042 - TikSimPro - INFO - Étape 1/6: Analyse des tendances...
+2025-05-15 23:07:29,042 - TikSimPro - INFO - Analyse des tendances en cours...
+2025-05-15 23:07:29,043 - TikSimPro - INFO - Génération de l'analyse des tendances TikTok
+2025-05-15 23:07:29,043 - TikSimPro - INFO - Utilisation des hashtags fournis par l'utilisateur: 7
+2025-05-15 23:07:29,043 - TikSimPro - INFO - Simulation des musiques populaires TikTok
+2025-05-15 23:07:29,044 - TikSimPro - INFO - 15 musiques générées
+2025-05-15 23:07:29,044 - TikSimPro - INFO - Utilisation de la palette de couleurs spécifiée par l'utilisateur
+2025-05-15 23:07:29,044 - TikSimPro - ERROR - Erreur lors de l'analyse des tendances: 'custom'
+2025-05-15 23:07:29,044 - TikSimPro - ERROR - Échec de l'analyse des tendances
+2025-05-15 23:07:29,044 - TikSimPro - ERROR - Échec de l'exécution du pipeline
+2025-05-15 23:07:31,531 - TikSimPro - INFO - ContentPipeline initialisé
+2025-05-15 23:07:32,118 - TikSimPro - INFO - Plugin découvert: TikTokAnalyzer
+2025-05-15 23:07:32,687 - TikSimPro - ERROR - Erreur lors de la configuration des composants: TikTokAnalyzer.__init__() got an unexpected keyword argument 'description'
+2025-05-15 23:08:06,233 - TikSimPro - INFO - ContentPipeline initialisé
+2025-05-15 23:08:06,927 - TikSimPro - INFO - Plugin découvert: TikTokAnalyzer
+2025-05-15 23:08:07,322 - TikSimPro.Connector - INFO - Initialisation du webdriver Chrome...
+2025-05-15 23:08:07,322 - TikSimPro - INFO - TikTokAnalyzer initialisé: tiktok_data, région: global, web search: True
+2025-05-15 23:08:07,322 - WDM - INFO - ====== WebDriver manager ======
+2025-05-15 23:08:07,322 - TikSimPro - INFO - Analyseur de tendances défini: TikTokAnalyzer
+2025-05-15 23:08:07,324 - TikSimPro - INFO - Plugin découvert: CircleSimulator
+2025-05-15 23:08:07,325 - TikSimPro - INFO - Générateur de vidéo défini: CircleSimulator
+2025-05-15 23:08:07,327 - TikSimPro - INFO - Plugin découvert: TrendAudioGenerator
+2025-05-15 23:08:07,332 - TikSimPro - INFO - TrendAudioGenerator initialisé
+2025-05-15 23:08:07,333 - TikSimPro - INFO - Générateur audio défini: TrendAudioGenerator
+2025-05-15 23:08:07,337 - TikSimPro - INFO - Plugin découvert: FFmpegMediaCombiner
+2025-05-15 23:08:07,338 - TikSimPro - INFO - Plugin découvert: MoviePyMediaCombiner
+2025-05-15 23:08:07,387 - TikSimPro - INFO - Combineur de médias défini: FFmpegMediaCombiner
+2025-05-15 23:08:07,388 - TikSimPro - INFO - Plugin découvert: VideoEnhancer
+2025-05-15 23:08:07,389 - TikSimPro - INFO - VideoEnhancer initialisé: C:\Users\nolan\AppData\Local\Temp\tmprlq0d_in
+2025-05-15 23:08:08,092 - TikSimPro - INFO - Dépendances disponibles: OpenCV, MoviePy, PIL
+2025-05-15 23:08:08,092 - TikSimPro - INFO - Améliorateur de vidéo défini: VideoEnhancer
+2025-05-15 23:08:08,093 - TikSimPro - INFO - Plugin découvert: InstagramPublisher
+2025-05-15 23:08:08,093 - TikSimPro - INFO - Plugin découvert: TikTokPublisher
+2025-05-15 23:08:08,094 - TikSimPro - INFO - Plugin découvert: YouTubePublisher
+2025-05-15 23:08:08,094 - TikSimPro - INFO - TikTokPublisher initialisé
+2025-05-15 23:08:08,094 - TikSimPro - INFO - Système de publication ajouté pour tiktok: TikTokPublisher
+2025-05-15 23:08:08,094 - TikSimPro - INFO - YouTubePublisher initialisé
+2025-05-15 23:08:08,094 - TikSimPro - INFO - Système de publication ajouté pour youtube: YouTubePublisher
+2025-05-15 23:08:08,095 - TikSimPro - INFO - Pipeline configuré avec succès
+2025-05-15 23:08:08,095 - TikSimPro - INFO - Démarrage du pipeline de contenu...
+2025-05-15 23:08:08,095 - TikSimPro - INFO - Démarrage du pipeline de contenu...
+2025-05-15 23:08:08,095 - TikSimPro - INFO - Fichiers générés: videos\final_1747343288.mp4
+2025-05-15 23:08:08,095 - TikSimPro - INFO - Étape 1/6: Analyse des tendances...
+2025-05-15 23:08:08,095 - TikSimPro - INFO - Analyse des tendances en cours...
+2025-05-15 23:08:08,095 - TikSimPro - INFO - Génération de l'analyse des tendances TikTok
+2025-05-15 23:08:08,095 - TikSimPro - INFO - Utilisation des hashtags fournis par l'utilisateur: 7
+2025-05-15 23:08:08,095 - TikSimPro - INFO - Simulation des musiques populaires TikTok
+2025-05-15 23:08:08,097 - TikSimPro - INFO - 15 musiques générées
+2025-05-15 23:08:08,097 - TikSimPro - INFO - Utilisation de la palette de couleurs spécifiée par l'utilisateur
+2025-05-15 23:08:08,097 - TikSimPro - ERROR - Erreur lors de l'analyse des tendances: 'custom'
+Traceback (most recent call last):
+  File "C:\Users\nolan\Desktop\work\Programmation\Viral_tiktok\v2.1\pipeline\content_pipeline.py", line 207, in _analyze_trends
+    trend_data = self.trend_analyzer.get_trend_analysis()
+                 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\nolan\Desktop\work\Programmation\Viral_tiktok\v2.1\trend_analyzers\tiktok_analyzer.py", line 1171, in get_trend_analysis
+    analysis = self._generate_trend_analysis()
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\nolan\Desktop\work\Programmation\Viral_tiktok\v2.1\trend_analyzers\tiktok_analyzer.py", line 978, in _generate_trend_analysis
+    "color_palette": colors["dominant_palettes"]["custom"],
+                     ~~~~~~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^
+KeyError: 'custom'
+2025-05-15 23:08:08,099 - TikSimPro - ERROR - Échec de l'analyse des tendances
+2025-05-15 23:08:08,099 - TikSimPro - ERROR - Échec de l'exécution du pipeline
+2025-05-15 23:08:25,542 - TikSimPro - INFO - ContentPipeline initialisé
+2025-05-15 23:08:26,400 - TikSimPro - INFO - Plugin découvert: TikTokAnalyzer
+2025-05-15 23:08:26,973 - TikSimPro.Connector - INFO - Initialisation du webdriver Chrome...
+2025-05-15 23:08:26,974 - TikSimPro - INFO - TikTokAnalyzer initialisé: tiktok_data, région: global, web search: True
+2025-05-15 23:08:26,974 - WDM - INFO - ====== WebDriver manager ======
+2025-05-15 23:08:26,974 - TikSimPro - INFO - Analyseur de tendances défini: TikTokAnalyzer
+2025-05-15 23:08:26,974 - TikSimPro - INFO - Plugin découvert: CircleSimulator
+2025-05-15 23:08:26,977 - TikSimPro - INFO - Générateur de vidéo défini: CircleSimulator
+2025-05-15 23:08:26,978 - TikSimPro - INFO - Plugin découvert: TrendAudioGenerator
+2025-05-15 23:08:26,979 - TikSimPro - INFO - TrendAudioGenerator initialisé
+2025-05-15 23:08:26,979 - TikSimPro - INFO - Générateur audio défini: TrendAudioGenerator
+2025-05-15 23:08:26,980 - TikSimPro - INFO - Plugin découvert: FFmpegMediaCombiner
+2025-05-15 23:08:26,980 - TikSimPro - INFO - Plugin découvert: MoviePyMediaCombiner
+2025-05-15 23:08:27,008 - TikSimPro - INFO - Combineur de médias défini: FFmpegMediaCombiner
+2025-05-15 23:08:27,009 - TikSimPro - INFO - Plugin découvert: VideoEnhancer
+2025-05-15 23:08:27,011 - TikSimPro - INFO - VideoEnhancer initialisé: C:\Users\nolan\AppData\Local\Temp\tmpgpjvzqfg
+2025-05-15 23:08:27,723 - TikSimPro - INFO - Dépendances disponibles: OpenCV, MoviePy, PIL
+2025-05-15 23:08:27,723 - TikSimPro - INFO - Améliorateur de vidéo défini: VideoEnhancer
+2025-05-15 23:08:27,724 - TikSimPro - INFO - Plugin découvert: InstagramPublisher
+2025-05-15 23:08:27,724 - TikSimPro - INFO - Plugin découvert: TikTokPublisher
+2025-05-15 23:08:27,724 - TikSimPro - INFO - Plugin découvert: YouTubePublisher
+2025-05-15 23:08:27,726 - TikSimPro - INFO - TikTokPublisher initialisé
+2025-05-15 23:08:27,726 - TikSimPro - INFO - Système de publication ajouté pour tiktok: TikTokPublisher
+2025-05-15 23:08:27,726 - TikSimPro - INFO - YouTubePublisher initialisé
+2025-05-15 23:08:27,727 - TikSimPro - INFO - Système de publication ajouté pour youtube: YouTubePublisher
+2025-05-15 23:08:27,728 - TikSimPro - INFO - Pipeline configuré avec succès
+2025-05-15 23:08:27,728 - TikSimPro - INFO - Démarrage du pipeline de contenu...
+2025-05-15 23:08:27,729 - TikSimPro - INFO - Démarrage du pipeline de contenu...
+2025-05-15 23:08:27,729 - TikSimPro - INFO - Fichiers générés: videos\final_1747343307.mp4
+2025-05-15 23:08:27,729 - TikSimPro - INFO - Étape 1/6: Analyse des tendances...
+2025-05-15 23:08:27,729 - TikSimPro - INFO - Analyse des tendances en cours...
+2025-05-15 23:08:27,730 - TikSimPro - INFO - Génération de l'analyse des tendances TikTok
+2025-05-15 23:08:27,730 - TikSimPro - INFO - Utilisation des hashtags fournis par l'utilisateur: 7
+2025-05-15 23:08:27,730 - TikSimPro - INFO - Simulation des musiques populaires TikTok
+2025-05-15 23:08:27,730 - TikSimPro - INFO - 15 musiques générées
+2025-05-15 23:08:27,730 - TikSimPro - INFO - Simulation des tendances de couleurs
+2025-05-15 23:08:27,731 - TikSimPro - INFO - Analyse des tendances générée
+2025-05-15 23:08:27,731 - TikSimPro - INFO - Analyse des tendances terminée
+2025-05-15 23:08:27,731 - TikSimPro - INFO - Étape 2/6: Génération de la vidéo...
+2025-05-15 23:08:27,731 - TikSimPro - INFO - Configuration du générateur de vidéo...
+2025-05-15 23:08:27,739 - TikSimPro - INFO - Simulateur configuré: 1080x1920, 60 FPS, 15.0s, 2 balles
+2025-05-15 23:08:27,740 - TikSimPro - INFO - Palette de couleurs appliquée: ['#FF0000', '#76d275', '#76d275', '#c1ff9b', '#00FF00']
+2025-05-15 23:08:27,740 - TikSimPro - INFO - Génération de la vidéo en cours...
+2025-05-15 23:08:27,805 - TikSimPro - INFO - FFmpeg: C:\ffmpeg\bin\ffmpeg.EXE -y -f rawvideo -vcodec rawvideo -pix_fmt rgb24 -s 1080x1920 -r 60 -i - -c:v h264_nvenc -preset p1 -tune hq -rc vbr -qmin 1 -qmax 51 -b:v 8000k -maxrate 8000k -bufsize 16000k -threads 0 -pix_fmt yuv420p temp\video_1747343307.mp4
+2025-05-15 23:08:27,887 - WDM - INFO - Get LATEST chromedriver version for google-chrome
+2025-05-15 23:08:28,010 - WDM - INFO - Get LATEST chromedriver version for google-chrome
+2025-05-15 23:08:28,087 - WDM - INFO - Driver [C:\Users\nolan\.wdm\drivers\chromedriver\win64\136.0.7103.94\chromedriver-win32/chromedriver.exe] found in cache
+2025-05-15 23:08:29,527 - TikSimPro.Connector - INFO - Navigateur configuré pour TikTok
+2025-05-15 23:08:29,530 - TikSimPro - ERROR - Erreur dans le thread de recherche web: 'TikTokAdsConnector' object has no attribute 'search_trending_hashtags'
+2025-05-15 23:08:50,047 - TikSimPro - INFO - 114 événements audio collectés
+2025-05-15 23:08:50,047 - TikSimPro - INFO - Étape 3/6: Génération de la piste audio...
+2025-05-15 23:08:50,047 - TikSimPro - INFO - Configuration du générateur audio...
+2025-05-15 23:08:50,049 - TikSimPro - INFO - Générateur audio configuré: 44100 Hz, 15.0s
+2025-05-15 23:08:50,050 - TikSimPro - INFO - 114 événements audio ajoutés, total: 114
+2025-05-15 23:08:50,050 - TikSimPro - INFO - Génération de la piste audio en cours...
+2025-05-15 23:08:50,050 - TikSimPro - INFO - Génération des sons de notes...
+2025-05-15 23:08:50,058 - TikSimPro - INFO - Génération des sons d'effets...
+2025-05-15 23:08:50,059 - TikSimPro - INFO - Génération de la piste audio à partir de 114 événements...
+2025-05-15 23:08:50,132 - TikSimPro - INFO - Piste audio générée avec succès: temp\audio_1747343307.wav (114/114 événements traités)
+2025-05-15 23:08:50,132 - TikSimPro - INFO - Étape 4/6: Combinaison des médias...
+2025-05-15 23:08:50,133 - TikSimPro - INFO - Combinaison de la vidéo et de l'audio en cours...
+2025-05-15 23:08:50,133 - TikSimPro - INFO - Combinaison de temp\video_1747343307.mp4 et temp\audio_1747343307.wav en temp\combined_1747343307.mp4
+2025-05-15 23:08:50,845 - TikSimPro - INFO - Combinaison réussie: temp\combined_1747343307.mp4
+2025-05-15 23:08:50,845 - TikSimPro - INFO - Étape 5/6: Amélioration de la vidéo...
+2025-05-15 23:08:50,846 - TikSimPro - INFO - Amélioration de la vidéo en cours...
+2025-05-15 23:08:50,846 - TikSimPro - INFO - Application des améliorations...
+2025-05-15 23:08:51,174 - TikSimPro - WARNING - Aucune police disponible, utilisation de Arial par défaut
+2025-05-15 23:08:51,175 - TikSimPro - ERROR - Erreur lors de l'ajout de l'appel à l'action: MoviePy Error: creation of None failed because of the following error:
+
+[WinError 2] Le fichier spécifié est introuvable.
+
+.This error can be due to the fact that ImageMagick is not installed on your computer, or (for Windows users) that you didn't specify the path to the ImageMagick binary in file conf.py, or that the path you specified is incorrect
+2025-05-15 23:08:51,185 - TikSimPro - INFO - Vidéo finale copiée vers: videos\final_1747343307.mp4
+2025-05-15 23:08:51,216 - TikSimPro - INFO - Amélioration terminée: videos\final_1747343307.mp4
+2025-05-15 23:08:51,217 - TikSimPro - INFO - Étape 6/6: Publication du contenu...
+2025-05-15 23:08:51,218 - TikSimPro - ERROR - Erreur lors de la publication sur tiktok: 'TikTokPublisher' object has no attribute 'authenticate'
+2025-05-15 23:08:51,218 - TikSimPro - INFO - Initialisation du navigateur pour l'authentification YouTube...
+2025-05-15 23:08:51,218 - TikSimPro - INFO - Initialisation du webdriver Chrome...
+2025-05-15 23:08:51,218 - WDM - INFO - ====== WebDriver manager ======
+2025-05-15 23:08:51,969 - WDM - INFO - Get LATEST chromedriver version for google-chrome
+2025-05-15 23:08:52,015 - WDM - INFO - Get LATEST chromedriver version for google-chrome
+2025-05-15 23:08:52,052 - WDM - INFO - Driver [C:\Users\nolan\.wdm\drivers\chromedriver\win64\136.0.7103.94\chromedriver-win32/chromedriver.exe] found in cache
+2025-05-15 23:08:53,174 - TikSimPro - INFO - Navigateur configuré pour YouTube
+2025-05-15 23:09:03,287 - TikSimPro - INFO - Session YouTube restaurée avec succès via les cookies
+2025-05-15 23:09:03,288 - TikSimPro - INFO - Publication sur youtube en cours...
+2025-05-15 23:09:03,289 - TikSimPro - INFO - Navigation vers la page d'upload YouTube...
+2025-05-15 23:09:28,757 - TikSimPro - ERROR - Page d'upload YouTube non chargée
+2025-05-15 23:09:30,943 - TikSimPro - INFO - Publication sur youtube: échouée
+2025-05-15 23:09:30,943 - TikSimPro - INFO - Résumé de la publication:
+2025-05-15 23:09:30,943 - TikSimPro - INFO - - tiktok: échouée
+2025-05-15 23:09:30,944 - TikSimPro - INFO - - youtube: échouée
+2025-05-15 23:09:30,944 - TikSimPro - INFO - Pipeline terminé avec succès: videos\final_1747343307.mp4
+2025-05-15 23:09:30,944 - TikSimPro - INFO - Pipeline exécuté en 63.22 secondes
+2025-05-15 23:09:30,944 - TikSimPro - INFO - Vidéo générée: videos\final_1747343307.mp4
+2025-05-15 23:09:55,283 - TikSimPro - INFO - ContentPipeline initialisé
+2025-05-15 23:09:55,988 - TikSimPro - INFO - Plugin découvert: TikTokAnalyzer
+2025-05-15 23:09:56,404 - TikSimPro.Connector - INFO - Initialisation du webdriver Chrome...
+2025-05-15 23:09:56,404 - TikSimPro - INFO - TikTokAnalyzer initialisé: tiktok_data, région: global, web search: True
+2025-05-15 23:09:56,405 - WDM - INFO - ====== WebDriver manager ======
+2025-05-15 23:09:56,405 - TikSimPro - INFO - Analyseur de tendances défini: TikTokAnalyzer
+2025-05-15 23:09:56,406 - TikSimPro - INFO - Plugin découvert: CircleSimulator
+2025-05-15 23:09:56,406 - TikSimPro - INFO - Générateur de vidéo défini: CircleSimulator
+2025-05-15 23:09:56,407 - TikSimPro - INFO - Plugin découvert: TrendAudioGenerator
+2025-05-15 23:09:56,408 - TikSimPro - INFO - TrendAudioGenerator initialisé
+2025-05-15 23:09:56,408 - TikSimPro - INFO - Générateur audio défini: TrendAudioGenerator
+2025-05-15 23:09:56,408 - TikSimPro - INFO - Plugin découvert: FFmpegMediaCombiner
+2025-05-15 23:09:56,409 - TikSimPro - INFO - Plugin découvert: MoviePyMediaCombiner
+2025-05-15 23:09:56,440 - TikSimPro - INFO - Combineur de médias défini: FFmpegMediaCombiner
+2025-05-15 23:09:56,442 - TikSimPro - INFO - Plugin découvert: VideoEnhancer
+2025-05-15 23:09:56,444 - TikSimPro - INFO - VideoEnhancer initialisé: C:\Users\nolan\AppData\Local\Temp\tmpj_aj5nkh
+2025-05-15 23:09:57,143 - TikSimPro - INFO - Dépendances disponibles: OpenCV, MoviePy, PIL
+2025-05-15 23:09:57,143 - TikSimPro - INFO - Améliorateur de vidéo défini: VideoEnhancer
+2025-05-15 23:09:57,145 - TikSimPro - INFO - Plugin découvert: InstagramPublisher
+2025-05-15 23:09:57,145 - TikSimPro - INFO - Plugin découvert: TikTokPublisher
+2025-05-15 23:09:57,145 - TikSimPro - INFO - Plugin découvert: YouTubePublisher
+2025-05-15 23:09:57,145 - TikSimPro - INFO - TikTokPublisher initialisé
+2025-05-15 23:09:57,145 - TikSimPro - INFO - Système de publication ajouté pour tiktok: TikTokPublisher
+2025-05-15 23:09:57,146 - TikSimPro - INFO - YouTubePublisher initialisé
+2025-05-15 23:09:57,146 - TikSimPro - INFO - Système de publication ajouté pour youtube: YouTubePublisher
+2025-05-15 23:09:57,146 - TikSimPro - INFO - Pipeline configuré avec succès
+2025-05-15 23:09:57,146 - TikSimPro - INFO - Démarrage du pipeline de contenu...
+2025-05-15 23:09:57,146 - TikSimPro - INFO - Démarrage du pipeline de contenu...
+2025-05-15 23:09:57,146 - TikSimPro - INFO - Fichiers générés: videos\final_1747343397.mp4
+2025-05-15 23:09:57,147 - TikSimPro - INFO - Étape 1/6: Analyse des tendances...
+2025-05-15 23:09:57,147 - TikSimPro - INFO - Analyse des tendances en cours...
+2025-05-15 23:09:57,147 - TikSimPro - INFO - Génération de l'analyse des tendances TikTok
+2025-05-15 23:09:57,147 - TikSimPro - INFO - Utilisation des hashtags fournis par l'utilisateur: 7
+2025-05-15 23:09:57,147 - TikSimPro - INFO - Simulation des musiques populaires TikTok
+2025-05-15 23:09:57,147 - TikSimPro - INFO - 15 musiques générées
+2025-05-15 23:09:57,148 - TikSimPro - INFO - Simulation des tendances de couleurs
+2025-05-15 23:09:57,148 - TikSimPro - INFO - Analyse des tendances générée
+2025-05-15 23:09:57,148 - TikSimPro - INFO - Analyse des tendances terminée
+2025-05-15 23:09:57,148 - TikSimPro - INFO - Étape 2/6: Génération de la vidéo...
+2025-05-15 23:09:57,148 - TikSimPro - INFO - Configuration du générateur de vidéo...
+2025-05-15 23:09:57,157 - TikSimPro - INFO - Simulateur configuré: 1080x1920, 60 FPS, 15.0s, 2 balles
+2025-05-15 23:09:57,157 - TikSimPro - INFO - Palette de couleurs appliquée: ['#FF0000', '#76d275', '#76d275', '#c1ff9b', '#00FF00']
+2025-05-15 23:09:57,157 - TikSimPro - INFO - Génération de la vidéo en cours...
+2025-05-15 23:09:57,242 - TikSimPro - INFO - FFmpeg: C:\ffmpeg\bin\ffmpeg.EXE -y -f rawvideo -vcodec rawvideo -pix_fmt rgb24 -s 1080x1920 -r 60 -i - -c:v h264_nvenc -preset p1 -tune hq -rc vbr -qmin 1 -qmax 51 -b:v 8000k -maxrate 8000k -bufsize 16000k -threads 0 -pix_fmt yuv420p temp\video_1747343397.mp4
+2025-05-15 23:09:57,330 - WDM - INFO - Get LATEST chromedriver version for google-chrome
+2025-05-15 23:09:57,458 - WDM - INFO - Get LATEST chromedriver version for google-chrome
+2025-05-15 23:09:57,550 - WDM - INFO - Driver [C:\Users\nolan\.wdm\drivers\chromedriver\win64\136.0.7103.94\chromedriver-win32/chromedriver.exe] found in cache
+2025-05-15 23:09:58,842 - TikSimPro.Connector - INFO - Navigateur configuré pour TikTok
+2025-05-15 23:09:58,842 - TikSimPro - ERROR - Erreur dans le thread de recherche web: 'TikTokAdsConnector' object has no attribute 'search_trending_hashtags'
+2025-05-15 23:10:19,099 - TikSimPro - INFO - 118 événements audio collectés
+2025-05-15 23:10:19,103 - TikSimPro - INFO - Étape 3/6: Génération de la piste audio...
+2025-05-15 23:10:19,103 - TikSimPro - INFO - Configuration du générateur audio...
+2025-05-15 23:10:19,107 - TikSimPro - INFO - Générateur audio configuré: 44100 Hz, 15.0s
+2025-05-15 23:10:19,108 - TikSimPro - INFO - 118 événements audio ajoutés, total: 118
+2025-05-15 23:10:19,109 - TikSimPro - INFO - Génération de la piste audio en cours...
+2025-05-15 23:10:19,109 - TikSimPro - INFO - Génération des sons de notes...
+2025-05-15 23:10:19,111 - TikSimPro - INFO - Génération des sons d'effets...
+2025-05-15 23:10:19,112 - TikSimPro - INFO - Génération de la piste audio à partir de 118 événements...
+2025-05-15 23:10:19,226 - TikSimPro - INFO - Piste audio générée avec succès: temp\audio_1747343397.wav (118/118 événements traités)
+2025-05-15 23:10:19,227 - TikSimPro - INFO - Étape 4/6: Combinaison des médias...
+2025-05-15 23:10:19,227 - TikSimPro - INFO - Combinaison de la vidéo et de l'audio en cours...
+2025-05-15 23:10:19,228 - TikSimPro - INFO - Combinaison de temp\video_1747343397.mp4 et temp\audio_1747343397.wav en temp\combined_1747343397.mp4
+2025-05-15 23:10:19,760 - TikSimPro - INFO - Combinaison réussie: temp\combined_1747343397.mp4
+2025-05-15 23:10:19,760 - TikSimPro - INFO - Étape 5/6: Amélioration de la vidéo...
+2025-05-15 23:10:19,760 - TikSimPro - INFO - Amélioration de la vidéo en cours...
+2025-05-15 23:10:19,761 - TikSimPro - INFO - Application des améliorations...
+2025-05-15 23:10:20,080 - TikSimPro - WARNING - Aucune police disponible, utilisation de Arial par défaut
+2025-05-15 23:10:20,081 - TikSimPro - ERROR - Erreur lors de l'ajout de l'appel à l'action: MoviePy Error: creation of None failed because of the following error:
+
+[WinError 2] Le fichier spécifié est introuvable.
+
+.This error can be due to the fact that ImageMagick is not installed on your computer, or (for Windows users) that you didn't specify the path to the ImageMagick binary in file conf.py, or that the path you specified is incorrect
+2025-05-15 23:10:20,090 - TikSimPro - INFO - Vidéo finale copiée vers: videos\final_1747343397.mp4
+2025-05-15 23:10:20,091 - TikSimPro - INFO - Amélioration terminée: videos\final_1747343397.mp4
+2025-05-15 23:10:20,091 - TikSimPro - INFO - Étape 6/6: Publication du contenu...
+2025-05-15 23:10:20,091 - TikSimPro - INFO - Publication sur tiktok en cours...
+2025-05-15 23:10:20,091 - TikSimPro - INFO - Authentification TikTok requise
+2025-05-15 23:10:20,091 - TikSimPro.Connector - INFO - Initialisation du navigateur pour l'authentification TikTok...
+2025-05-15 23:10:20,092 - TikSimPro.Connector - INFO - Initialisation du webdriver Chrome...
+2025-05-15 23:10:20,092 - WDM - INFO - ====== WebDriver manager ======
+2025-05-15 23:10:20,822 - WDM - INFO - Get LATEST chromedriver version for google-chrome
+2025-05-15 23:10:20,873 - WDM - INFO - Get LATEST chromedriver version for google-chrome
+2025-05-15 23:10:20,911 - WDM - INFO - Driver [C:\Users\nolan\.wdm\drivers\chromedriver\win64\136.0.7103.94\chromedriver-win32/chromedriver.exe] found in cache
+2025-05-15 23:10:21,995 - TikSimPro.Connector - INFO - Navigateur configuré pour TikTok
+2025-05-15 23:10:32,057 - TikSimPro.Connector - INFO - Session TikTok restaurée avec succès via les cookies
+2025-05-15 23:10:32,058 - TikSimPro - INFO - Navigation vers TikTok Studio...
+2025-05-15 23:10:32,058 - TikSimPro - ERROR - Erreur lors de la publication sur TikTok: 'NoneType' object has no attribute 'get'
+2025-05-15 23:10:32,059 - TikSimPro - INFO - Publication sur tiktok: échouée
+2025-05-15 23:10:32,059 - TikSimPro - INFO - Publication sur youtube en cours...
+2025-05-15 23:10:32,059 - TikSimPro - INFO - Authentification YouTube requise
+2025-05-15 23:10:32,059 - TikSimPro - INFO - Initialisation du navigateur pour l'authentification YouTube...
+2025-05-15 23:10:32,059 - TikSimPro - INFO - Initialisation du webdriver Chrome...
+2025-05-15 23:10:32,060 - WDM - INFO - ====== WebDriver manager ======
+2025-05-15 23:10:33,030 - WDM - INFO - Get LATEST chromedriver version for google-chrome
+2025-05-15 23:10:33,076 - WDM - INFO - Get LATEST chromedriver version for google-chrome
+2025-05-15 23:10:33,114 - WDM - INFO - Driver [C:\Users\nolan\.wdm\drivers\chromedriver\win64\136.0.7103.94\chromedriver-win32/chromedriver.exe] found in cache
+2025-05-15 23:10:34,227 - TikSimPro - INFO - Navigateur configuré pour YouTube
+2025-05-15 23:10:44,571 - TikSimPro - INFO - Session YouTube restaurée avec succès via les cookies
+2025-05-15 23:10:44,573 - TikSimPro - INFO - Navigation vers la page d'upload YouTube...
+2025-05-15 23:11:10,064 - TikSimPro - ERROR - Page d'upload YouTube non chargée
+2025-05-15 23:11:12,246 - TikSimPro - INFO - Publication sur youtube: échouée
+2025-05-15 23:11:12,246 - TikSimPro - INFO - Résumé de la publication:
+2025-05-15 23:11:12,246 - TikSimPro - INFO - - tiktok: échouée
+2025-05-15 23:11:12,246 - TikSimPro - INFO - - youtube: échouée
+2025-05-15 23:11:12,247 - TikSimPro - INFO - Pipeline terminé avec succès: videos\final_1747343397.mp4
+2025-05-15 23:11:12,247 - TikSimPro - INFO - Pipeline exécuté en 75.10 secondes
+2025-05-15 23:11:12,247 - TikSimPro - INFO - Vidéo générée: videos\final_1747343397.mp4

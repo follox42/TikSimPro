@@ -10,6 +10,7 @@ import numpy as np
 import pygame
 import pygame.gfxdraw  # Ajouté pour l'anti-aliasing
 import random
+import math
 from typing import Dict, List, Any, Optional, Tuple, Union
 from pathlib import Path
 import json
@@ -57,15 +58,17 @@ class CircleSimulator(IVideoGenerator):
     def __init__(self, width = 1080, height = 1920, fps = 60, duration = 30.0, 
                  output_path = "output/circle_video.mp4", temp_dir = "temp", frames_dir = "frames", 
                  min_radius = 100, gap_radius = 20, nb_rings = 5, thickness = 15, gap_angle = 60, 
-                 rotation_speed = 60, color_palette = [ "#FF0050", "#00F2EA",  "#FFFFFF",  "#FE2C55", "#25F4EE"],
+                 rotation_speed = 60, random_arc=True, color_palette = [ "#FF0050", "#00F2EA",  "#FFFFFF",  "#FE2C55", "#25F4EE"],
                  # Nouveaux paramètres pour les balles
                  balls = 1, text_balls = None, on_balls_text = True, max_text_length = 10,
+                 # Paramètre pour la question en haut
+                 question_text = "Who's the dumbest?",
                  # Paramètres pour éviter l'écran noir
                  use_gpu_acceleration = True,
                  direct_frames = False,
                  performance_mode = "balanced",
                  render_scale = 1.0,
-                 debug = True):
+                 debug = True, screen_scale = 1.0):
         """Initialise le simulateur de cercles"""
         # Paramètres par défaut
         self.width = width
@@ -76,6 +79,7 @@ class CircleSimulator(IVideoGenerator):
         self.temp_dir = temp_dir
         self.frames_dir = os.path.join(self.temp_dir, frames_dir)
         self.debug = debug
+        self.screen_scale = screen_scale
         
         # Paramètres du jeu
         self.center = None  # Sera initialisé plus tard
@@ -86,13 +90,17 @@ class CircleSimulator(IVideoGenerator):
         self.thickness = thickness
         self.gap_angle = gap_angle
         self.rotation_speed = rotation_speed
-        
+        self.random_arc = random_arc
+
         # Nouveaux paramètres pour les balles
         self.balls_count = max(1, balls)  # Au moins une balle
         self.text_balls = text_balls if text_balls else []
         self.on_balls_text = on_balls_text
         self.max_text_length = max_text_length
         self.use_gpu_acceleration = use_gpu_acceleration
+        
+        # Paramètre pour la question en haut
+        self.question_text = question_text
         
         # Paramètres pour éviter l'écran noir
         self.direct_frames = direct_frames
@@ -129,6 +137,13 @@ class CircleSimulator(IVideoGenerator):
         # Font pour le texte
         self.font = None
         self.legend_font = None
+        
+        # Animation de victoire
+        self.winner_ball = None
+        self.victory_animation_time = 0
+        self.victory_animation_duration = 3.0  # Durée de l'animation en secondes
+        self.victory_particles = []
+        self.victory_flash = 0
     
     def configure(self, config: Dict[str, Any]) -> bool:
         """
@@ -252,6 +267,9 @@ class CircleSimulator(IVideoGenerator):
         self.audio_events = []
         self.current_level = 0
         self.game_won = False
+        self.winner_ball = None
+        self.victory_animation_time = 0
+        self.victory_particles = []
         
         # Convertir les couleurs hexadécimales en RGB
         colors = [self._hex_to_rgb(color) for color in self.color_palette]
@@ -268,7 +286,8 @@ class CircleSimulator(IVideoGenerator):
                 gap_angle=self.gap_angle,
                 rotation_speed=self.rotation_speed * rotation_dir,
                 color=colors[i % len(colors)],
-                simulator=self  # Passer une référence au simulateur
+                simulator=self,  # Passer une référence au simulateur
+                random_start=self.random_arc
             )
             self.rings.append(ring)
         
@@ -339,7 +358,6 @@ class CircleSimulator(IVideoGenerator):
 
         # Ici, on superpose le noir semi-transparent au lieu de multiplier
         surface.blit(vignette, (0, 0))
-
     
     def _draw_legend(self, surface):
         """Dessine une légende si l'affichage du texte sur les balles est désactivé"""
@@ -368,6 +386,120 @@ class CircleSimulator(IVideoGenerator):
             
             # Appliquer la légende sur la surface principale
             surface.blit(legend_surface, (legend_x, legend_y))
+    
+    def _draw_question_text(self, surface):
+        """Dessine la question en haut de l'écran"""
+        if not self.question_text:
+            return
+            
+        # Créer une police plus grande pour la question
+        if not hasattr(self, 'question_font') or self.question_font is None:
+            self.question_font = pygame.font.SysFont("Arial", 50, bold=True)
+        
+        # Rendu du texte avec ombre
+        text_surface = self.question_font.render(self.question_text, True, (255, 255, 255))
+        shadow_surface = self.question_font.render(self.question_text, True, (0, 0, 0))
+        
+        # Positionner le texte en haut au centre
+        text_width = text_surface.get_width()
+        text_x = (self.width // 2) - (text_width // 2)
+        
+        # Dessiner l'ombre puis le texte
+        surface.blit(shadow_surface, (text_x + 2, 22))
+        surface.blit(text_surface, (text_x, 20))
+    
+    def _draw_victory_animation(self, surface, current_time):
+        """Dessine l'animation de victoire si une balle a gagné"""
+        if not self.winner_ball or self.victory_animation_time <= 0:
+            return
+            
+        # Calculer le temps écoulé de l'animation
+        elapsed = current_time - self.victory_animation_time
+        if elapsed > self.victory_animation_duration:
+            return
+            
+        # Facteur d'animation (0 à 1)
+        animation_factor = min(1.0, elapsed / self.victory_animation_duration)
+        
+        # Créer une police plus grande pour le message de victoire
+        if not hasattr(self, 'victory_font') or self.victory_font is None:
+            self.victory_font = pygame.font.SysFont("Arial", 80, bold=True)
+        
+        # Texte de victoire
+        winner_name = self.winner_ball.text if self.winner_ball.text else "Ball"
+        victory_text = f"{winner_name} wins!"
+        
+        # Effet de zoom et opacité
+        scale = 0.5 + 1.0 * animation_factor
+        alpha = int(255 * min(1.0, animation_factor * 2))
+        
+        # Rendu du texte
+        text_surface = self.victory_font.render(victory_text, True, (255, 255, 255))
+        
+        # Créer une surface avec alpha pour pouvoir ajuster l'opacité
+        scaled_width = int(text_surface.get_width() * scale)
+        scaled_height = int(text_surface.get_height() * scale)
+        
+        # Surface temporaire pour le scaling
+        temp_surface = pygame.Surface((scaled_width, scaled_height), pygame.SRCALPHA)
+        
+        # Redimensionner et dessiner le texte
+        pygame.transform.scale(text_surface, (scaled_width, scaled_height), temp_surface)
+        
+        # Ajuster l'alpha
+        temp_surface.set_alpha(alpha)
+        
+        # Positionner au centre
+        center_x = (self.width // 2) - (scaled_width // 2)
+        center_y = (self.height // 2) - (scaled_height // 2)
+        
+        # Dessiner avec un effet de pulsation
+        pulse = 1.0 + 0.1 * math.sin(elapsed * 10)
+        pulse_width = int(scaled_width * pulse)
+        pulse_height = int(scaled_height * pulse)
+        
+        # Dessiner le texte avec pulsation
+        pulse_surface = pygame.transform.scale(temp_surface, (pulse_width, pulse_height))
+        surface.blit(pulse_surface, 
+                    (center_x - (pulse_width - scaled_width)//2, 
+                     center_y - (pulse_height - scaled_height)//2))
+        
+        # Ajouter des particules pour l'effet de victoire
+        if random.random() < 0.3:  # Contrôle la densité de particules
+            for _ in range(5):
+                angle = random.uniform(0, math.pi * 2)
+                distance = random.uniform(100, 300) * animation_factor
+                pos_x = center_x + scaled_width/2 + math.cos(angle) * distance
+                pos_y = center_y + scaled_height/2 + math.sin(angle) * distance
+                
+                # Vélocité s'éloignant du centre
+                vel_x = math.cos(angle) * random.uniform(50, 200)
+                vel_y = math.sin(angle) * random.uniform(50, 200)
+                
+                # Couleur aléatoire parmi la palette
+                color = self._hex_to_rgb(random.choice(self.color_palette))
+                
+                # Créer une particule avec halo
+                size = random.uniform(5, 15)
+                life = random.uniform(0.5, 1.5)
+                
+                self.victory_particles.append(Particle(
+                    (pos_x, pos_y), 
+                    (vel_x, vel_y), 
+                    color, size, life, True
+                ))
+        
+        # Mettre à jour et dessiner les particules
+        self.victory_particles = [p for p in self.victory_particles if p.update(1/self.fps)]
+        for particle in self.victory_particles:
+            particle.draw(surface)
+        
+        # Effet de flash global si l'animation vient de commencer
+        if elapsed < 0.3:
+            flash_alpha = int(255 * (1.0 - elapsed / 0.3))
+            flash_surface = pygame.Surface((self.width, self.height), pygame.SRCALPHA)
+            flash_surface.fill((255, 255, 255, flash_alpha))
+            surface.blit(flash_surface, (0, 0))
 
     def _draw_fps_counter(self, surface, fps):
         """Affiche un compteur de FPS à l'écran"""
@@ -432,6 +564,18 @@ class CircleSimulator(IVideoGenerator):
                                 else:
                                     self.game_won = True
                                     self.screen_shake.start(intensity=8, duration=0.5)
+                                    # Déclencher l'animation de victoire
+                                    self.winner_ball = ball
+                                    self.victory_animation_time = i*dt
+                                    
+                                    # Créer un événement audio pour la victoire
+                                    victory_event = AudioEvent(
+                                        event_type="victory",
+                                        time=i*dt,
+                                        position=(ball.pos.x, ball.pos.y),
+                                        params={"ball_name": ball.text if ball.text else "Ball"}
+                                    )
+                                    self._collect_audio_event(victory_event)
                 
                 # Rendu principal
                 render_surf.fill((15, 15, 25))
@@ -446,6 +590,12 @@ class CircleSimulator(IVideoGenerator):
                 # Dessiner la légende si nécessaire
                 self._draw_legend(render_surf)
                 
+                # Dessiner la question en haut
+                self._draw_question_text(render_surf)
+                
+                # Dessiner l'animation de victoire si applicable
+                self._draw_victory_animation(render_surf, i*dt)
+                
                 # Effets post-processing
                 display_surf.fill((15, 15, 25))
                 
@@ -457,10 +607,11 @@ class CircleSimulator(IVideoGenerator):
                 # self._create_vignette(display_surf)
                 
                 # Afficher les statistiques de performance
-                current_fps = clock.get_fps()
-                if i % 30 == 0:
-                    self._draw_fps_counter(display_surf, current_fps)
-                    self._draw_frame_counter(display_surf, i, self.total_frames)
+                if self.debug:
+                    current_fps = clock.get_fps()
+                    if i % 30 == 0:
+                        self._draw_fps_counter(display_surf, current_fps)
+                        self._draw_frame_counter(display_surf, i, self.total_frames)
                 
                 # Sauvegarder la frame en PNG
                 frame_filename = os.path.join(self.frames_dir, f"frame_{i:06d}.png")
@@ -495,11 +646,12 @@ class CircleSimulator(IVideoGenerator):
         """
         # Dimensions de rendu
         w, h = int(self.width * self.render_scale), int(self.height * self.render_scale)
+        screen_w, screen_h = int(self.width * self.screen_scale), int(self.height * self.screen_scale)
 
         # 1) Initialisation Pygame et fenêtre
         pygame.init()
         self._initialize_game()
-        screen = pygame.display.set_mode((w, h))
+        screen = pygame.display.set_mode((screen_w, screen_h))
         pygame.display.set_caption("Circle Simulator – Aperçu Pipe FFmpeg")
 
         # 2) Si direct_frames, on génère d'abord les PNG
@@ -540,7 +692,7 @@ class CircleSimulator(IVideoGenerator):
         logger.info(f"FFmpeg: {' '.join(cmd)}")
         proc = subprocess.Popen(cmd, stdin=subprocess.PIPE)
 
-        # 4) Thread d’envoi des frames
+        # 4) Thread d'envoi des frames
         q = Queue(maxsize=500)
         def sender():
             while True:
@@ -569,9 +721,8 @@ class CircleSimulator(IVideoGenerator):
                 for e in ring.events:
                     self._collect_audio_event(e)
                 ring.events.clear()
-            for ball in self.balls:
-                ball.update(dt, self.gravity, (w,h))
-            # … (logique de trigger_disappear, etc.)
+            
+            # Mise à jour des balles
             for ball in self.balls:
                 ball.update(dt, self.gravity, (w, h))
 
@@ -588,6 +739,19 @@ class CircleSimulator(IVideoGenerator):
                             self.rings[self.current_level].activate(i*dt, self._collect_audio_event)
                         else:
                             self.game_won = True
+                            # Déclencher l'animation de victoire
+                            self.winner_ball = ball
+                            self.victory_animation_time = i*dt
+                            self.screen_shake.start(intensity=10, duration=0.5)
+                            
+                            # Créer un événement audio pour la victoire
+                            victory_event = AudioEvent(
+                                event_type="victory",
+                                time=i*dt,
+                                position=(ball.pos.x, ball.pos.y),
+                                params={"ball_name": ball.text if ball.text else "Ball"}
+                            )
+                            self._collect_audio_event(victory_event)
 
                 # --- debug : afficher la trouée de l'anneau actif ---
                 if ring.state == "arc" and self.debug:
@@ -623,19 +787,35 @@ class CircleSimulator(IVideoGenerator):
             # — Dessin hors écran
             for ring in reversed(self.rings): ring.draw(render_surf)
             for ball in self.balls: ball.draw(render_surf)
+            
+            # Dessiner la légende si nécessaire
             self._draw_legend(render_surf)
+            
+            # Dessiner la question en haut
+            self._draw_question_text(render_surf)
+            
+            # Dessiner l'animation de victoire si applicable
+            self._draw_victory_animation(render_surf, i*dt)
 
             # — Post-processing
             display_surf.fill((15,15,25))
             self.screen_shake.apply(render_surf, display_surf)
 
-            # self._create_vignette(display_surf)
-            if i % 30 == 0:
-                self._draw_fps_counter(display_surf, clock.get_fps())
-                self._draw_frame_counter(display_surf, i, self.total_frames)
+            if self.debug:
+                # self._create_vignette(display_surf)
+                if i % 30 == 0:
+                    self._draw_fps_counter(display_surf, clock.get_fps())
+                    self._draw_frame_counter(display_surf, i, self.total_frames)
 
             # — 5a) Affichage en direct
-            screen.blit(display_surf, (0,0))
+            if screen_w != w or screen_h != h:
+                # Si les dimensions sont différentes, redimensionner avant d'afficher
+                scaled_display = pygame.transform.scale(display_surf, (screen_w, screen_h))
+                screen.blit(scaled_display, (0, 0))
+            else:
+                # Si les dimensions sont identiques, afficher directement
+                screen.blit(display_surf, (0, 0))
+                
             pygame.display.flip()
             for ev in pygame.event.get():
                 if ev.type == pygame.QUIT:
@@ -881,42 +1061,100 @@ class Ball:
             self.text_surface = self.font.render(self.text, True, (255, 255, 255))
     
     def update(self, dt, gravity, screen_dimensions):
+        # Conserver la position précédente pour la détection de trajectoire
         self.prev_pos = pygame.math.Vector2(self.pos)
+        
+        # Appliquer la gravité
         self.vel += gravity * dt
-        self.pos += self.vel * dt
         
-        # Récupérer les dimensions de l'écran
+        # Calculer le déplacement total prévu pour cette frame
+        total_displacement = self.vel * dt
+        move_distance = total_displacement.length()
+        
+        # === DÉTECTION DE COLLISION PIXEL-PARFAITE ===
+        # Calculer le nombre d'étapes pour garantir une couverture pixel par pixel
+        # 1 est la résolution minimale (1 pixel), garantissant qu'aucun pixel n'est sauté
+        steps = max(1, int(move_distance) + 1)  # +1 pour garantir qu'on couvre bien chaque pixel
+
         screen_width, screen_height = screen_dimensions
-        
-        # Limiter la vitesse maximale pour éviter les problèmes de physique
-        max_speed = 1000  # Vitesse maximale en pixels/seconde
-        if self.vel.length() > max_speed:
-            self.vel = self.vel.normalize() * max_speed
-        
-        # Rebond sur les bords horizontaux
-        if self.pos.x - self.radius < 0:
-            self.pos.x = self.radius
-            self.vel.x = -self.vel.x * self.elasticity
-            self.hit_flash = 0.1
-            self.create_impact_particles(pygame.math.Vector2(1, 0))
-        elif self.pos.x + self.radius > screen_width:
-            self.pos.x = screen_width - self.radius
-            self.vel.x = -self.vel.x * self.elasticity
-            self.hit_flash = 0.1
-            self.create_impact_particles(pygame.math.Vector2(-1, 0))
-        
-        # Rebond sur les bords verticaux
-        if self.pos.y - self.radius < 0:
-            self.pos.y = self.radius
-            self.vel.y = -self.vel.y * self.elasticity
-            self.hit_flash = 0.1
-            self.create_impact_particles(pygame.math.Vector2(0, 1))
-        elif self.pos.y + self.radius > screen_height:
-            self.pos.y = screen_height - self.radius
-            self.vel.y = -self.vel.y * self.elasticity
-            self.hit_flash = 0.1
-            self.create_impact_particles(pygame.math.Vector2(0, -1))
-        
+
+        # Pour chaque étape du mouvement (on parcourt la trajectoire complète)
+        for step in range(steps):
+            # Calculer exactement quelle fraction du mouvement total on effectue
+            t = (step + 1) / steps
+            
+            # Position exacte à ce moment de la trajectoire
+            next_pos = self.prev_pos + total_displacement * t
+            
+            # Déplacement depuis la dernière position
+            small_delta = next_pos - self.pos
+            small_dt = dt / steps
+            
+            # ==== GESTION DES REBONDS SUR LES BORDS ====
+            # Bord gauche
+            if next_pos.x - self.radius < 0:
+                # Calcul précis du temps de collision
+                t_collision = (self.radius - self.pos.x) / self.vel.x if self.vel.x != 0 else 0
+                t_collision = max(0, min(t_collision, small_dt))
+                
+                # Position exacte de la collision
+                self.pos.x = self.radius + 0.1
+                self.pos.y += self.vel.y * t_collision
+                
+                # Rebond physiquement correct
+                self.vel.x = -self.vel.x * self.elasticity
+                self.hit_flash = 0.1
+                self.create_impact_particles(pygame.math.Vector2(1, 0))
+                
+                # Arrêter la progression sur cet axe pour cette étape
+                break
+            
+            # Bord droit
+            elif next_pos.x + self.radius > screen_width:
+                t_collision = (screen_width - self.radius - self.pos.x) / self.vel.x if self.vel.x != 0 else 0
+                t_collision = max(0, min(t_collision, small_dt))
+                
+                self.pos.x = screen_width - self.radius - 0.1
+                self.pos.y += self.vel.y * t_collision
+                
+                self.vel.x = -self.vel.x * self.elasticity
+                self.hit_flash = 0.1
+                self.create_impact_particles(pygame.math.Vector2(-1, 0))
+                
+                break
+            
+            # Bord supérieur
+            elif next_pos.y - self.radius < 0:
+                t_collision = (self.radius - self.pos.y) / self.vel.y if self.vel.y != 0 else 0
+                t_collision = max(0, min(t_collision, small_dt))
+                
+                self.pos.y = self.radius + 0.1
+                self.pos.x += self.vel.x * t_collision
+                
+                self.vel.y = -self.vel.y * self.elasticity
+                self.hit_flash = 0.1
+                self.create_impact_particles(pygame.math.Vector2(0, 1))
+                
+                break
+            
+            # Bord inférieur
+            elif next_pos.y + self.radius > screen_height:
+                t_collision = (screen_height - self.radius - self.pos.y) / self.vel.y if self.vel.y != 0 else 0
+                t_collision = max(0, min(t_collision, small_dt))
+                
+                self.pos.y = screen_height - self.radius - 0.1
+                self.pos.x += self.vel.x * t_collision
+                
+                self.vel.y = -self.vel.y * self.elasticity
+                self.hit_flash = 0.1
+                self.create_impact_particles(pygame.math.Vector2(0, -1))
+                
+                break
+                
+            # Si aucune collision avec les bords, actualiser la position
+            else:
+                self.pos = next_pos
+
         # Ajouter la position actuelle à la traînée
         self.trail.append((pygame.math.Vector2(self.pos), self.hit_flash > 0))
         
@@ -933,8 +1171,8 @@ class Ball:
         
         # Réinitialiser les états de collision
         self.collision = False
-        self.in_gap = False
-    
+        self.in_gap = False  
+
     def create_impact_particles(self, normal):
         """Crée des particules lors d'un impact"""
         impact_point = self.pos - normal * self.radius
@@ -1045,14 +1283,16 @@ class Ball:
 class Ring:
     """Anneau avec trouée pour le passage de la balle"""
     
-    def __init__(self, center, outer_radius, thickness, gap_angle=0, rotation_speed=0, color=(255, 100, 100), simulator=None):
+    def __init__(self, center, outer_radius, thickness, gap_angle=0, rotation_speed=0, color=(255, 100, 100), simulator=None, random_start=True):
         self.center = center
         self.outer_radius = outer_radius
         self.thickness = thickness
         self.inner_radius = outer_radius - thickness
         self.gap_angle = gap_angle
         self.rotation_speed = rotation_speed
-        self.arc_start = 0
+        if random_start:
+            self.arc_start = random.randint(0, 360)
+
         self.color = color
         self.state = "circle"  # "circle", "arc", "disappearing", "gone"
         self.disappear_timer = 1.0

@@ -208,7 +208,7 @@ class ContentPipeline(IPipeline):
             logger.info("Analyse des tendances terminée")
             return trend_data
         except Exception as e:
-            logger.error(f"Erreur lors de l'analyse des tendances: {e}")
+            logger.exception(f"Erreur lors de l'analyse des tendances: {e}")
             return None
     
     def _generate_video(self) -> Optional[str]:
@@ -441,11 +441,6 @@ class ContentPipeline(IPipeline):
             publisher = self.publishers[platform]
             
             try:
-                # Authentifier si nécessaire
-                if not publisher.authenticate():
-                    logger.error(f"Échec de l'authentification sur {platform}")
-                    results[platform] = False
-                    continue
                 
                 # Publier la vidéo
                 logger.info(f"Publication sur {platform} en cours...")

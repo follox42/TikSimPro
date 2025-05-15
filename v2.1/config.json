@@ -2,7 +2,9 @@
     "trend_analyzer": {
       "name": "TikTokAnalyzer",
       "params": {
-        "cache_dir": "tiktok_data"
+        "cache_dir": "tiktok_data",
+        "description": "Share it with your friends !",
+        "hashtags": ["fyp", "foryou", "viral", "trending", "animation", "simulation", "tiktok"]
       }
     },
     "video_generator": {
@@ -11,20 +13,32 @@
         "width": 1080,
         "height": 1920,
         "fps": 60,
-        "duration": 61.0,
+        "duration": 15.0,
         "output_path": "output/circle_video.mp4",
         "temp_dir": "temp",
         "frames_dir": "frames",
-  
+
         "min_radius": 100,
         "gap_radius": 0,
-        "nb_rings": 50,
-        "thickness": 15,
+        "nb_rings": 30,
+        "thickness": 10,
         "gap_angle": 60,
         "rotation_speed": 60,
-       
+        "random_arc": true,
 
-        "debug": false
+        "balls": 2, 
+        "text_balls": ["Me", "You"], 
+        "on_balls_text": true, 
+        "max_text_length": 10,
+
+        "use_gpu_acceleration": true,
+        "direct_frames": false,
+        "performance_mode": "balanced",
+        "render_scale": 1.0,
+        "debug": false,
+        "screen_scale": 0.5,
+        "question_text": "Who's the dumbest?"
+
       }
     },
     "audio_generator": {
@@ -62,7 +76,8 @@
       "youtube": {
         "name": "YouTubePublisher",
         "params": {
-          "auto_close": true
+          "auto_close": true,
+          "headless": true
         },
         "enabled": true
       },
@@ -70,7 +85,8 @@
         "name": "InstagramPublisher",
         "params": {
           "auto_close": true,
-          "mobile_emulation": true
+          "mobile_emulation": true,
+          "headless": true
         },
         "enabled": false
       }

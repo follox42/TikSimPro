@@ -326,17 +326,6 @@ class IVideoEnhancer(ABC):
 
 class IContentPublisher(ABC):
     """Interface pour les systèmes de publication"""
-    
-    @abstractmethod
-    def authenticate(self) -> bool:
-        """
-        Authentifie le système de publication
-        
-        Returns:
-            True si l'authentification a réussi, False sinon
-        """
-        pass
-    
     @abstractmethod
     def publish(self, video_path: str, caption: str, hashtags: List[str], **kwargs) -> bool:
         """

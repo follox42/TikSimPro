@@ -357,11 +357,16 @@ class YouTubePublisher(IContentPublisher):
             if "shorts" not in [tag.lower() for tag in hashtags]:
                 hashtags.insert(0, "Shorts")
         
-        # Formater la description
+        # Formater les hashtags (comme dans TikTokPublisher)
         hashtag_text = " ".join([f"#{tag}" for tag in hashtags]) if hashtags else ""
+        
+        # Formater la description
         full_description = caption
         if hashtag_text:
-            full_description += f"\n\n{hashtag_text}"
+            if full_description:
+                full_description += "\n\n" + hashtag_text
+            else:
+                full_description = hashtag_text
         
         try:
             # Naviguer vers la page d'upload
@@ -408,8 +413,23 @@ class YouTubePublisher(IContentPublisher):
                 description_field = self.driver.find_element(By.CSS_SELECTOR, "#description-textarea #textbox")
                 description_field.click()
                 description_field.clear()
-                description_field.send_keys(full_description)
-                logger.info("Description saisie")
+                
+                # Utiliser la même méthode que pour TikTok
+                from selenium.webdriver.common.action_chains import ActionChains
+                actions = ActionChains(self.driver)
+                actions.key_down(Keys.CONTROL).send_keys('a').key_up(Keys.CONTROL).perform()
+                description_field.send_keys(Keys.BACKSPACE)
+                
+                # Ajouter d'abord le caption principal
+                description_field.send_keys(caption)
+                
+                # Puis ajouter les hashtags avec des sauts de ligne
+                if hashtag_text:
+                    description_field.send_keys(Keys.ENTER)
+                    description_field.send_keys(Keys.ENTER)
+                    description_field.send_keys(hashtag_text)
+                
+                logger.info("Description et hashtags saisis")
             except Exception as e:
                 logger.error(f"Erreur lors de la saisie de la description: {e}")
             
