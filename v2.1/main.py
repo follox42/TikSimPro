@@ -80,6 +80,7 @@ def setup_components(config: Config) -> Optional[ContentPipeline]:
                 pipeline.add_publisher(platform, publisher)
         
         pip = config.get("pipeline")
+        
         # Configurer le pipeline
         pipeline_config = {
             "output_dir": pip.get("output_dir", "videos"),

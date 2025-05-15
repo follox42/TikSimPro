@@ -518,3 +518,76 @@ class VideoEnhancer(IVideoEnhancer):
         except Exception as e:
             logger.error(f"Erreur lors de l'ajout de la musique: {e}")
             return None
+        
+def main():
+    parser = argparse.ArgumentParser(
+        description="Applique des améliorations TikSimPro à une vidéo existante"
+    )
+    parser.add_argument(
+        "input", help="Chemin vers la vidéo d'entrée"
+    )
+    parser.add_argument(
+        "output", help="Chemin de sortie pour la vidéo améliorée"
+    )
+    parser.add_argument(
+        "--intro-text", dest="intro_text", default="Watch this to the end! 👀",
+        help="Texte d'introduction à afficher"
+    )
+    parser.add_argument(
+        "--hashtags", nargs="*", default=["fyp", "viral", "foryou"],
+        help="Liste de hashtags à ajouter"
+    )
+    parser.add_argument(
+        "--cta-text", dest="cta_text", default="Follow for more! 👆",
+        help="Texte d'appel à l'action"
+    )
+    parser.add_argument(
+        "--music", dest="music", default=None,
+        help="Chemin vers un fichier audio pour la musique de fond"
+    )
+    parser.add_argument(
+        "--no-intro", dest="add_intro", action="store_false",
+        help="Ne pas ajouter l'introduction"
+    )
+    parser.add_argument(
+        "--no-hashtags", dest="add_hashtags", action="store_false",
+        help="Ne pas ajouter les hashtags"
+    )
+    parser.add_argument(
+        "--no-cta", dest="add_cta", action="store_false",
+        help="Ne pas ajouter l'appel à l'action"
+    )
+    parser.add_argument(
+        "--no-music", dest="add_music", action="store_false",
+        help="Ne pas ajouter de musique"
+    )
+    args = parser.parse_args()
+
+    # Vérification du fichier d'entrée
+    if not os.path.exists(args.input):
+        print(f"Erreur: fichier d'entrée non trouvé: {args.input}")
+        return
+
+    enhancer = VideoEnhancer(
+        add_intro=args.add_intro,
+        add_hashtags=args.add_hashtags,
+        add_cta=args.add_cta,
+        add_music=args.add_music
+    )
+
+    options = {
+        "intro_text": args.intro_text,
+        "hashtags": args.hashtags,
+        "cta_text": args.cta_text,
+        "music_file": args.music
+    }
+
+    result = enhancer.enhance(args.input, args.output, options)
+    if result:
+        print(f"Vidéo améliorée enregistrée ici: {result}")
+    else:
+        print("L'amélioration de la vidéo a échoué.")
+
+
+if __name__ == "__main__":
+    main()

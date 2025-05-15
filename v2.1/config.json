@@ -22,14 +22,9 @@
         "thickness": 15,
         "gap_angle": 60,
         "rotation_speed": 60,
-        
-        "color_palette": [
-            "#FF0050",
-            "#00F2EA", 
-            "#FFFFFF", 
-            "#FE2C55",
-            "#25F4EE"
-        ]
+       
+
+        "debug": false
       }
     },
     "audio_generator": {
@@ -69,7 +64,7 @@
         "params": {
           "auto_close": true
         },
-        "enabled": false
+        "enabled": true
       },
       "instagram": {
         "name": "InstagramPublisher",
