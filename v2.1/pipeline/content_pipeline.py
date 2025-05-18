@@ -447,8 +447,6 @@ class ContentPipeline(IPipeline):
                 
                 # Paramètres spécifiques à la plateforme
                 kwargs = {}
-                if platform == "youtube":
-                    kwargs["title"] = f"Satisfying Physics Simulation - {time.strftime('%Y-%m-%d')}"
                 
                 success = publisher.publish(
                     video_path=video_path,

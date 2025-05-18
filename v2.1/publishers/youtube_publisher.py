@@ -348,9 +348,7 @@ class YouTubePublisher(IContentPublisher):
         
         # Formater le titre
         if not title:
-            file_name = os.path.basename(video_path)
-            title = os.path.splitext(file_name)[0]
-            title = title.replace("_", " ").title()
+            title = caption
         
         # Ajouter #Shorts si c'est un Short
         if is_short:

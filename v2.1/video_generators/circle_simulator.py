@@ -1,6 +1,7 @@
 # video_generators/circle_simulator.py
 """
 Générateur de vidéo basé sur des cercles qui utilise la nouvelle architecture
+Version fusionnée avec CCD et rendu amélioré
 """
 
 import os
@@ -18,6 +19,9 @@ import subprocess
 import shutil
 import threading
 from queue import Queue, Full
+import math, pygame, pygame.gfxdraw as aa
+
+BACKGROUND = (15, 15, 25)          # même couleur que render_surf.fill
 
 from core.interfaces import IVideoGenerator, TrendData, AudioEvent, VideoMetadata
 
@@ -68,7 +72,12 @@ class CircleSimulator(IVideoGenerator):
                  direct_frames = False,
                  performance_mode = "balanced",
                  render_scale = 1.0,
-                 debug = True, screen_scale = 1.0):
+                 all_arc = True,  # Nouveau paramètre (True par défaut comme demandé)
+                 debug = True, screen_scale = 1.0,
+                 start_angle = 30,
+                 gap_speed = 10,
+                 gravity=400,
+                 elasticity=1.02):
         """Initialise le simulateur de cercles"""
         # Paramètres par défaut
         self.width = width
@@ -80,10 +89,13 @@ class CircleSimulator(IVideoGenerator):
         self.frames_dir = os.path.join(self.temp_dir, frames_dir)
         self.debug = debug
         self.screen_scale = screen_scale
-        
+        self.start_angle = start_angle
+        self.gap_speed = gap_speed
+        self.elasticity = elasticity
+
         # Paramètres du jeu
         self.center = None  # Sera initialisé plus tard
-        self.gravity = None  # Sera initialisé plus tard
+        self.gravity = pygame.math.Vector2(0, gravity)
         self.min_radius = min_radius
         self.gap_radius = gap_radius
         self.nb_rings = nb_rings
@@ -91,6 +103,7 @@ class CircleSimulator(IVideoGenerator):
         self.gap_angle = gap_angle
         self.rotation_speed = rotation_speed
         self.random_arc = random_arc
+        self.all_arc = all_arc  # Nouveau paramètre
 
         # Nouveaux paramètres pour les balles
         self.balls_count = max(1, balls)  # Au moins une balle
@@ -175,7 +188,6 @@ class CircleSimulator(IVideoGenerator):
             
             # Calculer les valeurs dérivées
             self.center = pygame.math.Vector2(self.width // 2, self.height // 2)
-            self.gravity = pygame.math.Vector2(0, 400)
             
             # Créer les répertoires nécessaires
             os.makedirs(self.temp_dir, exist_ok=True)
@@ -277,22 +289,29 @@ class CircleSimulator(IVideoGenerator):
         # Créer les anneaux
         for i in range(self.nb_rings):
             ring_radius = self.min_radius + i * (self.thickness + self.gap_radius)
-            rotation_dir = 1 if i % 2 == 0 else -1  # Alternance du sens de rotation
+            rotation_dir = 1 
             
             ring = Ring(
                 self.center, 
                 outer_radius=ring_radius,
                 thickness=self.thickness,
                 gap_angle=self.gap_angle,
-                rotation_speed=self.rotation_speed * rotation_dir,
+                rotation_speed=self.rotation_speed * rotation_dir + self.gap_speed * i,
                 color=colors[i % len(colors)],
                 simulator=self,  # Passer une référence au simulateur
-                random_start=self.random_arc
+                random_start=self.random_arc,
+                start_angle = self.start_angle
             )
             self.rings.append(ring)
         
-        # Le premier anneau (le plus intérieur) est un arc qui tourne, les autres sont des cercles
-        self.rings[0].state = "arc"
+        # Configurer les anneaux comme arcs si all_arc est activé
+        if self.all_arc:
+            # Tous les anneaux commencent comme des arcs
+            for ring in self.rings:
+                ring.state = "arc"
+        else:
+            # Seulement le premier anneau (le plus intérieur) est un arc
+            self.rings[0].state = "arc"
         
         # Initialisation des balles avec des positions et vitesses différentes
         for i in range(self.balls_count):
@@ -308,8 +327,8 @@ class CircleSimulator(IVideoGenerator):
             
             # Vitesse initiale perpendiculaire à la position
             start_vel = pygame.math.Vector2(
-                np.cos(rad_angle + np.pi/2) * 150,
-                np.sin(rad_angle + np.pi/2) * 150
+                random.randint(200, 350),
+                random.randint(200, 350)
             )
             
             # Couleur différente pour chaque balle
@@ -326,9 +345,11 @@ class CircleSimulator(IVideoGenerator):
                 vel=start_vel,
                 radius=20,
                 color=ball_color,
+                elasticity=self.elasticity,
                 text=text,
                 font=self.font,
-                on_text=self.on_balls_text
+                on_text=self.on_balls_text,
+                simulator=self  # Passer une référence au simulateur
             )
             self.balls.append(ball)
     
@@ -395,18 +416,28 @@ class CircleSimulator(IVideoGenerator):
         # Créer une police plus grande pour la question
         if not hasattr(self, 'question_font') or self.question_font is None:
             self.question_font = pygame.font.SysFont("Arial", 50, bold=True)
+        texts = self.question_text.splitlines()
         
-        # Rendu du texte avec ombre
-        text_surface = self.question_font.render(self.question_text, True, (255, 255, 255))
-        shadow_surface = self.question_font.render(self.question_text, True, (0, 0, 0))
+        text_surface = []
+        shadow_surface = []
         
+        for idx, line in enumerate(texts):
+            text_surface.append(self.question_font.render(line, True, (255, 255, 255)))
+            shadow_surface.append(self.question_font.render(line, True, (0, 0, 0)))
+        
+        text_x = []
         # Positionner le texte en haut au centre
-        text_width = text_surface.get_width()
-        text_x = (self.width // 2) - (text_width // 2)
+        for text in text_surface:
+            text_width = text.get_width()
+            text_x.append((self.width // 2) - (text_width // 2))
         
+        gap = 20
         # Dessiner l'ombre puis le texte
-        surface.blit(shadow_surface, (text_x + 2, 22))
-        surface.blit(text_surface, (text_x, 20))
+        for idx in reversed(range(len(text_surface))):
+            idx_rev = len(text_surface) - idx - 1
+            pos_y = self.height // 2 - self.rings[-1].outer_radius - 50 - idx * 50 - gap
+            surface.blit(shadow_surface[idx_rev], (text_x[idx_rev] + 2, pos_y))
+            surface.blit(text_surface[idx_rev], (text_x[idx_rev], pos_y - 2))
     
     def _draw_victory_animation(self, surface, current_time):
         """Dessine l'animation de victoire si une balle a gagné"""
@@ -545,15 +576,15 @@ class CircleSimulator(IVideoGenerator):
                         self._collect_audio_event(e)
                     ring.events.clear()
                 
-                # Mise à jour des balles
+                # Mise à jour des balles avec le nouveau système CCD
                 for ball in self.balls:
-                    ball.update(dt, self.gravity, (w, h))
+                    ball.update(dt, self.gravity, (w, h), self.rings, i*dt, self._collect_audio_event)
                 
-                # Vérification des collisions
+                # Vérification de passage dans la trouée pour progression du niveau
                 for ball in self.balls:
-                    for idx, ring in enumerate(self.rings):
-                        ring.check_collision(ball, i*dt, self._collect_audio_event)
-                        if idx == self.current_level and ring.state == 'arc':
+                    if self.current_level < len(self.rings):
+                        ring = self.rings[self.current_level]
+                        if ring.state == 'arc':
                             to_ball = ball.pos - ring.center
                             ang = (-np.degrees(np.arctan2(to_ball.y, to_ball.x))) % 360
                             if ring.is_in_gap(ang) and abs(to_ball.length() - ring.inner_radius) < ball.radius * 1.5:
@@ -722,67 +753,37 @@ class CircleSimulator(IVideoGenerator):
                     self._collect_audio_event(e)
                 ring.events.clear()
             
-            # Mise à jour des balles
+            # Mise à jour des balles avec CCD
             for ball in self.balls:
-                ball.update(dt, self.gravity, (w, h))
+                ball.update(dt, self.gravity, (w, h), self.rings, i*dt, self._collect_audio_event)
 
-            # collision avec chaque anneau, pour CHAQUE balle
+            # Vérification de passage dans la trouée pour progression du niveau
             for ball in self.balls:
-                for idx, ring in [(idx, ring) for idx, ring in enumerate(self.rings) if ring.state == "arc"]:
-                    collided = ring.check_collision(ball, i*dt, self._collect_audio_event)
-                    to_ball = ball.pos - ring.center
-                    ang = (-np.degrees(np.arctan2(to_ball.y, to_ball.x))) % 360
-                    if ring.is_in_gap(ang) and abs(to_ball.length() - ring.inner_radius) < ball.radius * 1.5:
-                        ring.trigger_disappear(i*dt, self._collect_audio_event)
-                        self.current_level += 1
-                        if self.current_level < len(self.rings):
-                            self.rings[self.current_level].activate(i*dt, self._collect_audio_event)
-                        else:
-                            self.game_won = True
-                            # Déclencher l'animation de victoire
-                            self.winner_ball = ball
-                            self.victory_animation_time = i*dt
-                            self.screen_shake.start(intensity=10, duration=0.5)
-                            
-                            # Créer un événement audio pour la victoire
-                            victory_event = AudioEvent(
-                                event_type="victory",
-                                time=i*dt,
-                                position=(ball.pos.x, ball.pos.y),
-                                params={"ball_name": ball.text if ball.text else "Ball"}
-                            )
-                            self._collect_audio_event(victory_event)
-
-                # --- debug : afficher la trouée de l'anneau actif ---
-                if ring.state == "arc" and self.debug:
-                    # récupère les angles de début et fin de la trouée
-                    gap_start, gap_end = ring.get_gap_angles()
-
-                    # rayon où tracer les lignes (au niveau du bord intérieur)
-                    r = ring.inner_radius
-                    cx, cy = ring.center.x, ring.center.y
-
-                    # convertit en radians
-                    a1 = np.radians(gap_start)
-                    a2 = np.radians(gap_end)
-                    a3 = np.radians(ang)
-
-                    # calcule les deux points sur le cercle intérieur
-                    x1 = cx + r * np.cos(a1)
-                    y1 = cy - r * np.sin(a1)   # Pygame a l'axe Y vers le bas
-                    x2 = cx + r * np.cos(a2)
-                    y2 = cy - r * np.sin(a2)
-
-                    # calcuel de l'angle 
-                    x3 = cx + r * np.cos(a3)
-                    y3 = cy - r * np.sin(a3)
-
-                    # trace deux lignes radiales en vert vif
-                    pygame.draw.line(render_surf, (0,255,0), (cx, cy), (x1, y1), 3)
-                    pygame.draw.line(render_surf, (0,255,0), (cx, cy), (x2, y2), 3)
-
-                    # angle
-                    pygame.draw.line(render_surf, (0,0,255), (ball.pos.x, ball.pos.y), (x3, y3), 2)
+                if self.current_level < len(self.rings):
+                    ring = self.rings[self.current_level]
+                    if ring.state == 'arc':
+                        to_ball = ball.pos - ring.center
+                        ang = (-np.degrees(np.arctan2(to_ball.y, to_ball.x))) % 360
+                        if ring.is_in_gap(ang) and abs(to_ball.length() - ring.inner_radius) < ball.radius * 1.5:
+                            ring.trigger_disappear(i*dt, self._collect_audio_event)
+                            self.current_level += 1
+                            if self.current_level < len(self.rings):
+                                self.rings[self.current_level].activate(i*dt, self._collect_audio_event)
+                            else:
+                                self.game_won = True
+                                # Déclencher l'animation de victoire
+                                self.winner_ball = ball
+                                self.victory_animation_time = i*dt
+                                self.screen_shake.start(intensity=10, duration=0.5)
+                                
+                                # Créer un événement audio pour la victoire
+                                victory_event = AudioEvent(
+                                    event_type="victory",
+                                    time=i*dt,
+                                    position=(ball.pos.x, ball.pos.y),
+                                    params={"ball_name": ball.text if ball.text else "Ball"}
+                                )
+                                self._collect_audio_event(victory_event)
 
             # — Dessin hors écran
             for ring in reversed(self.rings): ring.draw(render_surf)
@@ -1031,155 +1032,47 @@ class Particle:
 
 
 class Ball:
-    """Balle qui rebondit dans les anneaux"""
-    
-    def __init__(self, pos, vel, radius=20, color=(255, 255, 255), elasticity=1.02, text="", font=None, on_text=True):
+    """Balle avec système de collision continue (CCD) et effets visuels améliorés"""
+
+    def __init__(self, pos, vel, radius=20, color=(255, 255, 255), elasticity=1.05, 
+                 text="", font=None, on_text=True, simulator=None):
         self.pos = pygame.math.Vector2(pos)
         self.vel = pygame.math.Vector2(vel)
         self.radius = radius
         self.color = color
         self.elasticity = elasticity
+        self.simulator = simulator  # Référence au simulateur pour accès aux rings/events/shake
+        
+        # Effets visuels
+        self.hit_flash = 0.0
         self.collision = False
         self.in_gap = False
-        self.hit_flash = 0
-        self.prev_pos = pygame.math.Vector2(pos)
+        
+        # Traînée
         self.trail = []
-        self.impact_particles = []
+        self.max_trail = 15
+        self.trail_fade = 2.0
         
-        # Paramètres pour une traînée plus longue et visible
-        self.trail_length = 15  # Plus de points dans la traînée
-        self.trail_fade = 2.0   # Disparition plus lente
-        
-        # Texte à afficher sur la balle
+        # Texte
         self.text = text
         self.font = font
-        self.on_text = on_text  # Afficher le texte sur la balle ou non
+        self.on_text = on_text
         self.text_surface = None
         
         # Prérendre le texte s'il y en a un
         if self.text and self.font and self.on_text:
             self.text_surface = self.font.render(self.text, True, (255, 255, 255))
-    
-    def update(self, dt, gravity, screen_dimensions):
-        # Conserver la position précédente pour la détection de trajectoire
-        self.prev_pos = pygame.math.Vector2(self.pos)
         
-        # Appliquer la gravité
-        self.vel += gravity * dt
-        
-        # Calculer le déplacement total prévu pour cette frame
-        total_displacement = self.vel * dt
-        move_distance = total_displacement.length()
-        
-        # === DÉTECTION DE COLLISION PIXEL-PARFAITE ===
-        # Calculer le nombre d'étapes pour garantir une couverture pixel par pixel
-        # 1 est la résolution minimale (1 pixel), garantissant qu'aucun pixel n'est sauté
-        steps = max(1, int(move_distance) + 1)  # +1 pour garantir qu'on couvre bien chaque pixel
-
-        screen_width, screen_height = screen_dimensions
-
-        # Pour chaque étape du mouvement (on parcourt la trajectoire complète)
-        for step in range(steps):
-            # Calculer exactement quelle fraction du mouvement total on effectue
-            t = (step + 1) / steps
-            
-            # Position exacte à ce moment de la trajectoire
-            next_pos = self.prev_pos + total_displacement * t
-            
-            # Déplacement depuis la dernière position
-            small_delta = next_pos - self.pos
-            small_dt = dt / steps
-            
-            # ==== GESTION DES REBONDS SUR LES BORDS ====
-            # Bord gauche
-            if next_pos.x - self.radius < 0:
-                # Calcul précis du temps de collision
-                t_collision = (self.radius - self.pos.x) / self.vel.x if self.vel.x != 0 else 0
-                t_collision = max(0, min(t_collision, small_dt))
-                
-                # Position exacte de la collision
-                self.pos.x = self.radius + 0.1
-                self.pos.y += self.vel.y * t_collision
-                
-                # Rebond physiquement correct
-                self.vel.x = -self.vel.x * self.elasticity
-                self.hit_flash = 0.1
-                self.create_impact_particles(pygame.math.Vector2(1, 0))
-                
-                # Arrêter la progression sur cet axe pour cette étape
-                break
-            
-            # Bord droit
-            elif next_pos.x + self.radius > screen_width:
-                t_collision = (screen_width - self.radius - self.pos.x) / self.vel.x if self.vel.x != 0 else 0
-                t_collision = max(0, min(t_collision, small_dt))
-                
-                self.pos.x = screen_width - self.radius - 0.1
-                self.pos.y += self.vel.y * t_collision
-                
-                self.vel.x = -self.vel.x * self.elasticity
-                self.hit_flash = 0.1
-                self.create_impact_particles(pygame.math.Vector2(-1, 0))
-                
-                break
-            
-            # Bord supérieur
-            elif next_pos.y - self.radius < 0:
-                t_collision = (self.radius - self.pos.y) / self.vel.y if self.vel.y != 0 else 0
-                t_collision = max(0, min(t_collision, small_dt))
-                
-                self.pos.y = self.radius + 0.1
-                self.pos.x += self.vel.x * t_collision
-                
-                self.vel.y = -self.vel.y * self.elasticity
-                self.hit_flash = 0.1
-                self.create_impact_particles(pygame.math.Vector2(0, 1))
-                
-                break
-            
-            # Bord inférieur
-            elif next_pos.y + self.radius > screen_height:
-                t_collision = (screen_height - self.radius - self.pos.y) / self.vel.y if self.vel.y != 0 else 0
-                t_collision = max(0, min(t_collision, small_dt))
-                
-                self.pos.y = screen_height - self.radius - 0.1
-                self.pos.x += self.vel.x * t_collision
-                
-                self.vel.y = -self.vel.y * self.elasticity
-                self.hit_flash = 0.1
-                self.create_impact_particles(pygame.math.Vector2(0, -1))
-                
-                break
-                
-            # Si aucune collision avec les bords, actualiser la position
-            else:
-                self.pos = next_pos
-
-        # Ajouter la position actuelle à la traînée
-        self.trail.append((pygame.math.Vector2(self.pos), self.hit_flash > 0))
-        
-        # Limiter la taille de la traînée
-        if len(self.trail) > self.trail_length:
-            self.trail.pop(0)
-        
-        # Mettre à jour le timer de flash
-        if self.hit_flash > 0:
-            self.hit_flash -= dt
-        
-        # Mettre à jour les particules d'impact
-        self.impact_particles = [p for p in self.impact_particles if p.update(dt)]
-        
-        # Réinitialiser les états de collision
-        self.collision = False
-        self.in_gap = False  
+        # Particules d'impact
+        self.impact_particles = []
 
     def create_impact_particles(self, normal):
         """Crée des particules lors d'un impact"""
         impact_point = self.pos - normal * self.radius
-        impact_speed = self.vel.length() * 0.3  # Augmenté pour plus d'effet
+        impact_speed = self.vel.length() * 0.3
         
-        # Plus de particules pour un effet plus spectaculaire
-        for _ in range(20):
+        # Créer plusieurs particules
+        for _ in range(15):
             # Direction aléatoire autour de la normale réfléchie
             angle = random.uniform(-np.pi/2, np.pi/2)
             rot_normal = pygame.math.Vector2(
@@ -1190,7 +1083,7 @@ class Ball:
             # Vitesse aléatoire
             vel = rot_normal * random.uniform(impact_speed * 0.5, impact_speed * 2.0)
             
-            # Couleur basée sur la couleur de la balle avec variation aléatoire
+            # Couleur basée sur la couleur de la balle avec variation
             r, g, b = self.color
             color_var = random.randint(-30, 30)
             color = (
@@ -1203,21 +1096,222 @@ class Ball:
             # Taille et durée de vie aléatoires
             size = random.uniform(2, 6)
             life = random.uniform(0.3, 0.7)
-            
-            # 30% de chance d'avoir une particule brillante
             glow = random.random() < 0.3
             
             # Ajouter la particule
             self.impact_particles.append(Particle(impact_point, vel, color, size, life, glow))
-    
-    def draw(self, surface):
-        # Dessiner la traînée avec effet de dégradé et anti-aliasing
-        for i, (pos, is_flash) in enumerate(self.trail):
-            alpha = int(200 * (i / len(self.trail)) ** self.trail_fade)
-            size = int(self.radius * (0.3 + 0.7 * i / len(self.trail)))
+
+    def update(self, dt, gravity, screen_size, rings, current_time, event_collector):
+        """Mise à jour avec détection de collision par intersection de trajectoire"""
+        w, h = screen_size
+        
+        # Appliquer la gravité
+        self.vel += gravity * dt
+        
+        # Limiter la vitesse maximale
+        max_speed = 4000
+        if self.vel.length() > max_speed:
+            self.vel = self.vel.normalize() * max_speed
+        
+        # Sous-diviser le mouvement en petites étapes
+        steps = max(1, int(self.vel.length() * dt / 5))
+        dt_step = dt / steps
+        
+        for _ in range(steps):
+            # Sauvegarder la position actuelle
+            old_pos = pygame.math.Vector2(self.pos)
             
-            # Couleur de traînée (normale ou flash)
-            if is_flash:
+            # Calculer la nouvelle position
+            new_pos = old_pos + self.vel * dt_step
+            
+            # Vérifier les collisions avec les bords d'écran
+            collision_occurred = False
+            
+            if new_pos.x - self.radius <= 0:
+                new_pos.x = self.radius + 1
+                self.vel.x = -self.vel.x * self.elasticity
+                self.hit_flash = 0.1
+                self.create_impact_particles(pygame.math.Vector2(1, 0))
+                collision_occurred = True
+                if self.simulator and hasattr(self.simulator, 'screen_shake'):
+                    self.simulator.screen_shake.start(intensity=3, duration=0.1)
+            elif new_pos.x + self.radius >= w:
+                new_pos.x = w - self.radius - 1
+                self.vel.x = -self.vel.x * self.elasticity
+                self.hit_flash = 0.1
+                self.create_impact_particles(pygame.math.Vector2(-1, 0))
+                collision_occurred = True
+                if self.simulator and hasattr(self.simulator, 'screen_shake'):
+                    self.simulator.screen_shake.start(intensity=3, duration=0.1)
+            
+            if new_pos.y - self.radius <= 0:
+                new_pos.y = self.radius + 1
+                self.vel.y = -self.vel.y * self.elasticity
+                self.hit_flash = 0.1
+                self.create_impact_particles(pygame.math.Vector2(0, 1))
+                collision_occurred = True
+                if self.simulator and hasattr(self.simulator, 'screen_shake'):
+                    self.simulator.screen_shake.start(intensity=3, duration=0.1)
+            elif new_pos.y + self.radius >= h:
+                new_pos.y = h - self.radius - 1
+                self.vel.y = -self.vel.y * self.elasticity
+                self.hit_flash = 0.1
+                self.create_impact_particles(pygame.math.Vector2(0, -1))
+                collision_occurred = True
+                if self.simulator and hasattr(self.simulator, 'screen_shake'):
+                    self.simulator.screen_shake.start(intensity=3, duration=0.1)
+            
+            # Si collision avec bord, appliquer la nouvelle position et continuer
+            if collision_occurred:
+                self.pos = new_pos
+                continue
+            
+            # Vérifier les collisions avec les anneaux
+            for ring in rings:
+                if ring.state in ["disappearing", "gone"]:
+                    continue
+                
+                # Calculer les distances avant et après le mouvement
+                old_dist = (old_pos - ring.center).length()
+                new_dist = (new_pos - ring.center).length()
+                
+                # Vérifier traversée du bord intérieur
+                inner_radius = ring.inner_radius - self.radius
+                if (old_dist <= inner_radius and new_dist > inner_radius) or (old_dist > inner_radius and new_dist <= inner_radius):
+                    # Calcul du point d'intersection exact
+                    impact_point, impact_time = self._calculate_circle_intersection(old_pos, new_pos, ring.center, inner_radius)
+                    if impact_point:
+                        # Vérifier si on est dans le gap
+                        if ring.state == "arc":
+                            to_impact = impact_point - ring.center
+                            angle = (-math.degrees(math.atan2(to_impact.y, to_impact.x))) % 360
+                            if ring.is_in_gap(angle):
+                                self.in_gap = True
+                                continue
+                        
+                        # Calculer la normale au point d'impact
+                        to_impact = impact_point - ring.center
+                        normal = -to_impact.normalize()
+                        
+                        # Repositionner au point d'impact
+                        self.pos = impact_point
+                        
+                        # Calculer le rebond
+                        dot_product = self.vel.dot(normal)
+                        self.vel = self.vel - 2 * dot_product * normal * self.elasticity
+                        
+                        # Continuer le mouvement avec le temps restant
+                        remaining_time = (1.0 - impact_time) * dt_step
+                        if remaining_time > 0:
+                            self.pos += self.vel * remaining_time
+                        
+                        # Effets
+                        self.hit_flash = 0.1
+                        self.collision = True
+                        self.create_impact_particles(normal)
+                        ring._handle_collision_effects(self, current_time, event_collector, dot_product, normal)
+                        break
+                
+                # Vérifier traversée du bord extérieur
+                outer_radius = ring.outer_radius + self.radius
+                if (old_dist <= outer_radius and new_dist > outer_radius) or (old_dist > outer_radius and new_dist <= outer_radius):
+                    # Calcul du point d'intersection exact
+                    impact_point, impact_time = self._calculate_circle_intersection(old_pos, new_pos, ring.center, outer_radius)
+                    if impact_point:
+                        # Vérifier si on est dans le gap
+                        if ring.state == "arc":
+                            to_impact = impact_point - ring.center
+                            angle = (-math.degrees(math.atan2(to_impact.y, to_impact.x))) % 360
+                            if ring.is_in_gap(angle):
+                                self.in_gap = True
+                                continue
+                        
+                        # Calculer la normale au point d'impact (vers l'intérieur pour le bord extérieur)
+                        to_impact = impact_point - ring.center
+                        normal = -to_impact.normalize()
+                        
+                        # Repositionner au point d'impact
+                        self.pos = impact_point
+                        
+                        # Calculer le rebond
+                        dot_product = self.vel.dot(normal)
+                        self.vel = self.vel - 2 * dot_product * normal * self.elasticity
+                        
+                        # Continuer le mouvement avec le temps restant
+                        remaining_time = (1.0 - impact_time) * dt_step
+                        if remaining_time > 0:
+                            self.pos += self.vel * remaining_time
+                        
+                        # Effets
+                        self.hit_flash = 0.1
+                        self.collision = True
+                        self.create_impact_particles(normal)
+                        ring._handle_collision_effects(self, current_time, event_collector, dot_product, normal)
+                        break
+            else:
+                # Aucune collision avec les anneaux, appliquer la nouvelle position
+                self.pos = new_pos
+        
+        # Effets visuels
+        self.trail.append(pygame.math.Vector2(self.pos))
+        if len(self.trail) > self.max_trail:
+            self.trail.pop(0)
+        
+        self.impact_particles = [p for p in self.impact_particles if p.update(dt)]
+        
+        if self.hit_flash > 0:
+            self.hit_flash -= dt
+        
+        # Réinitialiser les états
+        self.collision = False
+        self.in_gap = False
+
+    def _calculate_circle_intersection(self, start_pos, end_pos, circle_center, circle_radius):
+        """Calcule le point d'intersection entre la trajectoire et un cercle"""
+        # Vecteur de mouvement
+        movement = end_pos - start_pos
+        movement_length = movement.length()
+        
+        if movement_length == 0:
+            return None, 0
+        
+        # Vecteur du centre du cercle au point de départ
+        to_start = start_pos - circle_center
+        
+        # Équation quadratique pour intersection ligne-cercle
+        # (start + t * movement - center)² = radius²
+        a = movement.dot(movement)
+        b = 2 * to_start.dot(movement)
+        c = to_start.dot(to_start) - circle_radius * circle_radius
+        
+        discriminant = b * b - 4 * a * c
+        
+        if discriminant < 0:
+            return None, 0  # Pas d'intersection
+        
+        discriminant = math.sqrt(discriminant)
+        
+        # Deux solutions possibles
+        t1 = (-b - discriminant) / (2 * a)
+        t2 = (-b + discriminant) / (2 * a)
+        
+        # Prendre la première intersection valide
+        for t in [t1, t2]:
+            if 0 <= t <= 1:  # Intersection sur le segment
+                intersection_point = start_pos + movement * t
+                return intersection_point, t
+        
+        return None, 0
+
+    def draw(self, surface):
+        """Rendu avec effets visuels améliorés"""
+        # --- Dessiner la traînée ---
+        for i, pos in enumerate(self.trail):
+            alpha = int(200 * (i / len(self.trail)) ** self.trail_fade)
+            size = int(self.radius * (0.4 + 0.6 * i / len(self.trail)))
+            
+            # Couleur de traînée
+            if self.hit_flash > 0:
                 trail_color = (255, 255, 255, alpha)
             else:
                 r, g, b = self.color
@@ -1229,12 +1323,14 @@ class Ball:
                 pygame.gfxdraw.filled_circle(surface, int(pos.x), int(pos.y), size, trail_color)
                 pygame.gfxdraw.aacircle(surface, int(pos.x), int(pos.y), size, trail_color)
         
-        # Dessiner les particules d'impact
+        # --- Dessiner les particules d'impact ---
         for particle in self.impact_particles:
             particle.draw(surface)
-            
-        # Déterminer la couleur en fonction de l'état
+        
+        # --- Dessiner la balle principale ---
         draw_color = self.color
+        
+        # Modifier la couleur selon l'état
         if self.collision:
             draw_color = (255, 100, 100)  # Rouge en cas de collision
         elif self.in_gap:
@@ -1249,29 +1345,27 @@ class Ball:
                 min(255, draw_color[2] + int(150 * flash_intensity))
             )
             
-            # Dessiner un cercle plus grand pour le flash avec anti-aliasing
+            # Dessiner un cercle plus grand pour le flash
             glow_radius = int(self.radius * 1.3)
             pygame.gfxdraw.filled_circle(surface, int(self.pos.x), int(self.pos.y), glow_radius, (*flash_color, 100))
             pygame.gfxdraw.aacircle(surface, int(self.pos.x), int(self.pos.y), glow_radius, (*flash_color, 150))
         
-        # Dessiner la balle principale avec anti-aliasing
+        # Cercle principal avec anti-aliasing
         pygame.gfxdraw.filled_circle(surface, int(self.pos.x), int(self.pos.y), int(self.radius), draw_color)
         pygame.gfxdraw.aacircle(surface, int(self.pos.x), int(self.pos.y), int(self.radius), draw_color)
         
-        # Ajouter le reflet pour donner du volume
+        # Reflet pour donner du volume
         highlight_pos = (int(self.pos.x - self.radius * 0.3), int(self.pos.y - self.radius * 0.3))
         highlight_radius = int(self.radius * 0.4)
-        
-        # Dessiner le reflet avec anti-aliasing
         pygame.gfxdraw.filled_circle(surface, highlight_pos[0], highlight_pos[1], highlight_radius, (255, 255, 255, 100))
         pygame.gfxdraw.aacircle(surface, highlight_pos[0], highlight_pos[1], highlight_radius, (255, 255, 255, 120))
         
-        # Dessiner le texte sur la balle si activé
+        # --- Dessiner le texte sur la balle si activé ---
         if self.text and self.on_text and self.text_surface:
             text_width, text_height = self.text_surface.get_size()
             text_pos = (int(self.pos.x - text_width // 2), int(self.pos.y - text_height // 2))
             
-            # Ajouter un petit fond noir avec transparence pour améliorer la lisibilité
+            # Fond noir semi-transparent pour améliorer la lisibilité
             text_bg = pygame.Surface((text_width + 6, text_height + 4), pygame.SRCALPHA)
             text_bg.fill((0, 0, 0, 150))
             surface.blit(text_bg, (text_pos[0] - 3, text_pos[1] - 2))
@@ -1281,44 +1375,73 @@ class Ball:
 
 
 class Ring:
-    """Anneau avec trouée pour le passage de la balle"""
-    
-    def __init__(self, center, outer_radius, thickness, gap_angle=0, rotation_speed=0, color=(255, 100, 100), simulator=None, random_start=True):
+    """Anneau avec trouée et système de collision continue (CCD)"""
+
+    def __init__(self, center, outer_radius, thickness, gap_angle=0, rotation_speed=0, 
+                 color=(255, 100, 100), simulator=None, random_start=True, start_angle=None):
         self.center = center
         self.outer_radius = outer_radius
         self.thickness = thickness
         self.inner_radius = outer_radius - thickness
         self.gap_angle = gap_angle
         self.rotation_speed = rotation_speed
+        self.simulator = simulator
+        
         if random_start:
             self.arc_start = random.randint(0, 360)
-
+        else:
+            self.arc_start = start_angle or 0
+        
         self.color = color
         self.state = "circle"  # "circle", "arc", "disappearing", "gone"
         self.disappear_timer = 1.0
-        self.particles = []
-        self.glow_intensity = 0
-        self.simulator = simulator  # Référence au simulateur pour les effets globaux
+        self.glow_intensity = 0.0
         
         # Paramètres d'animation
-        self.pulse_timer = 0
-        self.pulse_period = 1.5  # Période de pulsation en secondes
-        self.pulse_amount = 0.2  # Amplitude de pulsation (% de variation)
+        self.pulse_timer = 0.0
+        self.pulse_period = 1.5
+        self.pulse_amount = 0.2
+        self.color_shift_timer = 0.0
+        self.color_shift_period = 3.0
+        self.color_hue_shift = 0.0
         
-        # Variation de couleur pour une animation plus dynamique
-        self.color_shift_timer = 0
-        self.color_shift_period = 3.0  # Période de variation de couleur
-        self.color_hue_shift = 0  # Décalage de teinte
-        
-        # Événements à collecter
+        # Effets
+        self.particles = []
         self.events = []
     
-    def get_simulator(self):
-        """Récupère la référence au simulateur principal"""
-        return self.simulator
+    # --- Utilitaires mathématiques ---
+    @staticmethod
+    def _quad_roots(a, b, c):
+        """Résout l'équation quadratique ax² + bx + c = 0"""
+        discriminant = b*b - 4*a*c
+        if discriminant < 0:
+            return None, None
+        sqrt_disc = math.sqrt(discriminant)
+        return (-b - sqrt_disc) / (2*a), (-b + sqrt_disc) / (2*a)
     
+    def get_gap_angles(self):
+        """Récupère les angles de début et fin de la trouée"""
+        gap_start = self.arc_start % 360
+        gap_end = (self.arc_start + self.gap_angle) % 360
+        return gap_start, gap_end
+    
+    def is_in_gap(self, angle):
+        """Vérifie si un angle est dans la trouée"""
+        if self.state != "arc" or self.gap_angle == 0:
+            return False
+        
+        gap_start, gap_end = self.get_gap_angles()
+        angle = angle % 360
+        
+        # Gestion du cas où la trouée traverse la ligne 0/360
+        if gap_start <= gap_end:
+            return gap_start <= angle <= gap_end
+        else:
+            return angle >= gap_start or angle <= gap_end
+    
+    # --- Animation de couleur ---
     def hsv_to_rgb(self, h, s, v):
-        """Convertit HSV en RGB pour les animations de couleur"""
+        """Convertit HSV en RGB"""
         h = h % 360
         h_i = int(h / 60)
         f = h / 60 - h_i
@@ -1343,10 +1466,9 @@ class Ring:
     
     def get_animated_color(self):
         """Obtient la couleur animée en fonction du temps"""
-        # Convertir RGB en HSV
         r, g, b = self.color
         
-        # Trouver la teinte dominante (approx.)
+        # Conversion RGB vers HSV approximative
         max_val = max(r, g, b)
         if max_val == 0:
             h, s, v = 0, 0, 0
@@ -1364,77 +1486,68 @@ class Ring:
             else:
                 h = 60 * ((r - g) / delta + 4)
         
-        # Appliquer le décalage de teinte et l'animation de pulsation
+        # Appliquer les animations
         h = (h + self.color_hue_shift) % 360
         v = v * (1 + np.sin(2 * np.pi * self.pulse_timer / self.pulse_period) * self.pulse_amount)
-        v = min(1.0, max(0.3, v))  # Limiter la luminosité
+        v = min(1.0, max(0.3, v))
         
-        # Convertir en RGB
         return self.hsv_to_rgb(h, s, v)
-    
-    def update(self, dt, ball_positions=None):
-        # Mise à jour des timers d'animation
-        self.pulse_timer = (self.pulse_timer + dt) % self.pulse_period
-        self.color_shift_timer = (self.color_shift_timer + dt) % self.color_shift_period
 
-        # Animation du décalage de teinte
-        if self.state == "arc":
-            self.color_hue_shift = (self.color_hue_shift + 15 * dt) % 360
+    # --- Gestion des effets de collision ---
+    def _handle_collision_effects(self, ball, current_time, event_collector, dot_product, normal):
+        """Gère tous les effets de collision (visuels, sonores, etc.)"""
+        # Effets visuels
+        ball.hit_flash = 0.1
+        ball.create_impact_particles(normal)
+        ball.collision = True
+        self.glow_intensity = 0.5
         
-        if self.state == "arc":
-            # Mettre à jour la rotation de l'arc
-            self.arc_start = (self.arc_start + self.rotation_speed * dt) % 360
-            
-            # Mise à jour du halo quand une balle est proche
-            if ball_positions:
-                # Identifier la balle la plus proche
-                min_dist = float('inf')
-                closest_ball_pos = None
-                
-                for ball_pos in ball_positions:
-                    dist = (ball_pos - self.center).length()
-                    if dist < min_dist:
-                        min_dist = dist
-                        closest_ball_pos = ball_pos
-                
-                if closest_ball_pos:
-                    # Intensité basée sur la distance de la balle au bord intérieur
-                    proximity = max(0, 1 - abs(min_dist - self.inner_radius) / (self.thickness * 2))
-                    self.glow_intensity = proximity * 0.8  # Max 80% d'intensité
-            
-        elif self.state == "disappearing":
-            # Mettre à jour le timer de disparition
-            self.disappear_timer -= dt
-            if self.disappear_timer <= 0:
-                self.state = "gone"
-            
-            # Générer des particules pendant la disparition
-            if random.random() < 20 * dt:  # Augmenté pour plus de particules
-                self.create_particle(has_glow=True)
+        # Secousse d'écran
+        impact_force = abs(dot_product) / 200
+        if self.simulator and hasattr(self.simulator, 'screen_shake') and impact_force > 0.2:
+            self.simulator.screen_shake.start(
+                intensity=min(10, impact_force * 3),
+                duration=min(0.2, impact_force * 0.1)
+            )
         
-        # Mettre à jour les particules
-        self.particles = [p for p in self.particles if p.update(dt)]
+        # Créer des particules de l'anneau
+        for _ in range(10):
+            self.create_particle(has_glow=True)
+        
+        # Événement audio
+        velocity_magnitude = ball.vel.length()
+        note_index = min(int(velocity_magnitude / 150), 6)
+        octave = min(int(velocity_magnitude / 300), 2)
+        
+        event = AudioEvent(
+            event_type="note",
+            time=current_time,
+            position=(ball.pos.x, ball.pos.y),
+            params={"note": note_index, "octave": octave}
+        )
+        
+        self.events.append(event)
+        if event_collector:
+            event_collector(event)
     
+    # --- Particules ---
     def create_particle(self, has_glow=False):
-        """Crée une particule avec des effets améliorés"""
-        # Choisir un angle aléatoire
+        """Crée une particule lors d'effets visuels"""
         angle = random.uniform(0, np.pi * 2)
         radius = random.uniform(self.inner_radius, self.outer_radius)
         
-        # Position basée sur le centre et l'angle
+        # Position basée sur l'angle
         pos = (
             self.center.x + np.cos(angle) * radius,
             self.center.y + np.sin(angle) * radius
         )
         
-        # Vecteur de vélocité s'éloignant du centre
+        # Vitesse s'éloignant du centre
         dir_vec = pygame.math.Vector2(np.cos(angle), np.sin(angle))
-        vel = dir_vec * random.uniform(100, 300)  # Vitesse augmentée
+        vel = dir_vec * random.uniform(100, 300)
         
-        # Utiliser la couleur animée pour plus de dynamisme
+        # Couleur animée avec variation
         base_color = self.get_animated_color()
-        
-        # Variation de couleur
         color_var = 50
         color = (
             min(255, max(0, base_color[0] + random.randint(-color_var, color_var))),
@@ -1443,304 +1556,182 @@ class Ring:
             255
         )
         
-        # Taille et durée de vie aléatoires
-        size = random.uniform(3, 8)  # Particules plus grosses
+        # Propriétés aléatoires
+        size = random.uniform(3, 8)
         life = random.uniform(0.5, 1.5)
         
-        # Créer et ajouter la particule
         self.particles.append(Particle(pos, vel, color, size, life, glow=has_glow))
     
+    # --- Gestion d'état ---
     def activate(self, current_time, event_collector=None):
-        """
-        Active l'anneau (passe de cercle à arc)
-        
-        Args:
-            current_time: Temps actuel de la simulation
-            event_collector: Fonction de collecte d'événements
-        """
+        """Active l'anneau (passe de cercle à arc)"""
         if self.state == "circle":
             self.state = "arc"
             
-            # Créer un événement sonore d'activation
+            # Événement sonore
             event = AudioEvent(
                 event_type="activation",
                 time=current_time,
                 position=(self.center.x, self.center.y)
             )
-            
-            # Ajouter l'événement à la liste locale
             self.events.append(event)
-            
-            # Si un collecteur est fourni, l'utiliser aussi
             if event_collector:
                 event_collector(event)
             
-            # Créer beaucoup de particules pour l'activation
+            # Particules d'activation
             for _ in range(30):
                 self.create_particle(has_glow=True)
     
     def trigger_disappear(self, current_time, event_collector=None):
-        """
-        Déclenche la disparition de l'anneau
-        
-        Args:
-            current_time: Temps actuel de la simulation
-            event_collector: Fonction de collecte d'événements
-        """
+        """Déclenche la disparition de l'anneau"""
         if self.state == "arc":
             self.state = "disappearing"
             
-            # Créer un événement sonore d'explosion
+            # Événement sonore
             event = AudioEvent(
                 event_type="explosion",
                 time=current_time,
                 position=(self.center.x, self.center.y),
                 params={"size": "large"}
             )
-            
-            # Ajouter l'événement à la liste locale
             self.events.append(event)
-            
-            # Si un collecteur est fourni, l'utiliser aussi
             if event_collector:
                 event_collector(event)
             
-            # Démarrer une secousse d'écran
+            # Secousse d'écran
             if self.simulator and hasattr(self.simulator, 'screen_shake'):
                 self.simulator.screen_shake.start(intensity=10, duration=0.4)
             
-            # Générer beaucoup de particules immédiatement
-            for _ in range(150):  # Augmenté pour plus d'effet
+            # Beaucoup de particules
+            for _ in range(150):
                 self.create_particle(has_glow=True)
     
-    def get_gap_angles(self):
-        """
-        Récupère les angles de début et fin de la trouée
+    # --- Mise à jour ---
+    def update(self, dt, ball_positions=None):
+        """Mise à jour de l'anneau"""
+        # Timers d'animation
+        self.pulse_timer = (self.pulse_timer + dt) % self.pulse_period
+        self.color_shift_timer = (self.color_shift_timer + dt) % self.color_shift_period
         
-        Returns:
-            Tuple (angle_début, angle_fin)
-        """
-        gap_start = -(self.arc_start + self.gap_angle) % 360
-        gap_end = -self.arc_start % 360
+        # Animation de teinte pour les arcs
+        if self.state == "arc":
+            self.color_hue_shift = (self.color_hue_shift + 15 * dt) % 360
+            
+            # Rotation de l'arc
+            self.arc_start = (self.arc_start + self.rotation_speed * dt) % 360
+            
+            # Halo en fonction de la proximité des balles
+            if ball_positions:
+                min_dist = float('inf')
+                for ball_pos in ball_positions:
+                    dist = (ball_pos - self.center).length()
+                    if dist < min_dist:
+                        min_dist = dist
+                
+                # Intensité basée sur la proximité
+                proximity = max(0, 1 - abs(min_dist - self.inner_radius) / (self.thickness * 2))
+                self.glow_intensity = proximity * 0.8
         
-        return gap_start, gap_end
+        # Disparition progressive
+        elif self.state == "disappearing":
+            self.disappear_timer -= dt
+            if self.disappear_timer <= 0:
+                self.state = "gone"
+            
+            # Générer des particules pendant la disparition
+            if random.random() < 20 * dt:
+                self.create_particle(has_glow=True)
+        
+        # Mettre à jour les particules
+        self.particles = [p for p in self.particles if p.update(dt)]
     
-    def is_in_gap(self, angle):
-        """
-        Vérifie si un angle est dans la trouée
+    # --- Rendu amélioré ---
+    def draw_filled_arc(self, surface, center, inner_radius, outer_radius, start_angle, end_angle, color):
+        """Dessine un arc rempli entre deux rayons"""
+        # Convertir en radians
+        start_rad = math.radians(start_angle)
+        end_rad = math.radians(end_angle)
         
-        Args:
-            angle: Angle à vérifier
-            
-        Returns:
-            True si l'angle est dans la trouée, False sinon
-        """
-        if self.state != "arc" or self.gap_angle == 0:
-            return False
+        # Nombre de segments pour une courbe lisse
+        num_segments = max(5, int(abs(end_angle - start_angle) / 5))
+        angle_step = (end_rad - start_rad) / num_segments
         
-        gap_start, gap_end = self.get_gap_angles()
-        angle = angle % 360
+        # Points de l'arc
+        points = []
         
-        if gap_start <= gap_end:
-            return gap_start <= angle <= gap_end
-        else:
-            return angle >= gap_start or angle <= gap_end
-    
-    def check_collision(self, ball: Ball, current_time, event_collector=None):
-        """
-        Vérifie s'il y a collision entre la balle et l'anneau
+        # Bord extérieur
+        for i in range(num_segments + 1):
+            angle = start_rad + i * angle_step
+            x = center[0] + outer_radius * math.cos(angle)
+            y = center[1] - outer_radius * math.sin(angle)  # Y inversé pour Pygame
+            points.append((x, y))
         
-        Args:
-            ball: Balle à vérifier
-            current_time: Temps actuel de la simulation
-            event_collector: Fonction de collecte d'événements
-            
-        Returns:
-            True s'il y a collision, False sinon
-        """
-        if self.state in ["disappearing", "gone"]:
-            return False
-            
-        # Vecteur du centre vers la balle
-        to_ball = ball.pos - self.center
-        dist = to_ball.length()
+        # Bord intérieur (ordre inverse)
+        for i in range(num_segments, -1, -1):
+            angle = start_rad + i * angle_step
+            x = center[0] + inner_radius * math.cos(angle)
+            y = center[1] - inner_radius * math.sin(angle)  # Y inversé pour Pygame
+            points.append((x, y))
         
-        # Calcul de l'angle de la balle par rapport au centre
-        angle = (-np.degrees(np.arctan2(to_ball.y, to_ball.x))) % 360
-        
-        # Vérifie si la balle traverse la trouée
-        if self.state == "arc" and self.is_in_gap(angle) and dist + ball.radius >= self.inner_radius and dist - ball.radius <= self.outer_radius:
-            ball.in_gap = True
-            
-            # Créer un événement sonore de passage uniquement quand on traverse la trouée
-            if dist > self.inner_radius and dist < self.inner_radius + ball.radius + 10:
-                event = AudioEvent(
-                    event_type="passage",
-                    time=current_time,
-                    position=(ball.pos.x, ball.pos.y),
-                    params={"note": 3, "octave": 1}
-                )
-                
-                # Ajouter l'événement à la liste locale
-                self.events.append(event)
-                
-                # Si un collecteur est fourni, l'utiliser aussi
-                if event_collector:
-                    event_collector(event)
-                
-            return False
-        
-        # Vérifie si la balle touche la bordure du cercle
-        if dist + ball.radius >= self.inner_radius and dist - ball.radius <= self.outer_radius:
-            # Collision avec le bord intérieur
-            if abs(dist - self.inner_radius) <= ball.radius:
-                # La normale pointe vers l'extérieur (du centre vers la balle)
-                normal = to_ball.normalize()
-                # Calcul du rebond normal
-                dot_product = ball.vel.dot(normal)
-                
-                # Reflète la vitesse
-                ball.vel = ball.vel - 2 * dot_product * normal * ball.elasticity
-                
-                # Effet de secousse d'écran basé sur la vitesse d'impact
-                impact_force = abs(dot_product) / 200  # Normalisation de la force
-                if self.simulator and hasattr(self.simulator, 'screen_shake') and impact_force > 0.2:
-                    screen_shake_intensity = min(10, impact_force * 3)
-                    self.simulator.screen_shake.start(
-                        intensity=screen_shake_intensity, 
-                        duration=min(0.2, impact_force * 0.1)
-                    )
-                
-                # Effets visuels
-                ball.hit_flash = 0.1
-                ball.create_impact_particles(normal)
-                self.glow_intensity = 0.5
-                ball.collision = True
-                
-                # Créer un événement sonore de rebond
-                # Déterminer la note en fonction de la vitesse
-                velocity_magnitude = ball.vel.length()
-                note_index = min(int(velocity_magnitude / 150), 6)  # 0-6 pour Do-Si
-                octave = min(int(velocity_magnitude / 300), 2)      # 0-2 pour les octaves
-                
-                event = AudioEvent(
-                    event_type="note",
-                    time=current_time,
-                    position=(ball.pos.x, ball.pos.y),
-                    params={"note": note_index, "octave": octave}
-                )
-                
-                # Ajouter l'événement à la liste locale
-                self.events.append(event)
-                
-                # Si un collecteur est fourni, l'utiliser aussi
-                if event_collector:
-                    event_collector(event)
-                
-                return True
-
-        return False
+        # Dessiner le polygone
+        if len(points) >= 3:
+            pygame.gfxdraw.filled_polygon(surface, points, color)
+            pygame.gfxdraw.aapolygon(surface, points, color)
     
     def draw(self, surface):
-        """
-        Dessine l'anneau sur une surface avec anti-aliasing et effets améliorés
-        
-        Args:
-            surface: Surface pygame sur laquelle dessiner
-        """
+        """Rendu amélioré des cercles et arcs"""
         if self.state == "gone":
-            # Ne rien dessiner si l'anneau a disparu
-            pass
-        elif self.state == "circle":
-            # Obtenir la couleur animée
-            animated_color = self.get_animated_color()
-            
-            # Dessine un cercle complet avec effet de halo si activé
-            if self.glow_intensity > 0:
-                # Dessine un halo autour de l'anneau
-                for i in range(5):
-                    alpha = int(100 * self.glow_intensity) - i * 20
-                    if alpha <= 0:
-                        continue
-                    glow_color = (*animated_color, alpha)
-                    
-                    # Dessiner les halos externes et internes avec anti-aliasing
-                    # Halo externe
-                    outer_rad = self.outer_radius + i*2
-                    pygame.gfxdraw.aacircle(surface, int(self.center.x), int(self.center.y), outer_rad, glow_color)
-                    
-                    # Halo interne
-                    inner_rad = self.inner_radius - i*2
-                    if inner_rad > 0:
-                        pygame.gfxdraw.aacircle(surface, int(self.center.x), int(self.center.y), inner_rad, glow_color)
-            
-            # Dessiner l'anneau principal avec anti-aliasing
-            # Pour un anneau, nous dessinons deux cercles: externe et interne
-            pygame.gfxdraw.aacircle(surface, int(self.center.x), int(self.center.y), self.outer_radius, animated_color)
-            
-            # Remplir l'anneau avec la couleur
-            for r in range(self.thickness):
-                rad = self.inner_radius + r
-                pygame.gfxdraw.circle(surface, int(self.center.x), int(self.center.y), rad, animated_color)
-            
-            # Dessiner le cercle interne pour créer le trou de l'anneau
-            pygame.gfxdraw.aacircle(surface, int(self.center.x), int(self.center.y), self.inner_radius, animated_color)
-            
-        elif self.state in ["arc", "disappearing"]:
-            # Obtenir la couleur animée
-            animated_color = self.get_animated_color()
-            
-            # Ajuster l'alpha si en train de disparaître
-            if self.state == "disappearing":
-                alpha = int(255 * self.disappear_timer)
-                animated_color = (*animated_color[:3], alpha)
-            
-            # Dessiner l'arc avec des points anti-aliasés (technique alternative)
-            start_angle = np.radians(self.arc_start + self.gap_angle)
-            end_angle = np.radians(self.arc_start + 360)
-            
-            # Si l'arc fait un tour presque complet, dessiner avec plus de points
-            # pour une meilleure qualité
-            num_points = 120  # Plus de points pour un arc plus lisse
-            
-            for r in range(self.thickness):
-                radius = self.inner_radius + r
-                points = []
-                
-                # Calculer les points de l'arc
-                for i in range(num_points + 1):
-                    angle = start_angle + (end_angle - start_angle) * (i / num_points)
-                    x = self.center.x + radius * np.cos(angle)
-                    y = self.center.y + radius * np.sin(angle)
-                    points.append((int(x), int(y)))
-                
-                # Dessiner l'arc avec des lignes AA
-                if len(points) > 1:
-                    for i in range(len(points) - 1):
-                        x1, y1 = points[i]
-                        x2, y2 = points[i + 1]
-                        pygame.gfxdraw.line(surface, x1, y1, x2, y2, animated_color)
-            
-            # Dessiner le halo si nécessaire
-            if self.glow_intensity > 0 and self.state == "arc":
-                glow_color = (*animated_color[:3], int(100 * self.glow_intensity))
-                glow_radius = self.inner_radius + self.thickness // 2
-                
-                for i in range(3):  # Trois couches de halo
-                    alpha = int(80 * self.glow_intensity) - i * 20
-                    if alpha <= 0:
-                        continue
-                        
-                    glow_color = (*animated_color[:3], alpha)
-                    glow_radius = self.inner_radius + self.thickness // 2 + i * 3
-                    
-                    # Dessiner le halo avec des points
-                    for i in range(num_points + 1):
-                        angle = start_angle + (end_angle - start_angle) * (i / num_points)
-                        x = self.center.x + glow_radius * np.cos(angle)
-                        y = self.center.y + glow_radius * np.sin(angle)
-                        pygame.gfxdraw.circle(surface, int(x), int(y), 1, glow_color)
+            return
         
-        # Dessiner les particules
+        cx, cy = int(self.center.x), int(self.center.y)
+        out_r = int(self.outer_radius)
+        in_r = int(self.inner_radius)
+        col_rgb = self.get_animated_color()
+        
+        # Facteur de fondu pour la disparition
+        fade = self.disappear_timer if self.state == "disappearing" else 1.0
+        alpha = int(255 * fade)
+        col = (*col_rgb, alpha)
+        
+        # --- CERCLE COMPLET ---
+        if self.state == "circle":
+            # Surface temporaire pour éviter les artefacts
+            temp_surface = pygame.Surface((out_r * 2, out_r * 2), pygame.SRCALPHA)
+            
+            # Cercle extérieur
+            pygame.gfxdraw.filled_circle(temp_surface, out_r, out_r, out_r, col)
+            pygame.gfxdraw.aacircle(temp_surface, out_r, out_r, out_r, col)
+            
+            # Trou intérieur
+            pygame.gfxdraw.filled_circle(temp_surface, out_r, out_r, in_r, (0, 0, 0, 0))
+            
+            # Blitter sur la surface principale
+            surface.blit(temp_surface, (cx - out_r, cy - out_r))
+        
+        # --- ARC AVEC TROUÉE ---
+        elif self.state == "arc" or self.state == "disappearing":
+            # Calculer les angles de l'arc (tout sauf la trouée)
+            arc_start = (self.arc_start + self.gap_angle) % 360
+            arc_end = self.arc_start % 360
+            
+            # Gérer le cas où l'arc traverse 0°
+            if arc_start > arc_end:
+                # Dessiner en deux parties
+                self.draw_filled_arc(surface, (cx, cy), in_r, out_r, arc_start, 360, col)
+                self.draw_filled_arc(surface, (cx, cy), in_r, out_r, 0, arc_end, col)
+            else:
+                self.draw_filled_arc(surface, (cx, cy), in_r, out_r, arc_start, arc_end, col)
+        
+        # --- HALO LUMINEUX ---
+        if self.glow_intensity > 0 and alpha > 0:
+            halo_alpha = int(120 * self.glow_intensity * fade)
+            halo_col = (*col_rgb, halo_alpha)
+            
+            # Plusieurs cercles pour créer l'effet de halo
+            for r in range(in_r - 5, out_r + 5, 2):
+                if r > 0:
+                    pygame.gfxdraw.aacircle(surface, cx, cy, r, halo_col)
+        
+        # --- PARTICULES ---
         for particle in self.particles:
             particle.draw(surface)

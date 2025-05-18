@@ -37,7 +37,6 @@ class TikTokPublisher(IContentPublisher):
         self.headless = headless
 
         self.connector = TikTokConnector(credentials_file or "tiktok_cookies.pkl", headless=headless)
-        self.driver = self.connector.driver
 
         logger.info("TikTokPublisher initialisé")
 
@@ -85,33 +84,33 @@ class TikTokPublisher(IContentPublisher):
         try:
             # Aller directement à TikTok Studio
             logger.info("Navigation vers TikTok Studio...")
-            self.driver.get("https://www.tiktok.com/creator-center/upload")
+            self.connector.driver.get("https://www.tiktok.com/creator-center/upload")
             time.sleep(5)
             
             # Vérifier si nous sommes bien connecté au studio ou redirigé vers la connexion
-            current_url = self.driver.current_url
+            current_url = self.connector.driver.current_url
             if "login" in current_url:
                 logger.info("Redirection vers la page de connexion détectée. Connexion nécessaire.")
                 if not self.connector.authenticate():
                     return False
                 # Après connexion, retourner au studio
-                self.driver.get("https://www.tiktok.com/creator-center/upload")
+                self.connector.driver.get("https://www.tiktok.com/creator-center/upload")
                 time.sleep(5)
             
             # Attendre que l'input file apparaisse
             logger.info("Recherche du champ de téléchargement...")
             try:
-                upload_input = WebDriverWait(self.driver, 20).until(
+                upload_input = WebDriverWait(self.connector.driver, 20).until(
                     EC.presence_of_element_located((By.XPATH, "//input[@type='file']"))
                 )
             except TimeoutException:
                 # Si l'élément spécifique n'est pas trouvé, chercher tous les inputs de type file
-                upload_inputs = self.driver.find_elements(By.XPATH, "//input[@type='file']")
+                upload_inputs = self.connector.driver.find_elements(By.XPATH, "//input[@type='file']")
                 if upload_inputs:
                     upload_input = upload_inputs[0]
                 else:
                     logger.error("Aucun champ d'upload trouvé!")
-                    self.driver.save_screenshot("upload_error.png")
+                    self.connector.driver.save_screenshot("upload_error.png")
                     logger.info("Une capture d'écran a été enregistrée dans 'upload_error.png'")
                     return False
             
@@ -125,7 +124,7 @@ class TikTokPublisher(IContentPublisher):
             
             # Attendre que le champ de description soit activé (cela indique que la vidéo est prête)
             try:
-                caption_field = WebDriverWait(self.driver, 20).until(
+                caption_field = WebDriverWait(self.connector.driver, 20).until(
                     EC.presence_of_element_located((By.XPATH, "//div[@contenteditable='true']"))
                 )
             except:
@@ -141,7 +140,7 @@ class TikTokPublisher(IContentPublisher):
 
             # Simuler un Ctrl+A pour tout sélectionner
             from selenium.webdriver.common.action_chains import ActionChains
-            actions = ActionChains(self.driver)
+            actions = ActionChains(self.connector.driver)
             actions.key_down(Keys.CONTROL).send_keys('a').key_up(Keys.CONTROL).perform()
 
             # Ensuite, simuler un appui sur la touche Backspace pour effacer
@@ -169,7 +168,7 @@ class TikTokPublisher(IContentPublisher):
             
             post_button = None
             for xpath in post_button_xpaths:
-                buttons = self.driver.find_elements(By.XPATH, xpath)
+                buttons = self.connector.driver.find_elements(By.XPATH, xpath)
                 if buttons:
                     for button in buttons:
                         if button.is_displayed() and button.is_enabled():
@@ -197,14 +196,14 @@ class TikTokPublisher(IContentPublisher):
             
             while tries < max_tries:
                 # Vérifier si nous sommes redirigés vers la page de contenu
-                current_url = self.driver.current_url
+                current_url = self.connector.driver.current_url
                 if "/content" in current_url:
                     logger.info("Redirection vers la page de contenu détectée : Publication réussie !")
                     success = True
                     break
                 
                 # Vérifier s'il y a un message de succès
-                success_elements = self.driver.find_elements(By.XPATH, 
+                success_elements = self.connector.driver.find_elements(By.XPATH, 
                     "//div[contains(text(), 'Your video is') or contains(text(), 'Votre vidéo') or contains(text(), 'success')]")
                 if success_elements:
                     logger.info("Message de succès détecté!")
@@ -225,8 +224,8 @@ class TikTokPublisher(IContentPublisher):
             
             if self.auto_close:
                 logger.info("Fermeture du navigateur...")
-                self.driver.quit()
-                self.driver = None
+                self.connector.driver.quit()
+                self.connector.driver = None
             
             return success
             
@@ -236,16 +235,16 @@ class TikTokPublisher(IContentPublisher):
             traceback.print_exc()
             
             # Capturer une capture d'écran pour le diagnostic
-            if self.driver:
-                self.driver.save_screenshot("tiktok_error.png")
+            if self.connector.driver:
+                self.connector.driver.save_screenshot("tiktok_error.png")
                 logger.info("Une capture d'écran a été enregistrée dans 'tiktok_error.png'")
             
             return False
         finally:
             # Fermer le navigateur si demandé
-            if self.auto_close and self.driver:
+            if self.auto_close and self.connector.driver:
                 try:
-                    self.driver.quit()
-                    self.driver = None
+                    self.connector.driver.quit()
+                    self.connector.driver = None
                 except:
                     pass
