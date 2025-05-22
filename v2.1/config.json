@@ -9,7 +9,7 @@
       }
     },
     "video_generator": {
-      "name": "CircleSimulator",
+      "name": "InfiniteCircleSimulator",
       "params": {
         "width": 1080,
         "height": 1920,
@@ -19,31 +19,31 @@
         "temp_dir": "temp",
         "frames_dir": "frames",
 
-        "min_radius": 150,
-        "gap_radius": 0,
-        "nb_rings": 30,
-        "thickness": 10,
-        "gap_angle": 60,
-        "rotation_speed": 20,
-        "random_arc": false,
-        "start_angle": -30,
-        "gap_speed": 1,
+        "ring_count": 50,
+        "max_passages": 1000,
+        "min_radius": 80, 
+        "max_radius": 200, 
+        "thickness": 15, 
+        "gap_angle": 60, 
+        "rotation_speed": 60,  
+        "shrink_factor": 0.95, 
+        "recycling_speed": 200,  
+        "spacing": 10, 
 
-        "balls": 2, 
-        "text_balls": ["You","Me"], 
+        "balls": 1, 
+        "text_balls": [], 
         "on_balls_text": true, 
         "max_text_length": 10,
-        "all_arc": true,
-        "gravity": 500,
-        "elasticity": 1.02,
 
+        "question_text": "Who's the best ?",
         "use_gpu_acceleration": true,
         "direct_frames": false,
         "performance_mode": "balanced",
         "render_scale": 1.0,
         "debug": false,
         "screen_scale": 0.5,
-        "question_text": "Who's the dumbest?"
+        "gravity": 500,
+        "elasticity": 1.02
       }
     },
     "audio_generator": {
@@ -77,7 +77,7 @@
           "auto_close": true,
           "headless": true
         },
-        "enabled": true
+        "enabled": false
       },
       "youtube": {
         "name": "YouTubePublisher",
@@ -85,7 +85,7 @@
           "auto_close": true,
           "headless": false
         },
-        "enabled": true
+        "enabled": false
       },
       "instagram": {
         "name": "InstagramPublisher",
