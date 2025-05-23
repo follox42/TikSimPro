@@ -4,7 +4,7 @@
       "params": {
         "cache_dir": "tiktok_data",
         "description": "Share it with your friends !",
-        "hashtags": ["fyp", "foryou", "viral", "trending", "animation", "simulation", "tiktok"],
+        "hashtags": ["bounce", "simulation", "satisfy", "satisfying", "#animation"],
         "use_web_search": false
       }
     },
@@ -19,31 +19,57 @@
         "temp_dir": "temp",
         "frames_dir": "frames",
 
-        "ring_count": 50,
-        "max_passages": 1000,
-        "min_radius": 80, 
-        "max_radius": 200, 
+        "min_radius": 100, 
+        "gap_radius": 0, 
+        "nb_rings": 50, 
         "thickness": 15, 
         "gap_angle": 60, 
-        "rotation_speed": 60,  
-        "shrink_factor": 0.95, 
-        "recycling_speed": 200,  
-        "spacing": 10, 
+        "rotation_speed": 60, 
+        "random_arc": false, 
+        "color_palette": [
+                     "#FF0050", "#00F2EA", "#FFFFFF", "#FE2C55", "#25F4EE",
+                     "#FFD700", "#FF6B35", "#32CD32", "#FF69B4", "#00CED1",
+                     "#FFA500", "#9370DB", "#00FF7F", "#FF1493", "#1E90FF"
+                 ],
 
         "balls": 1, 
-        "text_balls": [], 
+        "text_balls": null, 
         "on_balls_text": true, 
-        "max_text_length": 10,
+        "max_text_length": 15,
+        
+        "question_text": "Can the ball escape 2000 circles?",
+        "top_frac_text": 0.15,
+        "left_frac_text": 0.5,
 
-        "question_text": "Who's the best ?",
+        "max_circles_to_escape": 2000,
+        "show_countdown": true, 
+        "countdown_color":"#FFFFFF",
+        "victory_on_escape": true, 
+
         "use_gpu_acceleration": true,
         "direct_frames": false,
         "performance_mode": "balanced",
         "render_scale": 1.0,
-        "debug": false,
+        "all_arc": true,  
+        "alternate_rotation": false,
+        "debug": false, 
         "screen_scale": 0.5,
-        "gravity": 500,
-        "elasticity": 1.02
+
+        "start_angle": 30,
+        "gap_angle_rings": 1,
+        "gap_speed": 0,
+        "gravity": 400,
+        "elasticity": 1.001,
+        
+        "shrink_speed": 50,  
+        "maintain_ring_count": true,  
+        "shrink_factor": 0.85,
+
+        "max_particles_per_ring": 80, 
+        "max_particles_per_ball": 20,  
+        "performance_mode_auto": true,
+
+        "max_total_rings": 300
       }
     },
     "audio_generator": {
@@ -77,7 +103,7 @@
           "auto_close": true,
           "headless": true
         },
-        "enabled": false
+        "enabled": true
       },
       "youtube": {
         "name": "YouTubePublisher",
@@ -85,7 +111,7 @@
           "auto_close": true,
           "headless": false
         },
-        "enabled": false
+        "enabled": true
       },
       "instagram": {
         "name": "InstagramPublisher",

@@ -258,7 +258,7 @@ class ContentPipeline(IPipeline):
             return video_path
             
         except Exception as e:
-            logger.error(f"Erreur lors de la génération de la vidéo: {e}")
+            logger.exception(f"Erreur lors de la génération de la vidéo: {e}")
             return None
     
     def _generate_audio(self) -> Optional[str]:
