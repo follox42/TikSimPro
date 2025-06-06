@@ -1,4 +1,3 @@
-#!/usr/bin/env python
 # main.py
 """
 Main script for TikSimPro

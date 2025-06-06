@@ -1,14 +1,48 @@
-# TikSimPro - Viral TikTok Content Generator
+TikSimPro - Viral TikTok Content Generator
 
-> **Automated physics simulation video generator for TikTok with built-in publishing capabilities**
+Automated physics simulation video generator for TikTok with built-in publishing capabilities
+
+<div align="center">
+
+🚧 **WORK IN PROGRESS** 🚧
+
+_This project is currently under active development and not fully functional yet_
 
 [![Python 3.8+](https://img.shields.io/badge/python-3.8+-blue.svg)](https://www.python.org/downloads/)
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
-[![Status: Active](https://img.shields.io/badge/Status-Active-green.svg)]()
+[![Status: In Development](https://img.shields.io/badge/Status-In%20Development-orange.svg)]()
+
+</div>
 
 ## 🎯 What is TikSimPro?
 
 TikSimPro is a modular Python system that automatically generates engaging physics simulation videos optimized for TikTok. It creates visually satisfying content like bouncing balls, rotating circles, and other physics-based animations that perform well on social media.
+
+## 🚧 Current Development Status
+
+> **⚠️ Important Notice**  
+> This project is currently **under active development** and is **not fully functional** at this time. I'm actively working on completing the core features and cleaning all the functionality.
+
+**🔄 Project Evolution Notice**
+
+> **This project can completely change from one day to another.** I reserve myself the right to modify, restructure, or completely redesign the project at any moment during this development phase. The current architecture, features, and goals may be subject to significant changes without prior notice.
+
+### 🔄 What's Currently Working
+
+- ✅ Basic project structure and architecture
+- ✅ Configuration system
+- ✅ Core interfaces and plugin system
+- ⚙️ Physics simulation engine (in progress)
+- ⚙️ Fully english documentation
+
+### 🔨 What I'm Working On
+
+- 🔧 Completing video generation pipeline
+- 🔧 Compelting physics Simulators
+- 🔧 Helper to create configuration
+- 🔧 Implementing publishing modules
+- 🔧 Performance optimization
+- 🔧 Error handling and stability
 
 ### ✨ Key Features
 
@@ -30,12 +64,14 @@ TikSimPro is a modular Python system that automatically generates engaging physi
 ### Installation
 
 1. **Clone the repository**
+
    ```bash
    git clone https://github.com/follox42/tiksimpro.git
    cd tiksimpro
    ```
 
 2. **Install dependencies**
+
    ```bash
    python setup.py
    ```
@@ -48,30 +84,33 @@ TikSimPro is a modular Python system that automatically generates engaging physi
 ### Basic Usage
 
 Generate a video with default settings:
+
 ```bash
 python main.py
 ```
 
 Generate and auto-publish:
+
 ```bash
 python main.py --publish
 ```
 
 Custom parameters:
+
 ```bash
 python main.py --duration 45 --resolution 1080:1920 --config config_circle.json
 ```
 
 ## 📋 Command Line Options
 
-| Option | Short | Description |
-|--------|-------|-------------|
-| `--config` | `-c` | Configuration file path |
-| `--output` | `-o` | Output directory |
-| `--duration` | `-d` | Video duration (seconds) |
-| `--resolution` | `-r` | Video resolution (width:height) |
-| `--publish` | `-p` | Auto-publish to platforms |
-| `--init` | `-i` | Create default config |
+| Option         | Short | Description                     |
+| -------------- | ----- | ------------------------------- |
+| `--config`     | `-c`  | Configuration file path         |
+| `--output`     | `-o`  | Output directory                |
+| `--duration`   | `-d`  | Video duration (seconds)        |
+| `--resolution` | `-r`  | Video resolution (width:height) |
+| `--publish`    | `-p`  | Auto-publish to platforms       |
+| `--init`       | `-i`  | Create default config           |
 
 ## 🏗️ Project Structure
 
@@ -84,7 +123,7 @@ tiksimpro/
 ├── video_generators/      # Video generation modules
 ├── audio_generators/      # Audio synthesis
 ├── video_enhancers/
-├── media_combiner/        # Combining audio and video    
+├── media_combiner/        # Combining audio and video
 ├── publishers/            # Social media publishers
 ├── pipeline/              # Processing pipeline
 ├── config.json            # Default configuration
@@ -96,6 +135,7 @@ tiksimpro/
 The system uses JSON configuration files. Key sections:
 
 ### Video Generator Example
+
 ```json
 {
   "video_generator": {
@@ -113,6 +153,7 @@ The system uses JSON configuration files. Key sections:
 ```
 
 ### Publishing Example
+
 ```json
 {
   "publishers": {
@@ -131,18 +172,22 @@ The system uses JSON configuration files. Key sections:
 ## 🎬 Simulation Types
 
 ### Circle Simulator
+
 Creates rotating circle patterns with physics-based ball interactions.
 
 **Features:**
+
 - Configurable ring count and spacing
 - Dynamic gap detection
 - Realistic gravity and elasticity
 - Custom color palettes
 
 ### Infinite Circle Simulator
+
 Advanced version with shrinking circles and escape mechanics.
 
 **Features:**
+
 - Progressive difficulty
 - Victory conditions
 - Particle effects
@@ -151,16 +196,19 @@ Advanced version with shrinking circles and escape mechanics.
 ## 🤖 Social Media Integration
 
 ### TikTok Publishing
+
 - Automated login and session management
 - Video upload with captions and hashtags
 - Publishing confirmation detection
 
 ### YouTube
+
 - Cross-platform publishing support
 - Platform-specific optimization
 - Automated scheduling
 
 ### Instagram
+
 > 🔨 **Under Construction**  
 > This project is actively being developed. Some features may be incomplete.
 
@@ -201,6 +249,7 @@ class MySimulator(IVideoGenerator):
 ### Common Issues
 
 **FFmpeg not found:**
+
 ```bash
 # Ubuntu/Debian
 sudo apt install ffmpeg
@@ -213,11 +262,13 @@ choco install ffmpeg
 ```
 
 **Browser automation fails:**
+
 - Ensure Chrome/Chromium is installed
 - Check if webdriver permissions are correct
 - Try running in non-headless mode first
 
 **Video generation slow:**
+
 - Enable GPU acceleration in config
 - Reduce video resolution for testing
 - Close other resource-intensive applications
@@ -236,7 +287,7 @@ This project is licensed under the MIT License - see the [LICENSE](LICENSE) file
 
 - **Issues**: [GitHub Issues](https://github.com/follox42/tiksimpro/issues)
 - **Discussions**: [GitHub Discussions](https://github.com/follox42/tiksimpro/discussions)
-- **Email**: your.email@example.com
+- **Email**: follox@shosai.fr
 
 ## 📚 Acknowledgments
 
@@ -246,6 +297,8 @@ This project is licensed under the MIT License - see the [LICENSE](LICENSE) file
 - Automation with Selenium
 
 ## ⚠️ Disclaimer
-*Users are responsible for complying with social media platform 
-terms of service. This software generates content only."*
+
+_Users are responsible for complying with social media platform
+terms of service. This software generates content only."_
+
 ---
