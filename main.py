@@ -1,168 +1,240 @@
+#!/usr/bin/env python
+# main.py
 """
-Script principal utilisant le lecteur de mélodies pour créer une vidéo TikTok
-où chaque rebond joue une note d'une mélodie populaire.
+Main script for TikSimPro
+Generates and publishes viral TikTok videos with physics simulations
 """
 
 import os
+import sys
 import time
-import random
-from ball_simulation import Simulation
-from melody_player import integrate_melody_player, MelodyPlayer
-from video_enhancer import VideoEnhancer
-from tiktok_publisher_semi_auto import TikTokPublisherSemiAuto
+import logging
+import argparse
+import json
+from typing import Dict, Any, Optional
+from pathlib import Path
+
+from core.config import Config
+
+# Initialize logger
+logging.basicConfig(
+    level=logging.INFO,
+    format='%(asctime)s - %(name)s - %(levelname)s - %(message)s',
+    handlers=[
+        logging.StreamHandler(),
+        logging.FileHandler('tiksimpro.log')
+    ]
+)
+logger = logging.getLogger("TikSimPro")
+
+# Import components
+from core.interfaces import (
+    IPipeline, ITrendAnalyzer, IVideoGenerator, IAudioGenerator, 
+    IMediaCombiner, IVideoEnhancer, IContentPublisher,
+    TrendData, AudioEvent
+)
+from pipeline.content_pipeline import ContentPipeline
+from core.plugin_manager import PluginManager
+from core.config import DEFAULT_CONFIG 
+
+def setup_components(config: Config) -> Optional[ContentPipeline]:
+    """
+    Configure and initialize all pipeline components
+    
+    Args:
+        config: Configuration to use
+        
+    Returns:
+        Configured pipeline, or None if error occurs
+    """
+    try:
+        plugin_dirs = ["trend_analyzers", "video_generators", "audio_generators", 
+                      "media_combiner", "video_enhancers", "publishers"]
+        manager = PluginManager(plugin_dirs)
+
+        # Create pipeline
+        pipeline = ContentPipeline()
+        
+        # Create and configure trend analyzer
+        trend_analyzer = manager.get_plugin(config.get("trend_analyzer").get("name"), ITrendAnalyzer)
+        pipeline.set_trend_analyzer(trend_analyzer(**{
+            k: v for k, v in config["trend_analyzer"]["params"].items() 
+            if not k.startswith("_comment")
+        }))
+
+        # Create and configure video generator
+        video_generator = manager.get_plugin(config.get("video_generator").get("name"), IVideoGenerator)
+        pipeline.set_video_generator(video_generator(**{
+            k: v for k, v in config["video_generator"]["params"].items() 
+            if not k.startswith("_comment")
+        }))
+        
+        # Create and configure audio generator
+        audio_generator = manager.get_plugin(config.get("audio_generator").get("name"), IAudioGenerator)
+        pipeline.set_audio_generator(audio_generator(**{
+            k: v for k, v in config["audio_generator"]["params"].items() 
+            if not k.startswith("_comment")
+        }))
+        
+        # Create and configure media combiner
+        media_combiner = manager.get_plugin(config.get("media_combiner").get("name"), IMediaCombiner)
+        pipeline.set_media_combiner(media_combiner(**{
+            k: v for k, v in config["media_combiner"]["params"].items() 
+            if not k.startswith("_comment")
+        }))
+        
+        # Create and configure video enhancer
+        video_enhancer = manager.get_plugin(config.get("video_enhancer").get("name"), IVideoEnhancer)
+        pipeline.set_video_enhancer(video_enhancer(**{
+            k: v for k, v in config["video_enhancer"]["params"].items() 
+            if not k.startswith("_comment")
+        }))
+        
+        # Add publishing systems
+        for platform, publisher_config in config["publishers"].items():
+            if publisher_config.get("enabled", False):
+                publisher = manager.get_plugin(
+                    publisher_config.get("name"), IContentPublisher
+                )(**publisher_config["params"])
+                pipeline.add_publisher(platform, publisher)
+        
+        pip = config.get("pipeline")
+        
+        # Configure pipeline
+        pipeline_config = {
+            "output_dir": pip.get("output_dir", "videos"),
+            "auto_publish": pip.get("auto_publish", False),
+            "platforms": [p for p, cfg in config["publishers"].items() if cfg.get("enabled", False)],
+            "video_duration": (pip.get("duration") if pip.get("duration") 
+                             else config["video_generator"]["params"].get("duration", 30)),
+            "video_dimensions": (
+                pip.get("width")[0] if pip.get("width") 
+                else config["video_generator"]["params"].get("width", 1080),
+                pip.get("height")[0] if pip.get("height") 
+                else config["video_generator"]["params"].get("height", 1920)
+            ),
+            "fps": (pip.get("fps") if pip.get("fps") 
+                   else config["video_generator"]["params"].get("fps", 60))
+        }
+        pipeline.configure(pipeline_config)
+        
+        return pipeline
+        
+    except Exception as e:
+        logger.error(f"Error configuring components: {e}")
+        import traceback
+        traceback.print_exc()
+        return None
+
+def run_pipeline(pipeline: ContentPipeline) -> Optional[str]:
+    """
+    Execute the content pipeline
+    
+    Args:
+        pipeline: Pipeline to execute
+        
+    Returns:
+        Path to generated video, or None if error occurs
+    """
+    try:
+        logger.info("Starting content pipeline...")
+        start_time = time.time()
+        
+        # Execute pipeline
+        result_path = pipeline.execute()
+        
+        if not result_path:
+            logger.error("Pipeline execution failed")
+            return None
+        
+        # Calculate execution time
+        elapsed_time = time.time() - start_time
+        logger.info(f"Pipeline executed in {elapsed_time:.2f} seconds")
+        logger.info(f"Video generated: {result_path}")
+        
+        return result_path
+        
+    except Exception as e:
+        logger.error(f"Error executing pipeline: {e}")
+        return None
 
 def main():
-    # Créer le dossier de sortie si nécessaire
-    output_dir = "videos"
-    if not os.path.exists(output_dir):
-        os.makedirs(output_dir)
+    """Main function"""
+    # Parse command line arguments
+    parser = argparse.ArgumentParser(description="TikSimPro - Viral TikTok Content Generator")
+    parser.add_argument("--config", "-c", type=str, default="config.json", 
+                       help="Configuration file")
+    parser.add_argument("--output", "-o", type=str, 
+                       help="Output directory")
+    parser.add_argument("--duration", "-d", type=int, 
+                       help="Video duration in seconds")
+    parser.add_argument("--resolution", "-r", type=str, 
+                       help="Video resolution (width:height)")
+    parser.add_argument("--publish", "-p", action="store_true", 
+                       help="Auto-publish video")
+    parser.add_argument("--init", "-i", action="store_true", 
+                       help="Initialize default configuration")
+    args = parser.parse_args()
     
-    # Nom du fichier de sortie
-    timestamp = int(time.time())
-    output_filename = f"tiktok_melody_simulation_{timestamp}.mp4"
-    output_path = os.path.join(output_dir, output_filename)
-    enhanced_output_path = os.path.join(output_dir, f"tiktok_melody_simulation_{timestamp}_enhanced.mp4")
-    
-    print("="*80)
-    print("ÉTAPE 1: CHOIX DE LA MÉLODIE")
-    print("="*80)
-    
-    # Créer le lecteur de mélodies
-    melody_player = MelodyPlayer()
-    
-    # Afficher les mélodies disponibles
-    melody_player.list_available_melodies()
-    
-    # Demander à l'utilisateur de choisir une mélodie
-    melody_name = melody_player.choose_melody()
-    
-    # Jouer une démo de la mélodie
-    print("\nVoici un aperçu de la mélodie choisie:")
-    melody_player.demo_melody(melody_name)
-    
+    # Display banner
     print("\n" + "="*80)
-    print("ÉTAPE 2: GÉNÉRATION DE LA VIDÉO")
-    print("="*80)
+    print("          TikSimPro - Viral TikTok Content Generator")
+    print("="*80 + "\n")
+
+    # Initialize default configuration if requested
+    if args.init:
+        config = DEFAULT_CONFIG
+        config.save_config(config)
+        print(f"Default configuration created in {args.config}")
+        return
     
-    # Créer la simulation
-    sim = Simulation(output_path=output_path)
+    # Load configuration
+    if not os.path.exists(args.config):
+        print(f"Configuration file {args.config} not found.")
+        print("Use --init to create a default configuration.")
+        return
     
-    # Intégrer le lecteur de mélodies
-    integrate_melody_player(sim)
+    print(f"Loading configuration from: {args.config}")
+    config = Config(args.config).load_config()
     
-    # Définir la mélodie choisie
-    sim.melody_player.set_current_melody(melody_name)
+    # Apply command line arguments
+    if args.output:
+        config["output_dir"] = args.output
     
-    # Exécuter la simulation pour créer la vidéo
-    sim.run()
+    if args.duration:
+        config["video_generator"]["params"]["duration"] = args.duration
     
-    print("\n" + "="*80)
-    print("ÉTAPE 3: AMÉLIORATION VISUELLE")
-    print("="*80)
+    if args.resolution:
+        try:
+            width, height = map(int, args.resolution.split(":"))
+            config["video_generator"]["params"]["width"] = width
+            config["video_generator"]["params"]["height"] = height
+        except ValueError:
+            logger.error(f"Invalid resolution format: {args.resolution}")
+            return
     
-    # Créer l'améliorateur de vidéo
-    enhancer = VideoEnhancer()
+    if args.publish:
+        config["pipeline"]["auto_publish"] = True
     
-    # Préparer les textes basés sur la mélodie choisie
-    intro_text = f"Chaque rebond joue une note de '{melody_name}' 🎵"
-    hashtags = [
-        "fyp", 
-        "music", 
-        melody_name.replace(" ", ""),  # Nom de la mélodie sans espaces
-        "satisfying", 
-        "physics", 
-        "viral",
-        "musicalsimulation"
-    ]
-    cta_text = "Suivez pour plus de mélodies! 🎵"
-    
-    # Demander à l'utilisateur s'il souhaite ajouter du texte
-    enhance = input("Voulez-vous ajouter du texte explicatif à la vidéo? (o/n): ").lower()
-    
-    if enhance.startswith('o') or enhance.startswith('y'):
-        # Ajouter toutes les améliorations
-        enhanced_video_path = enhancer.enhance_all(
-            output_path,
-            enhanced_output_path,
-            intro_text,
-            hashtags,
-            cta_text
-        )
+    # Configure and execute pipeline
+    pipeline = setup_components(config)
+    if pipeline:
+        result_path = run_pipeline(pipeline)
         
-        if enhanced_video_path:
-            print(f"\nVidéo améliorée créée: {enhanced_video_path}")
-            current_video_path = enhanced_video_path
+        if result_path:
+            print("\n" + "="*60)
+            print("✅ PROCESSING COMPLETED SUCCESSFULLY!")
+            print(f"📹 Video generated: {result_path}")
+            
+            if config["pipeline"].get("auto_publish", False):
+                print("🚀 Video published to configured platforms.")
+            else:
+                print("💾 Video saved locally (auto_publish=False).")
+            print("="*60)
         else:
-            print("\nAucune amélioration appliquée ou erreur lors de l'amélioration.")
-            current_video_path = output_path
+            print("\n❌ Processing failed. Check logs for details.")
     else:
-        current_video_path = output_path
-    
-    print("\n" + "="*80)
-    print(f"VIDÉO FINALE CRÉÉE: {current_video_path}")
-    print(f"Mélodie utilisée: {melody_name}")
-    print("="*80)
-    
-    # Description de la vidéo
-    captions = [
-        f"Chaque rebond joue une note de '{melody_name}' 🎵 Mettez le son!",
-        f"La physique joue '{melody_name}' 🎵 Quelle mélodie voulez-vous voir ensuite?",
-        f"Écoutez cette version physique de '{melody_name}' 🎧 Dites-moi ce que vous en pensez!",
-        f"C'est '{melody_name}' joué par des rebonds de balles! 🎵 Vous reconnaissez?",
-        f"Devinez cette mélodie! 🎵 (C'est '{melody_name}')"
-    ]
-    
-    caption = random.choice(captions)
-    
-    # Hashtags pour la publication
-    tiktok_hashtags = [
-        "fyp", 
-        "foryou", 
-        "viral",
-        "music", 
-        melody_name.replace(" ", ""),  # Nom de la mélodie sans espaces
-        "musicalsimulation", 
-        "satisfying", 
-        "oddlysatisfying",
-        "physicssong",
-        "songcover"
-    ]
-    
-    # Demander à l'utilisateur s'il souhaite publier la vidéo
-    publish = input("\nVoulez-vous publier cette vidéo sur TikTok? (o/n): ").lower()
-    
-    if publish.startswith('o') or publish.startswith('y'):
-        print("\n" + "="*80)
-        print("ÉTAPE 4: PUBLICATION SUR TIKTOK (MODE SEMI-AUTOMATIQUE)")
-        print("="*80)
-        
-        # Initialiser le gestionnaire de publication TikTok semi-automatique
-        publisher = TikTokPublisherSemiAuto()
-        
-        # Publier la vidéo en mode semi-automatique
-        success = publisher.upload_video_semi_auto(
-            video_path=current_video_path,
-            caption=caption,
-            hashtags=tiktok_hashtags
-        )
-        
-        if success:
-            print("\n" + "="*80)
-            print("VIDÉO PUBLIÉE AVEC SUCCÈS!")
-            print(f"Mélodie: {melody_name}")
-            print(f"Légende: {caption}")
-            print(f"Hashtags: {' '.join(['#' + tag for tag in tiktok_hashtags])}")
-            print("="*80)
-        else:
-            print("\n" + "="*80)
-            print("ÉCHEC DE LA PUBLICATION")
-            print(f"La vidéo a été générée et sauvegardée à: {current_video_path}")
-            print("="*80)
-    else:
-        print("\n" + "="*80)
-        print("PUBLICATION ANNULÉE")
-        print(f"La vidéo a été générée et sauvegardée à: {current_video_path}")
-        print("="*80)
+        print("\n❌ Failed to configure pipeline. Check logs for details.")
 
 if __name__ == "__main__":
     main()

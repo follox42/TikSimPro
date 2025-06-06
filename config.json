@@ -1,0 +1,143 @@
+{
+  "trend_analyzer": {
+    "name": "TikTokAnalyzer",
+    "params": {
+      "cache_dir": "tiktok_data",
+      "description": "Share it with your friends !",
+      "hashtags": ["bounce", "simulation", "satisfy", "satisfying", "#animation"],
+      "use_web_search": false
+    }
+  },
+  "video_generator": {
+    "name": "InfiniteCircleSimulator",
+    "params": {
+      "width": 1080,
+      "height": 1920,
+      "fps": 60,
+      "duration": 60.0,
+      "output_path": "output/circle_video.mp4",
+      "temp_dir": "temp",
+      "frames_dir": "frames",
+      
+      "min_radius": 120,
+      "gap_radius": 25,
+      "nb_rings": 30,
+      "thickness": 20,
+      "gap_angle": 80,
+      
+      "rotation_speed": 120,
+      "rotation_direction": "clockwise",
+      "random_arc": false,
+      "gap_speed": 0,
+      
+      "gap_detection_tolerance": 1.8,
+      "gap_detection_debug": true,
+      
+      "particle_gravity": 250,
+      "particle_air_resistance": 0.95,
+      
+      "shrink_curve_type": "quadratic",
+      "shrink_acceleration_factor": 1000.0,
+      "min_shrink_radius_ratio": 1.0,
+      
+      "color_palette": [
+        "#FF0050", "#00F2EA", "#FFFFFF", "#FE2C55", "#25F4EE",
+        "#FFD700", "#FF6B35", "#32CD32", "#FF69B4", "#00CED1",
+        "#FFA500", "#9370DB", "#00FF7F", "#FF1493", "#1E90FF"
+      ],
+      
+      "balls": 1,
+      "balls_size": 15,
+      "text_balls": null,
+      "on_balls_text": true,
+      "max_text_length": 15,
+      
+      "question_text": "Can the ball escape 2000 circles?",
+      "top_frac_text": 0.15,
+      "left_frac_text": 0.5,
+      
+      "max_circles_to_escape": 2000,
+      "show_countdown": true,
+      "countdown_color": "#FFFFFF",
+      "victory_on_escape": true,
+      
+      "use_gpu_acceleration": true,
+      "direct_frames": false,
+      "performance_mode": "balanced",
+      "render_scale": 1.0,
+      "all_arc": true,
+      
+      "alternate_rotation": false,
+      "debug": true,
+      "screen_scale": 0.5,
+      "start_angle": 30,
+      "gap_angle_rings": -2,
+      "gravity": 400,
+      "elasticity": 1.05,
+      
+      "shrink_speed": 300,
+      "maintain_ring_count": true,
+      "shrink_factor": 0.9,
+      
+      "max_particles_per_ring": 80,
+      "max_particles_per_ball": 20,
+      "performance_mode_auto": true,
+      "max_total_rings": 100
+    }
+  },
+  "audio_generator": {
+    "name": "TrendAudioGenerator",
+    "params": {
+      "note_volume": 0.5,
+      "explosion_volume": 0.01,
+      "activation_volume": 0.0,
+      "passage_volume": 0.0
+    }
+  },
+  "media_combiner": {
+    "name": "FFmpegMediaCombiner",
+    "params": {}
+  },
+  "video_enhancer": {
+    "name": "VideoEnhancer",
+    "params": {
+      "add_intro": false,
+      "add_hashtags": false,
+      "add_cta": true,
+      "add_music": true
+    }
+  },
+  "publishers": {
+    "tiktok": {
+      "name": "TikTokPublisher",
+      "params": {
+        "auto_close": true,
+        "headless": true
+      },
+      "enabled": true
+    },
+    "youtube": {
+      "name": "YouTubePublisher",
+      "params": {
+        "auto_close": true,
+        "headless": false
+      },
+      "enabled": true
+    },
+    "instagram": {
+      "name": "InstagramPublisher",
+      "params": {
+        "auto_close": true,
+        "mobile_emulation": true,
+        "headless": true
+      },
+      "enabled": false
+    }
+  },
+  "pipeline": {
+    "output_dir": "videos",
+    "auto_publish": true,
+    "video_dimensions": [1080, 1920],
+    "fps": 60
+  }
+}
