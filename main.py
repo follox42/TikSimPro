@@ -28,15 +28,14 @@ from src.pipelines.base_pipeline import IPipeline
 from src.trend_analyzers.base_trend_analyzer import ITrendAnalyzer
 from src.video_generators.base_video_generator import IVideoGenerator
 from src.audio_generators.base_audio_generator import IAudioGenerator
-from src.media_combiner.base_media_combiner import IMediaCombiner
+from src.media_combiners.base_media_combiner import IMediaCombiner
 from src.video_enhancers.base_video_enhancer import IVideoEnhancer
 from src.publishers.base_publisher import IPublisher
 
-from src.pipelines.content_pipeline import ContentPipeline
 from src.core.plugin_manager import PluginManager
 from src.core.config import DEFAULT_CONFIG 
 
-def setup_components(config: Config) -> Optional[ContentPipeline]:
+def setup_components(config: Config) -> Optional[IPipeline]:
     """
     Configure and initialize all pipeline components
     
@@ -47,13 +46,22 @@ def setup_components(config: Config) -> Optional[ContentPipeline]:
         Configured pipeline, or None if error occurs
     """
     try:
-        plugin_dirs = ["trend_analyzers", "video_generators", "audio_generators", 
-                      "media_combiner", "video_enhancers", "publishers"]
+        plugin_dirs = ["pipelines","trend_analyzers", "video_generators", "audio_generators", 
+                      "media_combiners", "video_enhancers", "publishers"]
         manager = PluginManager(plugin_dirs)
 
         # Create pipeline
-        pipeline = ContentPipeline()
-        
+        pipeline = manager.get_plugin(config.get("pipeline").get("name"), IPipeline)
+        pipeline = pipeline(**{
+            k: v for k, v in config["pipeline"]["params"].items() 
+            if not k.startswith("_comment")
+        })
+
+        pipeline.set_trend_analyzer(trend_analyzer(**{
+            k: v for k, v in config["trend_analyzer"]["params"].items() 
+            if not k.startswith("_comment")
+        }))
+
         # Create and configure trend analyzer
         trend_analyzer = manager.get_plugin(config.get("trend_analyzer").get("name"), ITrendAnalyzer)
         pipeline.set_trend_analyzer(trend_analyzer(**{
