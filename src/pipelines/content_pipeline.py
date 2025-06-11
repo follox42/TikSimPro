@@ -1,44 +1,148 @@
 # pipeline/content_pipeline.py
 """
-Pipeline central pour le système TikSimPro
-Coordonne tous les composants pour générer et publier du contenu viral
+Main pipeline to simply link everything.
+Coordonne every component from the creation of the simulation to the post.
 """
 
 import os
 import time
 import logging
-import json
-from typing import Dict, List, Any, Optional, Tuple, Union
+from typing import Dict, Any, Optional, Generator
 import random
 from pathlib import Path
+import tempfile
+import shutil
+from contextlib import contextmanager
+import atexit
 
+from pipeline.base_pipeline import IPipeline
 from core.interfaces import (
-    IPipeline, ITrendAnalyzer, IVideoGenerator, IAudioGenerator, 
+    ITrendAnalyzer, IVideoGenerator, IAudioGenerator, 
     IMediaCombiner, IVideoEnhancer, IContentPublisher,
     TrendData, AudioEvent, VideoMetadata
 )
 
 logger = logging.getLogger("TikSimPro")
 
+class TempFileManager:
+    """A basic temp file manager"""
+    
+    def __init__(self, base_dir: Optional[str] = None, prefix: str = "tikpro_"):
+        self.base_dir = base_dir
+        self.prefix = prefix
+        self.temp_dirs = []
+        self.temp_files = []
+        
+        # Clean everything at the end of the program
+        atexit.register(self.cleanup_all)
+    
+    @contextmanager
+    def temp_directory(self, suffix: str = "") -> Generator[Path, None, None]:
+        """
+        Context manager to create temp repositories
+        Auto clean at the end of the program
+        """
+        temp_dir = None
+        try:
+            temp_dir = tempfile.mkdtemp(
+                suffix=suffix, 
+                prefix=self.prefix, 
+                dir=self.base_dir
+            )
+            temp_path = Path(temp_dir)
+            self.temp_dirs.append(temp_path)
+            logger.info(f"Temp repository created: {temp_path}")
+            yield temp_path
+        except Exception as e:
+            logger.error(f"Error creating temp repository: {e}")
+            raise
+        finally:
+            # Auto cleaning
+            if temp_dir and os.path.exists(temp_dir):
+                try:
+                    shutil.rmtree(temp_dir)
+                    logger.info(f"Temp repository cleaned: {temp_dir}")
+                    if Path(temp_dir) in self.temp_dirs:
+                        self.temp_dirs.remove(Path(temp_dir))
+                except Exception as e:
+                    logger.warning(f"Impossible to clean {temp_dir}: {e}")
+    
+    @contextmanager
+    def temp_file(self, suffix: str = "", delete: bool = True) -> Generator[Path, None, None]:
+        """
+        Context manager to create temp files
+        """
+        temp_file = None
+        try:
+            fd, temp_file = tempfile.mkstemp(
+                suffix=suffix,
+                prefix=self.prefix,
+                dir=self.base_dir
+            )
+            os.close(fd)
+            
+            temp_path = Path(temp_file)
+            if not delete:
+                self.temp_files.append(temp_path)
+            
+            logger.info(f"Temp fiel created: {temp_path}")
+            yield temp_path
+        except Exception as e:
+            logger.error(f"Error creating temp file: {e}")
+            raise
+        finally:
+            # Auto cleaning
+            if delete and temp_file and os.path.exists(temp_file):
+                try:
+                    os.unlink(temp_file)
+                    logger.info(f"Temp file cleaned: {temp_file}")
+                except Exception as e:
+                    logger.warning(f"Impossible to clean {temp_file}: {e}")
+
+    def cleanup_all(self):
+        """Clean all files and directories"""
+        # Clean files
+        for temp_file in self.temp_files[:]:
+            try:
+                if temp_file.exists():
+                    temp_file.unlink()
+                    logger.info(f"Temp files cleaned: {temp_file}")
+                self.temp_files.remove(temp_file)
+            except Exception as e:
+                logger.warning(f"Impossible to clean {temp_file}: {e}")
+        
+        # Clean repositories
+        for temp_dir in self.temp_dirs[:]:
+            try:
+                if temp_dir.exists():
+                    shutil.rmtree(temp_dir)
+                    logger.info(f"Temp repositories cleaned: {temp_dir}")
+                self.temp_dirs.remove(temp_dir)
+            except Exception as e:
+                logger.warning(f"Impossible to clean {temp_dir}: {e}")
+
 class ContentPipeline(IPipeline):
     """
-    Pipeline complet pour la génération et publication de contenu viral
+    Complet pipeline to generate viral satisfying video.
     """
     
     def __init__(self):
-        """Initialise le pipeline de contenu"""
-        # Configuration par défaut
+        """Inititialize the pipeline"""
+        # Default config
         self.config = {
             "output_dir": "output",
             "temp_dir": "temp",
             "auto_publish": False,
             "platforms": ["tiktok"],
             "video_duration": 30,
-            "video_dimensions": (1080, 1920),  # Format portrait pour TikTok
+            "video_dimensions": (1080, 1920),
             "fps": 60
         }
         
-        # Composants du pipeline
+        # Temp directories manager
+        self.temp_manager = TempFileManager(prefix="content_pipeline_")
+
+        # All components
         self.trend_analyzer = None
         self.video_generator = None
         self.audio_generator = None
@@ -46,25 +150,21 @@ class ContentPipeline(IPipeline):
         self.video_enhancer = None
         self.publishers = {}
         
-        # Chemins des fichiers générés
+        # Paths to the files 
         self.video_path = None
         self.audio_path = None
         self.combined_path = None
         self.enhanced_path = None
         
-        # Métadonnées et événements
+        # Metadata and audio events
         self.trend_data = None
         self.audio_events = []
         
-        # Créer les répertoires nécessaires
+        # Create all directories required
         self._create_directories()
         
         logger.info("ContentPipeline initialisé")
-    
-    def _create_directories(self) -> None:
-        """Crée les répertoires nécessaires"""
-        os.makedirs(self.config["output_dir"], exist_ok=True)
-        os.makedirs(self.config["temp_dir"], exist_ok=True)
+
     
     def configure(self, config: Dict[str, Any]) -> bool:
         """
@@ -112,15 +212,99 @@ class ContentPipeline(IPipeline):
             logger.error(f"Erreur lors de la configuration du pipeline: {e}")
             return False
     
-    def set_trend_analyzer(self, analyzer: ITrendAnalyzer) -> None:
+    def _create_directories(self) -> None:
+        """Crée les répertoires nécessaires"""
+        os.makedirs(self.config["output_dir"], exist_ok=True)
+        os.makedirs(self.config["temp_dir"], exist_ok=True)
+
+    def execute(self) -> Optional[str]:
+        """
+        Exécute le pipeline avec gestion automatique des fichiers temporaires
+        """
+        logger.info("Démarrage du pipeline de contenu...")
+        
+        # Utiliser un répertoire temporaire pour tout le travail
+        with self.temp_manager.temp_directory(suffix="_pipeline") as work_dir:
+            self.working_dir = work_dir
+            
+            try:
+                # Générer les chemins de fichiers
+                self._setup_file_paths()
+                
+                # 1. Analyser les tendances
+                logger.info("Étape 1/6: Analyse des tendances...")
+                trend_data = self._analyze_trends()
+                if not trend_data:
+                    return None
+                
+                # 2. Générer la vidéo
+                logger.info("Étape 2/6: Génération de la vidéo...")
+                if not self._generate_video(trend_data):
+                    return None
+                
+                # 3. Générer l'audio
+                logger.info("Étape 3/6: Génération audio...")
+                self._generate_audio(trend_data)  # Optionnel
+                
+                # 4. Combiner les médias
+                logger.info("Étape 4/6: Combinaison...")
+                if not self._combine_media():
+                    return None
+                
+                # 5. Améliorer la vidéo
+                logger.info("Étape 5/6: Amélioration...")
+                if not self._enhance_video():
+                    return None
+                
+                # 6. Sauvegarder le résultat final
+                final_path = self._save_final_result()
+                
+                # 7. Publier si demandé
+                if self.config.get("auto_publish", False):
+                    self._publish_content(final_path)
+                
+                logger.info(f"Pipeline terminé: {final_path}")
+                return str(final_path)
+                
+            except Exception as e:
+                logger.exception(f"Erreur dans le pipeline: {e}")
+                return None
+            
+    def _setup_file_paths(self):
+        """Configure les chemins de fichiers dans le répertoire de travail"""
+        self.video_path = self.working_dir / "video.mp4"
+        self.audio_path = self.working_dir / "audio.wav"
+        self.combined_path = self.working_dir / "combined.mp4"
+        
+        # Le fichier final va dans le répertoire de sortie permanent
+        output_dir = Path(self.config["output_dir"])
+        output_dir.mkdir(exist_ok=True)
+        
+        # Nom unique pour le fichier final
+        import time
+        timestamp = int(time.time())
+        self.final_path = output_dir / f"content_{timestamp}.mp4"
+    
+    def _save_final_result(self) -> Path:
+        """Copie le résultat final vers le répertoire de sortie permanent"""
+        if self.combined_path and self.combined_path.exists():
+            shutil.copy2(self.combined_path, self.final_path)
+            logger.info(f"Résultat sauvegardé: {self.final_path}")
+            return self.final_path
+        else:
+            raise FileNotFoundError("Aucun fichier final à sauvegarder")
+
+
+
+    def set_component(self, component) -> None:
         """
         Définit l'analyseur de tendances
         
         Args:
             analyzer: Instance de ITrendAnalyzer
         """
-        self.trend_analyzer = analyzer
-        logger.info(f"Analyseur de tendances défini: {analyzer.__class__.__name__}")
+        self.__getattribute__(component.__class__.__name__) = component
+        logger.info(f"Analyseur de tendances défini: {component.__class__.__name__}")
     
     def set_video_generator(self, generator: IVideoGenerator) -> None:
         """
@@ -463,69 +647,3 @@ class ContentPipeline(IPipeline):
                 results[platform] = False
         
         return results
-    
-    def execute(self) -> Optional[str]:
-        """
-        Exécute le pipeline complet
-        
-        Returns:
-            Chemin du résultat final, ou None en cas d'échec
-        """
-        logger.info("Démarrage du pipeline de contenu...")
-        
-        # 1. Générer des noms de fichiers uniques
-        self._generate_filenames()
-        
-        # 2. Analyser les tendances
-        logger.info("Étape 1/6: Analyse des tendances...")
-        self.trend_data = self._analyze_trends()
-        if not self.trend_data:
-            logger.error("Échec de l'analyse des tendances")
-            return None
-        
-        # 3. Générer la vidéo
-        logger.info("Étape 2/6: Génération de la vidéo...")
-        video_path = self._generate_video()
-        if not video_path:
-            logger.error("Échec de la génération vidéo")
-            return None
-        
-        # 4. Générer la piste audio
-        logger.info("Étape 3/6: Génération de la piste audio...")
-        audio_path = self._generate_audio()
-        if not audio_path:
-            logger.error("Échec de la génération audio")
-            # Continuer avec la vidéo sans son
-            self.combined_path = self.video_path
-        else:
-            # 5. Combiner la vidéo et l'audio
-            logger.info("Étape 4/6: Combinaison des médias...")
-            combined_path = self._combine_media()
-            if not combined_path:
-                logger.error("Échec de la combinaison des médias")
-                # Continuer avec la vidéo sans son
-                self.combined_path = self.video_path
-        
-        # 6. Améliorer la vidéo
-        logger.info("Étape 5/6: Amélioration de la vidéo...")
-        enhanced_path = self._enhance_video()
-        if not enhanced_path:
-            logger.error("Échec de l'amélioration de la vidéo")
-            # Utiliser la vidéo combinée non améliorée
-            enhanced_path = self.combined_path
-        
-        # 7. Publier le contenu si demandé
-        if self.config.get("auto_publish", False):
-            logger.info("Étape 6/6: Publication du contenu...")
-            results = self._publish_content(enhanced_path)
-            
-            # Afficher le résumé
-            logger.info("Résumé de la publication:")
-            for platform, success in results.items():
-                status = "réussie" if success else "échouée"
-                logger.info(f"- {platform}: {status}")
-        else:
-            logger.info("Publication automatique désactivée")
-        
-        logger.info(f"Pipeline terminé avec succès: {enhanced_path}")
-        return enhanced_path

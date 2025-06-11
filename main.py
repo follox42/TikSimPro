@@ -5,15 +5,12 @@ Generates and publishes viral TikTok videos with physics simulations
 """
 
 import os
-import sys
 import time
 import logging
 import argparse
-import json
-from typing import Dict, Any, Optional
-from pathlib import Path
+from typing import Optional
 
-from core.config import Config
+from src.core.config import Config
 
 # Initialize logger
 logging.basicConfig(
@@ -27,14 +24,17 @@ logging.basicConfig(
 logger = logging.getLogger("TikSimPro")
 
 # Import components
-from core.interfaces import (
-    IPipeline, ITrendAnalyzer, IVideoGenerator, IAudioGenerator, 
-    IMediaCombiner, IVideoEnhancer, IContentPublisher,
-    TrendData, AudioEvent
-)
-from pipeline.content_pipeline import ContentPipeline
-from core.plugin_manager import PluginManager
-from core.config import DEFAULT_CONFIG 
+from src.pipelines.base_pipeline import IPipeline
+from src.trend_analyzers.base_trend_analyzer import ITrendAnalyzer
+from src.video_generators.base_video_generator import IVideoGenerator
+from src.audio_generators.base_audio_generator import IAudioGenerator
+from src.media_combiner.base_media_combiner import IMediaCombiner
+from src.video_enhancers.base_video_enhancer import IVideoEnhancer
+from src.publishers.base_publisher import IPublisher
+
+from src.pipelines.content_pipeline import ContentPipeline
+from src.core.plugin_manager import PluginManager
+from src.core.config import DEFAULT_CONFIG 
 
 def setup_components(config: Config) -> Optional[ContentPipeline]:
     """
@@ -93,7 +93,7 @@ def setup_components(config: Config) -> Optional[ContentPipeline]:
         for platform, publisher_config in config["publishers"].items():
             if publisher_config.get("enabled", False):
                 publisher = manager.get_plugin(
-                    publisher_config.get("name"), IContentPublisher
+                    publisher_config.get("name"), IPublisher
                 )(**publisher_config["params"])
                 pipeline.add_publisher(platform, publisher)
         

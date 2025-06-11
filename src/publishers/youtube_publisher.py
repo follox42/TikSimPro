@@ -11,11 +11,11 @@ from typing import Dict, List, Any, Optional, Tuple, Union
 import random
 from pathlib import Path
 
-from core.interfaces import IContentPublisher
+from src.publishers.base_publisher import IPublisher
 
 logger = logging.getLogger("TikSimPro")
 
-class YouTubePublisher(IContentPublisher):
+class YouTubePublisher(IPublisher):
     """
     Publie du contenu sur YouTube en utilisant Selenium
     """

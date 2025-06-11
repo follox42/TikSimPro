@@ -9,12 +9,12 @@ from typing import Dict, List, Any, Optional, Tuple, Union
 import random
 from pathlib import Path
 
-from core.interfaces import IContentPublisher
+from src.publishers.base_publisher import IPublisher
 #from connectors.instagram_connector import InstagramConnector
 
 logger = logging.getLogger("TikSimPro")
 
-class InstagramPublisher(IContentPublisher):
+class InstagramPublisher(IPublisher):
     """
     Publisher for instagram
     """

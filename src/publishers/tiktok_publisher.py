@@ -12,12 +12,12 @@ from typing import Dict, List, Any, Optional, Tuple, Union
 import random
 from pathlib import Path
 
-from core.interfaces import IContentPublisher
-from connectors.tiktok_connector import TikTokConnector
+from src.publishers.base_publisher import IPublisher
+from src.utils.connectors.tiktok_connector import TikTokConnector
 
 logger = logging.getLogger("TikSimPro")
 
-class TikTokPublisher(IContentPublisher):
+class TikTokPublisher(IPublisher):
     """
     Publisher for tiktok
     """
