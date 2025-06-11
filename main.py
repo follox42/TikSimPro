@@ -46,21 +46,12 @@ def setup_components(config: Config) -> Optional[IPipeline]:
         Configured pipeline, or None if error occurs
     """
     try:
-        plugin_dirs = ["pipelines","trend_analyzers", "video_generators", "audio_generators", 
+        plugin_dirs = ["pipelines", "trend_analyzers", "video_generators", "audio_generators", 
                       "media_combiners", "video_enhancers", "publishers"]
-        manager = PluginManager(plugin_dirs)
+        manager = PluginManager("src", plugin_dirs)
 
         # Create pipeline
         pipeline = manager.get_plugin(config.get("pipeline").get("name"), IPipeline)
-        pipeline = pipeline(**{
-            k: v for k, v in config["pipeline"]["params"].items() 
-            if not k.startswith("_comment")
-        })
-
-        pipeline.set_trend_analyzer(trend_analyzer(**{
-            k: v for k, v in config["trend_analyzer"]["params"].items() 
-            if not k.startswith("_comment")
-        }))
 
         # Create and configure trend analyzer
         trend_analyzer = manager.get_plugin(config.get("trend_analyzer").get("name"), ITrendAnalyzer)
@@ -105,7 +96,7 @@ def setup_components(config: Config) -> Optional[IPipeline]:
                 )(**publisher_config["params"])
                 pipeline.add_publisher(platform, publisher)
         
-        pip = config.get("pipeline")
+        pip = config.get("pipeline").get("params")
         
         # Configure pipeline
         pipeline_config = {
@@ -115,13 +106,10 @@ def setup_components(config: Config) -> Optional[IPipeline]:
             "video_duration": (pip.get("duration") if pip.get("duration") 
                              else config["video_generator"]["params"].get("duration", 30)),
             "video_dimensions": (
-                pip.get("width")[0] if pip.get("width") 
-                else config["video_generator"]["params"].get("width", 1080),
-                pip.get("height")[0] if pip.get("height") 
-                else config["video_generator"]["params"].get("height", 1920)
+                pip.get("width")[0] if pip.get("width") else config["video_generator"]["params"].get("width", 1080),
+                pip.get("height")[0] if pip.get("height") else config["video_generator"]["params"].get("height", 1920)
             ),
-            "fps": (pip.get("fps") if pip.get("fps") 
-                   else config["video_generator"]["params"].get("fps", 60))
+            "fps": (pip.get("fps") if pip.get("fps") else config["video_generator"]["params"].get("fps", 60))
         }
         pipeline.configure(pipeline_config)
         
@@ -133,7 +121,7 @@ def setup_components(config: Config) -> Optional[IPipeline]:
         traceback.print_exc()
         return None
 
-def run_pipeline(pipeline: ContentPipeline) -> Optional[str]:
+def run_pipeline(pipeline) -> Optional[str]:
     """
     Execute the content pipeline
     
@@ -184,29 +172,29 @@ def main():
     args = parser.parse_args()
     
     # Display banner
-    print("\n" + "="*80)
-    print("          TikSimPro - Viral TikTok Content Generator")
-    print("="*80 + "\n")
+    logger.info("\n" + "="*80)
+    logger.info("          TikSimPro - Viral TikTok Content Generator")
+    logger.info("="*80 + "\n")
 
     # Initialize default configuration if requested
     if args.init:
         config = DEFAULT_CONFIG
         config.save_config(config)
-        print(f"Default configuration created in {args.config}")
+        logger.info(f"Default configuration created in {args.config}")
         return
     
     # Load configuration
     if not os.path.exists(args.config):
-        print(f"Configuration file {args.config} not found.")
-        print("Use --init to create a default configuration.")
+        logger.info(f"Configuration file {args.config} not found.")
+        logger.info("Use --init to create a default configuration.")
         return
     
-    print(f"Loading configuration from: {args.config}")
+    logger.info(f"Loading configuration from: {args.config}")
     config = Config(args.config).load_config()
     
     # Apply command line arguments
     if args.output:
-        config["output_dir"] = args.output
+        config["pipeline"]["params"]["output_dir"] = args.output
     
     if args.duration:
         config["video_generator"]["params"]["duration"] = args.duration
@@ -221,7 +209,7 @@ def main():
             return
     
     if args.publish:
-        config["pipeline"]["auto_publish"] = True
+        config["pipeline"]["params"]["auto_publish"] = True
     
     # Configure and execute pipeline
     pipeline = setup_components(config)
@@ -229,19 +217,19 @@ def main():
         result_path = run_pipeline(pipeline)
         
         if result_path:
-            print("\n" + "="*60)
-            print("✅ PROCESSING COMPLETED SUCCESSFULLY!")
-            print(f"📹 Video generated: {result_path}")
+            logger.info("\n" + "="*60)
+            logger.info("✅ PROCESSING COMPLETED SUCCESSFULLY!")
+            logger.info(f"📹 Video generated: {result_path}")
             
             if config["pipeline"].get("auto_publish", False):
-                print("🚀 Video published to configured platforms.")
+                logger.info("🚀 Video published to configured platforms.")
             else:
-                print("💾 Video saved locally (auto_publish=False).")
-            print("="*60)
+                logger.info("💾 Video saved locally (auto_publish=False).")
+            logger.info("="*60)
         else:
-            print("\n❌ Processing failed. Check logs for details.")
+            logger.info("\n Processing failed. Check logs for details.")
     else:
-        print("\n❌ Failed to configure pipeline. Check logs for details.")
+        logger.info("\n Failed to configure pipeline. Check logs for details.")
 
 if __name__ == "__main__":
     main()
