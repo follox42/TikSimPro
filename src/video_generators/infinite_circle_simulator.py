@@ -22,7 +22,7 @@ from queue import Queue, Full
 
 BACKGROUND = (8, 8, 15)          # Fond plus sombre pour contraste
 
-from core.interfaces import IVideoGenerator, TrendData, AudioEvent, VideoMetadata
+from core.format_data import IVideoGenerator, TrendData, AudioEvent, VideoMetadata
 
 logger = logging.getLogger("TikSimPro")
 

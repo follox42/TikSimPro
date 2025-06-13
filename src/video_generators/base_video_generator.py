@@ -5,7 +5,7 @@ Base class interface for all video generators.
 
 from abc import ABC, abstractmethod
 from typing import Dict, Any, Optional, List
-from src.core.format_data import TrendData, AudioEvent, VideoMetadata
+from src.core.data_pipeline import TrendData, AudioEvent, VideoMetadata
 
 class IVideoGenerator(ABC):
     """Interface for video generators"""

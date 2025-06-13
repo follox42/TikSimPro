@@ -51,8 +51,11 @@ def setup_components(config: Config) -> Optional[IPipeline]:
         manager = PluginManager("src", plugin_dirs)
 
         # Create pipeline
-        pipeline = manager.get_plugin(config.get("pipeline").get("name"), IPipeline)
-
+        pipeline = manager.get_plugin(config.get("pipeline").get("name"), IPipeline)(**{
+            k: v for k, v in config["pipeline"]["params"].items() 
+            if not k.startswith("_comment")
+        })
+        
         # Create and configure trend analyzer
         trend_analyzer = manager.get_plugin(config.get("trend_analyzer").get("name"), ITrendAnalyzer)
         pipeline.set_trend_analyzer(trend_analyzer(**{

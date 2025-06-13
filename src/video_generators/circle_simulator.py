@@ -23,7 +23,7 @@ import math, pygame, pygame.gfxdraw as aa
 
 BACKGROUND = (15, 15, 25)          # même couleur que render_surf.fill
 
-from core.interfaces import IVideoGenerator, TrendData, AudioEvent, VideoMetadata
+from core.format_data import IVideoGenerator, TrendData, AudioEvent, VideoMetadata
 
 logger = logging.getLogger("TikSimPro")
 

@@ -17,24 +17,18 @@ logger = logging.getLogger("TikSimPro")
 class SimplePipeline(IPipeline):
     """Simple and direct pipeline"""
     
-    def __init__(self):
+    def __init__(self, output_dir: str = "output", auto_publish: bool = False, video_duration: int = 60, video_dimensions = [1080, 1920], fps: int = 30):
+        super().__init__()
+
         # Default config
         self.config = {
-            "output_dir": "output",
-            "auto_publish": False,
-            "video_duration": 30,
-            "video_dimensions": [1080, 1920],
-            "fps": 60
+            "output_dir": output_dir,
+            "auto_publish": auto_publish,
+            "video_duration": video_duration,
+            "video_dimensions": video_dimensions,
+            "fps": fps
         }
-        
-        # Components
-        self.trend_analyzer = None
-        self.video_generator = None
-        self.audio_generator = None
-        self.media_combiner = None
-        self.video_enhancer = None
-        self.publishers = {}
-        
+     
         # Create output directory
         os.makedirs(self.config["output_dir"], exist_ok=True)
     
@@ -43,25 +37,7 @@ class SimplePipeline(IPipeline):
         self.config.update(config)
         os.makedirs(self.config["output_dir"], exist_ok=True)
         return True
-    
-    def set_trend_analyzer(self, analyzer):
-        self.trend_analyzer = analyzer
-    
-    def set_video_generator(self, generator):
-        self.video_generator = generator
-    
-    def set_audio_generator(self, generator):
-        self.audio_generator = generator
-    
-    def set_media_combiner(self, combiner):
-        self.media_combiner = combiner
-    
-    def set_video_enhancer(self, enhancer):
-        self.video_enhancer = enhancer
-    
-    def add_publisher(self, platform: str, publisher):
-        self.publishers[platform] = publisher
-    
+
     def execute(self) -> Optional[str]:
         """Execute the simple pipeline"""
         try:

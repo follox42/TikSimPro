@@ -1,11 +1,25 @@
 {
   "trend_analyzer": {
-    "name": "TikTokAnalyzer",
+    "name": "SimpleTrendAnalyzer",
     "params": {
-      "cache_dir": "tiktok_data",
-      "description": "Share it with your friends !",
-      "hashtags": ["bounce", "simulation", "satisfy", "satisfying", "#animation"],
-      "use_web_search": false
+      "music_folder": "./music_folder",
+      "hashtags": [
+            "fyp", "foryou", "viral", "trending", "tiktok",
+            
+            "satisfying", "oddlysatisfying", "satisfy", "mesmerizing", "hypnotic",
+            
+            "simulation", "physics", "bounce", "circles", "gravity", "motion",
+            
+            "animation", "visual", "geometric", "patterns", "colors", "rainbow",
+            
+            "watchthis", "amazing", "wow", "mindblowing", "cool", "awesome",
+            
+            "challenge", "test", "canyou", "howmany", "guess", "focus",
+            
+            "smooth", "perfect", "infinite", "endless", "loop", "relaxing",
+            
+            "2025", "new", "latest", "trending2025", "viral2025"
+        ]
     }
   },
   "video_generator": {

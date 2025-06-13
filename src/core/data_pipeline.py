@@ -1,4 +1,4 @@
-# core/interfaces.py
+# src/core/data_pipeline.py
 """
 Interfaces de base pour le système TikSimPro
 Définit les contrats pour tous les composants

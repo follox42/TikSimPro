@@ -6,7 +6,7 @@ Base class interface for all trend analyzers.
 from abc import ABC, abstractmethod
 from typing import List, Dict, Any
 
-from src.core.format_data import TrendData
+from src.core.data_pipeline import TrendData
 
 class ITrendAnalyzer(ABC):
     """

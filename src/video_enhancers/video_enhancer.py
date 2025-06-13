@@ -5,15 +5,12 @@ Ajoute des effets, textes, et transitions pour rendre la vidéo plus attrayante
 """
 
 import os
-import time
 import logging
 import tempfile
 import random
-import textwrap
-from typing import Dict, List, Any, Optional, Tuple, Union
-from pathlib import Path
+from typing import Dict, List, Any, Optional, Tuple
 
-from core.interfaces import IVideoEnhancer
+from src.video_enhancers.base_video_enhancer import IVideoEnhancer
 
 logger = logging.getLogger("TikSimPro")
 

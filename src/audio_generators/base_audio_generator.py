@@ -6,7 +6,7 @@ Base class interface for all audio generators.
 from abc import ABC, abstractmethod
 from typing import Dict, List, Any, Optional
 
-from src.core.format_data import TrendData, AudioEvent
+from src.core.data_pipeline import TrendData, AudioEvent
 
 class IAudioGenerator(ABC):
     """Interface for audio generators"""

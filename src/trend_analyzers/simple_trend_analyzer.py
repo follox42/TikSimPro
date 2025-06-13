@@ -9,7 +9,7 @@ from pathlib import Path
 from typing import List, Dict, Any, Optional
 from datetime import datetime
 
-from trend_analyzers.base_trend_analyzer import ITrendAnalyzer, TrendData
+from src.trend_analyzers.base_trend_analyzer import ITrendAnalyzer, TrendData
 
 
 class SimpleTrendAnalyzer(ITrendAnalyzer):
@@ -21,25 +21,8 @@ class SimpleTrendAnalyzer(ITrendAnalyzer):
     def __init__(self, 
                  music_folder: str = "music",
                  cache_dir: str = "trend_cache",
-                 region: str = "global"):
-        """
-        Initialize simple trend analyzer
-        
-        Args:
-            music_folder: Path to folder containing music files (.mp3, .wav, .m4a)
-            cache_dir: Directory for caching trend data
-            region: Region for trends (not used in simple version, kept for compatibility)
-        """
-        self.music_folder = Path(music_folder)
-        self.cache_dir = Path(cache_dir)
-        self.region = region
-        
-        # Create directories if they don't exist
-        self.music_folder.mkdir(exist_ok=True)
-        self.cache_dir.mkdir(exist_ok=True)
-        
-        # Fixed viral hashtags optimized for physics simulation videos
-        self.VIRAL_HASHTAGS = [
+                 region: str = "global",
+                 hashtags: str = [
             # Core viral hashtags
             "fyp", "foryou", "viral", "trending", "tiktok",
             
@@ -63,7 +46,25 @@ class SimpleTrendAnalyzer(ITrendAnalyzer):
             
             # Year/time-based
             "2025", "new", "latest", "trending2025", "viral2025"
-        ]
+        ]):
+        """
+        Initialize simple trend analyzer
+        
+        Args:
+            music_folder: Path to folder containing music files (.mp3, .wav, .m4a)
+            cache_dir: Directory for caching trend data
+            region: Region for trends (not used in simple version, kept for compatibility)
+        """
+        self.music_folder = Path(music_folder)
+        self.cache_dir = Path(cache_dir)
+        self.region = region
+        
+        # Create directories if they don't exist
+        self.music_folder.mkdir(exist_ok=True)
+        self.cache_dir.mkdir(exist_ok=True)
+        
+        # Fixed viral hashtags optimized for physics simulation videos
+        self.VIRAL_HASHTAGS = hashtags
         
         # Fixed color palettes optimized for satisfying content
         self.COLOR_PALETTES = {

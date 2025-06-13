@@ -77,10 +77,10 @@ class PluginManager:
                                 issubclass(obj, base_class) and 
                                 obj != base_class):
                                 discovered[name] = obj
-                                logger.info(f"Plugin discover: {name}")
+                                logger.info(f"Plugin discover: {module_path}")
                     
                     except Exception as e:
-                        logger.error(f"Error loading plugin {module_name}: {e}")
+                        logger.error(f"Error loading plugin {module_path}: {e}")
         
         return discovered
     

@@ -9,7 +9,7 @@ from typing import Optional
 import subprocess
 from pathlib import Path
 
-from src.media_combiner.base_media_combiner import IMediaCombiner
+from src.media_combiners.base_media_combiner import IMediaCombiner
 
 logger = logging.getLogger("TikSimPro")
 
