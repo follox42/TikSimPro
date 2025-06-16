@@ -99,7 +99,9 @@ def setup_components(config: Config) -> Optional[IPipeline]:
         # Add publishing systems
         for platform, publisher_config in config["publishers"].items():
             if publisher_config.get("enabled", False):
-                publisher = setup_component(manager, config, publisher_config.get("name"))
+                publisher = setup_component(manager, config["publishers"], platform)
+                if not publisher:
+                    logger.warning(f"Cannot find publisher {platform}")
                 pipeline.add_publisher(platform, publisher)
         
         pip = config.get("pipeline").get("params")

@@ -147,6 +147,10 @@ class TikTokPublisher(IPublisher):
             caption_field.send_keys(Keys.BACKSPACE)
             time.sleep(2)
 
+            # Simuler un Ctrl+A pour tout sélectionner
+            actions = ActionChains(self.connector.driver)
+            actions.key_down(Keys.CONTROL).send_keys('a').key_up(Keys.CONTROL).perform()
+            
             # Ajouter la description principale
             caption_field.send_keys(caption)
             caption_field.send_keys(Keys.ENTER)

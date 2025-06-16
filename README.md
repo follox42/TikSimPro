@@ -75,7 +75,7 @@ TikSimPro is a modular Python system that automatically generates engaging physi
 2. **Install dependencies**
 
    ```bash
-   python setup.py
+   pip install requirements.txt
    ```
 
 3. **Initialize configuration**

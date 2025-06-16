@@ -109,6 +109,8 @@ class IVideoGenerator(ABC):
             # Build OPTIMIZED FFmpeg command
             cmd = [
                 ffmpeg_path, '-y',
+                '-hwaccel', 'cuda',
+                
                 # Input settings - optimized for speed
                 '-f', 'rawvideo', '-vcodec', 'rawvideo',
                 '-pix_fmt', 'rgb24', '-s', f'{self.width}x{self.height}',
@@ -116,7 +118,6 @@ class IVideoGenerator(ABC):
                 
                 # Output settings - optimized for speed
                 '-c:v', encoder,
-                '-hwaccel', 'cuda',
                 '-preset', preset,
                 '-pix_fmt', 'yuv420p',
                 

@@ -2,42 +2,34 @@
   "trend_analyzer": {
     "name": "SimpleTrendAnalyzer",
     "params": {
-      "music_folder": "./music_folder",
+      "music_folder": "./music_viral",
+      "cache_dir": "trend_cache_viral",
+      "region": "global",
       "hashtags": [
-            "fyp", "foryou", "viral", "trending", "tiktok",
-            
-            "satisfying", "oddlysatisfying", "satisfy", "mesmerizing", "hypnotic",
-            
-            "simulation", "physics", "bounce", "circles", "gravity", "motion",
-            
-            "animation", "visual", "geometric", "patterns", "colors", "rainbow",
-            
-            "watchthis", "amazing", "wow", "mindblowing", "cool", "awesome",
-            
-            "challenge", "test", "canyou", "howmany", "guess", "focus",
-            
-            "smooth", "perfect", "infinite", "endless", "loop", "relaxing",
-            
-            "2025", "new", "latest", "trending2025", "viral2025"
-        ]
+        "fyp", "foryou", "viral", "trending", "tiktok",
+        "satisfying", "oddlysatisfying", "mesmerizing", "hypnotic", "perfect",
+        "challenge", "test", "canyou", "focus", "impossible", "watchthis",
+        "animation", "simulation", "geometry", "patterns", "circles", "spiral",
+        "amazing", "mindblowing", "wait", "epic", "insane", "crazy",
+        "2025", "trending2025", "viral2025", "new", "latest", "hot"
+      ]
     }
   },
   "video_generator": {
-    "name": "SimpleTikTokCircleGenerator",
+    "name": "ViralTikTokGenerator",
     "params": {
       "width": 1080,
       "height": 1920,
       "fps": 60,
-      "duration": 60.0
+      "duration": 30.0
     }
   },
   "audio_generator": {
-    "name": "TrendAudioGenerator",
+    "name": "SmoothAudioGenerator", 
     "params": {
-      "note_volume": 0.5,
-      "explosion_volume": 0.01,
-      "activation_volume": 0.0,
-      "passage_volume": 0.0
+      "style": "pop",
+      "bpm": 120,
+      "master_volume": 0.7
     }
   },
   "media_combiner": {
@@ -49,7 +41,7 @@
       "name": "TikTokPublisher",
       "params": {
         "auto_close": true,
-        "headless": true
+        "headless": false
       },
       "enabled": true
     },
@@ -66,16 +58,18 @@
       "params": {
         "auto_close": true,
         "mobile_emulation": true,
-        "headless": true
+        "headless": false
       },
       "enabled": false
     }
   },
+
   "pipeline": {
     "name": "SimplePipeline",
     "params": {
-      "output_dir": "videos",
+      "output_dir": "videos_viral",
       "auto_publish": true,
+      "video_duration": 30,
       "video_dimensions": [1080, 1920],
       "fps": 60
     }
