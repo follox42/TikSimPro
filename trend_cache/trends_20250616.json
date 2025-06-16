@@ -1,44 +1,44 @@
 {
-  "timestamp": 1750082510.3872054,
+  "timestamp": 1750083019.9894395,
   "date": "2025-06-16",
   "popular_hashtags": [
     "fyp",
     "viral",
     "satisfying",
     "simulation",
-    "motion",
-    "test",
-    "colors",
-    "loop",
-    "oddlysatisfying",
-    "geometric",
-    "circles",
-    "awesome",
-    "tiktok",
-    "watchthis",
-    "trending2025",
-    "foryou",
-    "hypnotic",
-    "bounce",
-    "physics",
-    "new",
+    "relaxing",
     "smooth",
+    "amazing",
+    "patterns",
+    "guess",
+    "challenge",
+    "visual",
     "2025",
-    "infinite",
+    "new",
+    "focus",
+    "endless",
+    "bounce",
+    "viral2025",
+    "tiktok",
+    "rainbow",
+    "foryou",
     "latest",
-    "visual"
+    "wow",
+    "trending2025",
+    "watchthis",
+    "motion"
   ],
   "popular_music": [],
   "color_trends": {
     "primary_colors": [
-      "#FFD700",
-      "#FF6B35",
-      "#FF1744",
-      "#9C27B0",
-      "#3F51B5",
-      "#00BCD4"
+      "#E91E63",
+      "#FF5722",
+      "#FF9800",
+      "#4CAF50",
+      "#2196F3",
+      "#9C27B0"
     ],
-    "palette_name": "satisfying",
+    "palette_name": "vibrant",
     "all_palettes": {
       "rainbow": [
         "#FF0000",
@@ -97,14 +97,14 @@
   "recommended_settings": {
     "video": {
       "color_palette": [
-        "#FFD700",
-        "#FF6B35",
-        "#FF1744",
-        "#9C27B0",
-        "#3F51B5",
-        "#00BCD4"
+        "#E91E63",
+        "#FF5722",
+        "#FF9800",
+        "#4CAF50",
+        "#2196F3",
+        "#9C27B0"
       ],
-      "rotation_speed": 129,
+      "rotation_speed": 114,
       "particle_density": "high",
       "effects": [
         "glow",
@@ -137,17 +137,17 @@
     },
     "content": {
       "question_texts": [
-        "Can you watch without blinking? 👀",
-        "How many circles can you count? 🔢",
-        "Does this satisfy you? 😌",
-        "Can you escape all circles? 🎯",
-        "Watch till the end! What happens? 🤔"
+        "Can you watch without blinking?",
+        "How many circles can you count?",
+        "Does this satisfy you?",
+        "Can you escape all circles?",
+        "Watch till the end! What happens?"
       ],
       "cta_texts": [
-        "Follow for more satisfying content! 👆",
-        "Like if this satisfied you! ❤️",
-        "Share with someone who needs this! 📤",
-        "Comment your favorite part! 💬"
+        "Follow for more satisfying content!",
+        "Like if this satisfied you!",
+        "Share with someone who needs this!",
+        "Comment your favorite part!"
       ]
     }
   }

@@ -16,9 +16,9 @@ from src.core.config import Config
 logging.basicConfig(
     level=logging.INFO,
     format='%(asctime)s - %(name)s - %(levelname)s - %(message)s',
-    handlers=[
+   handlers=[
         logging.StreamHandler(),
-        logging.FileHandler('tiksimpro.log')
+        logging.FileHandler('tiksimpro.log', encoding='utf-8')  # UTF-8 to avoir charmap problems
     ]
 )
 logger = logging.getLogger("TikSimPro")

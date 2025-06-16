@@ -64,7 +64,7 @@ class SimplePipeline(IPipeline):
             timestamp = int(time.time())
             
             # 1. TREND ANALYSIS
-            logger.info("1/5: Analyzing trends...")
+            logger.info("📈 1/5: Analyzing trends...")
             with temp_pipeline_step("trend_analysis") as (temp_mgr, step_dir):
                 if not self.trend_analyzer:
                     logger.error("No trend analyzer")
@@ -81,7 +81,7 @@ class SimplePipeline(IPipeline):
                 logger.debug(f"Trends saved: {trend_file}")
             
             # 2. VIDEO GENERATION
-            logger.info("2/5: Generating video...")
+            logger.info("🎥 2/5: Generating video...")
             with temp_pipeline_step("video_generation") as (temp_mgr, step_dir):
                 if not self.video_generator:
                     logger.error("No video generator")
@@ -105,7 +105,7 @@ class SimplePipeline(IPipeline):
             current_video = result_video
             
             # 3. AUDIO GENERATION
-            logger.info("3/5: Generating audio...")
+            logger.info("🔉 3/5: Generating audio...")
             audio_result = None
             if self.audio_generator:
                 with temp_pipeline_step("audio_generation") as (temp_mgr, step_dir):
@@ -120,10 +120,12 @@ class SimplePipeline(IPipeline):
                     audio_result = self.audio_generator.generate()
                     if audio_result:
                         logger.info(f"Audio generated: {audio_result}")
-            
+            else:
+                logger.info("🔉 3/5: Skipping audio generator")
+
             # 4. MEDIA COMBINATION
             if audio_result and self.media_combiner:
-                logger.info("4/5: Combining media...")
+                logger.info("📱 4/5: Combining media...")
                 with temp_pipeline_step("media_combination") as (temp_mgr, step_dir):
                     # Temporary combined file
                     combined_temp = temp_mgr.create_video_file("media_combination", "mp4", "combined")
@@ -135,11 +137,11 @@ class SimplePipeline(IPipeline):
                         current_video = combined_result
                         logger.info(f"Media combined: {combined_result}")
             else:
-                logger.info("4/5: Skipping media combination")
+                logger.info("📱 4/5: Skipping media combination")
             
             # 5. VIDEO ENHANCEMENT
             if self.video_enhancer:
-                logger.info("5/5: Enhancing video...")
+                logger.info("🎆 5/5: Enhancing video...")
                 with temp_pipeline_step("video_enhancement") as (temp_mgr, step_dir):
                     # Temporary final file
                     enhanced_temp = temp_mgr.create_video_file("video_enhancement", "mp4", "enhanced")
@@ -162,7 +164,7 @@ class SimplePipeline(IPipeline):
                         current_video = enhanced_result
                         logger.info(f"Video enhanced: {enhanced_result}")
             else:
-                logger.info("5/5: Skipping video enhancement")
+                logger.info("🎆 5/5: Skipping video enhancement")
             
             # COPY TO FINAL DESTINATION
             final_path = os.path.join(self.config["output_dir"], f"final_{timestamp}.mp4")
