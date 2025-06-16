@@ -8,7 +8,7 @@ import os
 import time
 import logging
 import argparse
-from typing import Optional
+from typing import Optional, Any
 
 from src.core.config import Config
 
@@ -35,6 +35,31 @@ from src.publishers.base_publisher import IPublisher
 from src.core.plugin_manager import PluginManager
 from src.core.config import DEFAULT_CONFIG 
 
+def setup_component(manager: PluginManager, config: Config, comp_name: str) -> Any:
+    """
+    Configure and create a single plugin
+    Check if we need to implement it or not
+
+    Args:
+        manager: The plugin manager.
+        config: The global config.
+        comp_name: The general name of the component to instanciate.
+
+    Returns:
+        An instance of the class component.
+    """
+    try:
+        if not config.get(comp_name):
+            return
+        
+        comp_class = manager.get_plugin(config.get(comp_name).get("name"))
+        return comp_class(**{
+            k: v for k, v in config[comp_name]["params"].items() 
+            if not k.startswith("_comment")
+        })
+    except:
+        raise 
+
 def setup_components(config: Config) -> Optional[IPipeline]:
     """
     Configure and initialize all pipeline components
@@ -57,46 +82,24 @@ def setup_components(config: Config) -> Optional[IPipeline]:
         })
         
         # Create and configure trend analyzer
-        trend_analyzer = manager.get_plugin(config.get("trend_analyzer").get("name"), ITrendAnalyzer)
-        pipeline.set_trend_analyzer(trend_analyzer(**{
-            k: v for k, v in config["trend_analyzer"]["params"].items() 
-            if not k.startswith("_comment")
-        }))
+        pipeline.set_trend_analyzer(setup_component(manager, config, "trend_analyzer"))
 
         # Create and configure video generator
-        video_generator = manager.get_plugin(config.get("video_generator").get("name"), IVideoGenerator)
-        pipeline.set_video_generator(video_generator(**{
-            k: v for k, v in config["video_generator"]["params"].items() 
-            if not k.startswith("_comment")
-        }))
+        pipeline.set_video_generator(setup_component(manager, config, "video_generator"))
         
         # Create and configure audio generator
-        audio_generator = manager.get_plugin(config.get("audio_generator").get("name"), IAudioGenerator)
-        pipeline.set_audio_generator(audio_generator(**{
-            k: v for k, v in config["audio_generator"]["params"].items() 
-            if not k.startswith("_comment")
-        }))
+        pipeline.set_audio_generator(setup_component(manager, config, "audio_generator"))
         
         # Create and configure media combiner
-        media_combiner = manager.get_plugin(config.get("media_combiner").get("name"), IMediaCombiner)
-        pipeline.set_media_combiner(media_combiner(**{
-            k: v for k, v in config["media_combiner"]["params"].items() 
-            if not k.startswith("_comment")
-        }))
+        pipeline.set_media_combiner(setup_component(manager, config, "media_combiner"))
         
         # Create and configure video enhancer
-        video_enhancer = manager.get_plugin(config.get("video_enhancer").get("name"), IVideoEnhancer)
-        pipeline.set_video_enhancer(video_enhancer(**{
-            k: v for k, v in config["video_enhancer"]["params"].items() 
-            if not k.startswith("_comment")
-        }))
+        pipeline.set_video_enhancer(setup_component(manager, config, "video_enhancer"))
         
         # Add publishing systems
         for platform, publisher_config in config["publishers"].items():
             if publisher_config.get("enabled", False):
-                publisher = manager.get_plugin(
-                    publisher_config.get("name"), IPublisher
-                )(**publisher_config["params"])
+                publisher = setup_component(manager, config, publisher_config.get("name"))
                 pipeline.add_publisher(platform, publisher)
         
         pip = config.get("pipeline").get("params")

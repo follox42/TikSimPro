@@ -44,15 +44,6 @@
     "name": "FFmpegMediaCombiner",
     "params": {}
   },
-  "video_enhancer": {
-    "name": "VideoEnhancer",
-    "params": {
-      "add_intro": false,
-      "add_hashtags": false,
-      "add_cta": true,
-      "add_music": true
-    }
-  },
   "publishers": {
     "tiktok": {
       "name": "TikTokPublisher",

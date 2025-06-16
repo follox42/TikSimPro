@@ -178,13 +178,13 @@ class SimplePipeline(IPipeline):
             
             # FINAL STATISTICS
             stats = self.temp_manager.get_stats()
-            logger.info(f"📊 Temporary files: {stats['total_files']} files, {stats['total_size_mb']:.1f} MB")
+            logger.info(f" Temporary files: {stats['total_files']} files, {stats['total_size_mb']:.1f} MB")
             
-            logger.info(f"✅ Pipeline completed: {final_path}")
+            logger.info(f" Pipeline completed: {final_path}")
             return final_path
             
         except Exception as e:
-            logger.error(f"❌ Pipeline error: {e}")
+            logger.error(f"Pipeline error: {e}")
             self.temp_manager.mark_error()
             return None
         finally:
@@ -208,10 +208,10 @@ class SimplePipeline(IPipeline):
                 if result:
                     logger.info(f"✅ Published to {platform}: {result}")
                 else:
-                    logger.error(f"❌ Failed to publish to {platform}")
+                    logger.error(f" Failed to publish to {platform}")
                     
             except Exception as e:
-                logger.error(f"❌ Publishing error for {platform}: {e}")
+                logger.error(f" Publishing error for {platform}: {e}")
     
     def __del__(self):
         """Final cleanup"""
