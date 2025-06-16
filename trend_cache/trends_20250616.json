@@ -1,44 +1,44 @@
 {
-  "timestamp": 1750083019.9894395,
+  "timestamp": 1750094628.6469374,
   "date": "2025-06-16",
   "popular_hashtags": [
     "fyp",
     "viral",
     "satisfying",
     "simulation",
-    "relaxing",
     "smooth",
-    "amazing",
-    "patterns",
-    "guess",
-    "challenge",
-    "visual",
-    "2025",
-    "new",
-    "focus",
-    "endless",
-    "bounce",
-    "viral2025",
-    "tiktok",
-    "rainbow",
+    "hypnotic",
     "foryou",
-    "latest",
+    "mesmerizing",
     "wow",
-    "trending2025",
     "watchthis",
-    "motion"
+    "viral2025",
+    "endless",
+    "perfect",
+    "trending2025",
+    "oddlysatisfying",
+    "physics",
+    "trending",
+    "mindblowing",
+    "infinite",
+    "latest",
+    "test",
+    "visual",
+    "motion",
+    "canyou",
+    "rainbow"
   ],
   "popular_music": [],
   "color_trends": {
     "primary_colors": [
-      "#E91E63",
-      "#FF5722",
-      "#FF9800",
-      "#4CAF50",
-      "#2196F3",
-      "#9C27B0"
+      "#FFD700",
+      "#FF6B35",
+      "#FF1744",
+      "#9C27B0",
+      "#3F51B5",
+      "#00BCD4"
     ],
-    "palette_name": "vibrant",
+    "palette_name": "satisfying",
     "all_palettes": {
       "rainbow": [
         "#FF0000",
@@ -97,14 +97,14 @@
   "recommended_settings": {
     "video": {
       "color_palette": [
-        "#E91E63",
-        "#FF5722",
-        "#FF9800",
-        "#4CAF50",
-        "#2196F3",
-        "#9C27B0"
+        "#FFD700",
+        "#FF6B35",
+        "#FF1744",
+        "#9C27B0",
+        "#3F51B5",
+        "#00BCD4"
       ],
-      "rotation_speed": 114,
+      "rotation_speed": 94,
       "particle_density": "high",
       "effects": [
         "glow",

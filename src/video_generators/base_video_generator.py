@@ -1,6 +1,7 @@
 # src/video_generators/base_video_generator.py
 """
-Enhanced base class for video generators with built-in recording and utilities
+Enhanced base class for video generators with HIGH PERFORMANCE recording
+Optimized for speed - can render at near-realtime speeds
 """
 
 import os
@@ -11,15 +12,16 @@ import subprocess
 import threading
 from abc import ABC, abstractmethod
 from typing import Dict, Any, Optional, List, Tuple, Callable
-from queue import Queue, Full
+from queue import Queue, Full, Empty
 from pathlib import Path
+import numpy as np
 
 from src.core.data_pipeline import TrendData, AudioEvent, VideoMetadata
 
 logger = logging.getLogger("TikSimPro")
 
 class IVideoGenerator(ABC):
-    """Interface for video generators with built-in recording capabilities"""
+    """Interface for video generators with HIGH PERFORMANCE recording capabilities"""
     
     def __init__(self, width: int = 1080, height: int = 1920, fps: int = 60, 
                  duration: float = 30.0, output_path: str = "output/video.mp4"):
@@ -40,10 +42,16 @@ class IVideoGenerator(ABC):
         self.clock = None
         self.recording_surface = None
         
-        # FFmpeg recording
+        # HIGH PERFORMANCE FFmpeg recording
         self.ffmpeg_process = None
         self.frame_queue = None
         self.recording_thread = None
+        
+        # Performance optimization flags
+        self.headless_mode = False # DISPLAY ENABLED - user wants to see
+        self.fast_mode = True      # Skip frame rate limiting
+        self.buffer_size = 30      # Bigger buffer for smoother encoding
+        self.use_numpy = True      # Fast array operations
         
         # Metadata and events
         self.audio_events = []
@@ -54,23 +62,32 @@ class IVideoGenerator(ABC):
         self.performance_stats = {
             "frames_rendered": 0,
             "average_fps": 0,
-            "render_time": 0
+            "render_time": 0,
+            "encoding_fps": 0
         }
     
-    def setup_pygame(self, display_scale: float = 0.5) -> bool:
-        """Initialize pygame with optional display scaling"""
+    def setup_pygame(self, display_scale: float = 0.3) -> bool:
+        """Initialize pygame with PERFORMANCE optimizations"""
         try:
             pygame.init()
-            display_width = int(self.width * display_scale)
-            display_height = int(self.height * display_scale)
             
-            self.screen = pygame.display.set_mode((display_width, display_height))
-            pygame.display.set_caption(f"{self.__class__.__name__} - TikSimPro")
+            # Optimize pygame for performance
+            pygame.mixer.quit()  # Disable audio mixer
+            pygame.font.quit()   # Disable fonts initially
             
+            if not self.headless_mode:
+                # Smaller display for better performance
+                display_width = int(self.width * display_scale)
+                display_height = int(self.height * display_scale)
+                self.screen = pygame.display.set_mode((display_width, display_height))
+                pygame.display.set_caption(f"{self.__class__.__name__} - TikSimPro [FAST MODE]")
+            
+            # Recording surface - this is where the magic happens
             self.recording_surface = pygame.Surface((self.width, self.height))
             self.clock = pygame.time.Clock()
             
-            logger.info(f"Pygame initialized: {self.width}x{self.height} (display: {display_width}x{display_height})")
+            logger.info(f"Pygame PERFORMANCE mode initialized: {self.width}x{self.height}")
+            logger.info(f"Headless mode: {self.headless_mode}, Fast mode: {self.fast_mode}")
             return True
             
         except Exception as e:
@@ -78,7 +95,7 @@ class IVideoGenerator(ABC):
             return False
     
     def setup_ffmpeg_recording(self, use_gpu: bool = True) -> bool:
-        """Setup FFmpeg for direct video recording"""
+        """Setup HIGH PERFORMANCE FFmpeg recording"""
         try:
             # Find FFmpeg
             ffmpeg_path = self._find_ffmpeg()
@@ -86,30 +103,50 @@ class IVideoGenerator(ABC):
                 logger.error("FFmpeg not found")
                 return False
             
-            # Choose encoder
-            if use_gpu:
-                encoder, preset = self._get_gpu_encoder()
-            else:
-                encoder, preset = "libx264", "ultrafast"
+            # Get the BEST encoder available
+            encoder, preset, extra_args = self._get_best_encoder(use_gpu)
             
-            # Build FFmpeg command
+            # Build OPTIMIZED FFmpeg command
             cmd = [
                 ffmpeg_path, '-y',
+                # Input settings - optimized for speed
                 '-f', 'rawvideo', '-vcodec', 'rawvideo',
                 '-pix_fmt', 'rgb24', '-s', f'{self.width}x{self.height}',
                 '-r', str(self.fps), '-i', '-',
-                '-c:v', encoder, '-preset', preset,
-                '-pix_fmt', 'yuv420p', self.output_path
-            ]
+                
+                # Output settings - optimized for speed
+                '-c:v', encoder,
+                '-hwaccel', 'cuda',
+                '-preset', preset,
+                '-pix_fmt', 'yuv420p',
+                
+                # Performance optimizations
+                '-threads', '0',  # Use all CPU cores
+                '-bf', '0',       # No B-frames for speed
+                '-g', str(self.fps),  # GOP size = fps
+                
+            ] + extra_args + [self.output_path]
             
-            self.ffmpeg_process = subprocess.Popen(cmd, stdin=subprocess.PIPE)
+            logger.info(f"FFmpeg command: {' '.join(cmd)}")
             
-            # Setup frame queue and thread
-            self.frame_queue = Queue(maxsize=100)
-            self.recording_thread = threading.Thread(target=self._recording_worker, daemon=True)
+            # Start FFmpeg process with optimized buffer
+            self.ffmpeg_process = subprocess.Popen(
+                cmd, 
+                stdin=subprocess.PIPE,
+                stderr=subprocess.PIPE,
+                bufsize=1024*1024  # 1MB buffer
+            )
+            
+            # Setup HIGH PERFORMANCE frame queue and thread
+            self.frame_queue = Queue(maxsize=self.buffer_size)
+            self.recording_thread = threading.Thread(
+                target=self._high_performance_recording_worker, 
+                daemon=True,
+                name="FastFFmpegWriter"
+            )
             self.recording_thread.start()
             
-            logger.info(f"FFmpeg recording setup: {encoder}")
+            logger.info(f"HIGH PERFORMANCE FFmpeg setup: {encoder} with {preset}")
             return True
             
         except Exception as e:
@@ -121,41 +158,101 @@ class IVideoGenerator(ABC):
         import shutil
         return shutil.which('ffmpeg') or shutil.which('ffmpeg.exe')
     
-    def _get_gpu_encoder(self) -> Tuple[str, str]:
-        """Get best available GPU encoder"""
+    def _get_best_encoder(self, use_gpu: bool = True) -> Tuple[str, str, List[str]]:
+        """Get BEST available encoder for maximum speed"""
         try:
             result = subprocess.run([self._find_ffmpeg(), '-encoders'], 
-                                  capture_output=True, text=True)
+                                  capture_output=True, text=True, timeout=5)
             encoders = result.stdout
             
-            if 'h264_nvenc' in encoders:
-                return 'h264_nvenc', 'p1'
-            elif 'h264_amf' in encoders:
-                return 'h264_amf', 'balanced'
-            elif 'h264_qsv' in encoders:
-                return 'h264_qsv', 'medium'
-            else:
-                return 'libx264', 'ultrafast'
+            if use_gpu:
+                # NVIDIA (best performance)
+                if 'h264_nvenc' in encoders:
+                    return 'h264_nvenc', 'p1', [
+                        '-b:v', '5000k',      # High bitrate for quality
+                        '-maxrate', '8000k',  # Max bitrate
+                        '-bufsize', '10000k', # Buffer size
+                        '-rc', 'cbr',         # Constant bitrate
+                        '-rc-lookahead', '0', # No lookahead for speed
+                        '-surfaces', '64',    # More surfaces
+                        '-forced-idr', '1',   # Force IDR frames
+                    ]
                 
-        except:
-            return 'libx264', 'ultrafast'
+                # AMD
+                elif 'h264_amf' in encoders:
+                    return 'h264_amf', 'speed', [
+                        '-b:v', '5000k',
+                        '-maxrate', '8000k',
+                        '-rc', 'cbr',
+                        '-quality', 'speed',
+                    ]
+                
+                # Intel QuickSync
+                elif 'h264_qsv' in encoders:
+                    return 'h264_qsv', 'veryfast', [
+                        '-b:v', '5000k',
+                        '-maxrate', '8000k',
+                        '-look_ahead', '0',
+                    ]
+            
+            # Fallback to CPU with MAXIMUM speed settings
+            return 'libx264', 'ultrafast', [
+                '-crf', '23',           # Good quality
+                '-tune', 'fastdecode',  # Fast decode
+                '-x264-params', 'nal-hrd=cbr:force-cfr=1',  # CBR mode
+            ]
+                
+        except Exception as e:
+            logger.warning(f"Encoder detection failed: {e}")
+            return 'libx264', 'ultrafast', ['-crf', '23']
     
-    def _recording_worker(self):
-        """Worker thread for FFmpeg frame feeding"""
-        while True:
-            frame_data = self.frame_queue.get()
-            if frame_data is None:
-                break
-            try:
-                self.ffmpeg_process.stdin.write(frame_data)
-            except:
-                break
+    def _high_performance_recording_worker(self):
+        """HIGH PERFORMANCE worker thread for FFmpeg frame feeding"""
+        frames_written = 0
+        start_time = time.time()
         
-        if self.ffmpeg_process.stdin:
-            self.ffmpeg_process.stdin.close()
+        try:
+            while True:
+                try:
+                    # Get frame with short timeout to avoid blocking
+                    frame_data = self.frame_queue.get(timeout=1.0)
+                    if frame_data is None:
+                        break
+                    
+                    # Write frame to FFmpeg as fast as possible
+                    self.ffmpeg_process.stdin.write(frame_data)
+                    frames_written += 1
+                    
+                    # Update encoding FPS every 60 frames
+                    if frames_written % 60 == 0:
+                        elapsed = time.time() - start_time
+                        if elapsed > 0:
+                            encoding_fps = frames_written / elapsed
+                            self.performance_stats["encoding_fps"] = encoding_fps
+                            if frames_written % 300 == 0:  # Log every 300 frames
+                                logger.debug(f"Encoding FPS: {encoding_fps:.1f}")
+                    
+                except Empty:
+                    # Timeout - check if we should continue
+                    if not self.recording:
+                        break
+                    continue
+                except Exception as e:
+                    logger.error(f"Frame writing error: {e}")
+                    break
+        
+        finally:
+            if self.ffmpeg_process and self.ffmpeg_process.stdin:
+                try:
+                    self.ffmpeg_process.stdin.close()
+                except:
+                    pass
+            
+            final_fps = frames_written / (time.time() - start_time) if time.time() > start_time else 0
+            logger.info(f"Recording worker finished: {frames_written} frames, {final_fps:.1f} encoding FPS")
     
     def start_recording(self) -> bool:
-        """Start the recording process"""
+        """Start HIGH PERFORMANCE recording"""
         if not self.setup_ffmpeg_recording():
             return False
         
@@ -163,28 +260,37 @@ class IVideoGenerator(ABC):
         self.start_time = time.time()
         self.current_frame = 0
         
-        logger.info(f"Recording started: {self.total_frames} frames")
+        logger.info(f"HIGH PERFORMANCE recording started: {self.total_frames} frames")
+        logger.info(f"Target: {self.fps} FPS, Duration: {self.duration}s")
         return True
     
     def record_frame(self, surface: pygame.Surface) -> bool:
-        """Record a single frame"""
+        """Record frame with MAXIMUM SPEED optimizations"""
         if not self.recording:
             return False
         
         try:
-            # Convert pygame surface to raw RGB data
-            frame_data = pygame.image.tostring(surface, 'RGB')
+            if self.use_numpy:
+                # ULTRA FAST numpy conversion
+                frame_array = pygame.surfarray.array3d(surface)
+                # Transpose for correct orientation (pygame uses (width, height, channels))
+                frame_array = np.transpose(frame_array, (1, 0, 2))
+                # Convert to bytes
+                frame_data = frame_array.astype(np.uint8).tobytes()
+            else:
+                # Standard pygame conversion (slower)
+                frame_data = pygame.image.tostring(surface, 'RGB')
             
-            # Add to queue (non-blocking)
+            # Add to queue NON-BLOCKING for maximum speed
             try:
                 self.frame_queue.put_nowait(frame_data)
             except Full:
-                # Queue full, drop oldest frame
+                # Queue full - FORCE space by dropping oldest frame
                 try:
-                    self.frame_queue.get_nowait()
-                    self.frame_queue.put_nowait(frame_data)
-                except:
-                    pass
+                    self.frame_queue.get_nowait()  # Drop oldest
+                    self.frame_queue.put_nowait(frame_data)  # Add new
+                except Empty:
+                    pass  # Queue became empty, just continue
             
             self.current_frame += 1
             return True
@@ -194,43 +300,57 @@ class IVideoGenerator(ABC):
             return False
     
     def stop_recording(self) -> bool:
-        """Stop recording and finalize video"""
+        """Stop recording with proper cleanup"""
         if not self.recording:
             return False
         
         self.recording = False
+        logger.info("Stopping recording and finalizing video...")
         
         # Signal recording thread to stop
-        self.frame_queue.put(None)
+        try:
+            self.frame_queue.put(None, timeout=5.0)
+        except Full:
+            logger.warning("Queue full when trying to signal stop")
+        
+        # Wait for recording thread with reasonable timeout
+        if self.recording_thread:
+            self.recording_thread.join(timeout=60)
+            if self.recording_thread.is_alive():
+                logger.warning("Recording thread did not finish in time")
         
         # Wait for FFmpeg to finish
-        if self.recording_thread:
-            self.recording_thread.join(timeout=30)
-        
         if self.ffmpeg_process:
             try:
-                self.ffmpeg_process.wait(timeout=30)
+                stdout, stderr = self.ffmpeg_process.communicate(timeout=60)
                 return_code = self.ffmpeg_process.returncode
+                
+                # Add delay for Windows file system
+                time.sleep(0.5)
+                
                 if return_code == 0:
-                    logger.info(f"Recording completed: {self.output_path}")
+                    file_size = os.path.getsize(self.output_path) / (1024*1024) if os.path.exists(self.output_path) else 0
+                    logger.info(f"Recording completed successfully: {self.output_path} ({file_size:.1f} MB)")
                     return True
                 else:
-                    logger.error(f"FFmpeg failed with code: {return_code}")
+                    logger.error(f"FFmpeg failed with return code: {return_code}")
+                    if stderr:
+                        logger.error(f"FFmpeg stderr: {stderr.decode()}")
                     return False
+                    
             except subprocess.TimeoutExpired:
+                logger.error("FFmpeg timeout - killing process")
                 self.ffmpeg_process.kill()
-                logger.error("FFmpeg timeout")
                 return False
         
         return False
     
     def update_display(self, scale_surface: bool = True):
-        """Update the pygame display with optional scaling"""
-        if not self.screen or not self.recording_surface:
-            return
+        """Update display ONLY if not in headless mode"""
+        if self.headless_mode or not self.screen or not self.recording_surface:
+            return  # Skip display updates for MAXIMUM SPEED
         
         if scale_surface:
-            # Scale recording surface to display size
             scaled = pygame.transform.scale(self.recording_surface, self.screen.get_size())
             self.screen.blit(scaled, (0, 0))
         else:
@@ -239,7 +359,10 @@ class IVideoGenerator(ABC):
         pygame.display.flip()
     
     def handle_events(self) -> bool:
-        """Handle pygame events, return False if quit requested"""
+        """Handle events EFFICIENTLY"""
+        if self.headless_mode:
+            return True  # Skip event handling for MAXIMUM SPEED
+        
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
                 return False
@@ -247,7 +370,6 @@ class IVideoGenerator(ABC):
                 if event.key == pygame.K_ESCAPE:
                     return False
                 elif event.key == pygame.K_SPACE:
-                    # Pause/resume recording
                     self.recording = not self.recording
                     logger.info(f"Recording {'resumed' if self.recording else 'paused'}")
         return True
@@ -292,7 +414,12 @@ class IVideoGenerator(ABC):
             pygame.quit()
         
         self.update_performance_stats()
-        logger.info(f"Cleanup completed. Stats: {self.performance_stats}")
+        stats = self.performance_stats
+        logger.info(f"Final performance stats:")
+        logger.info(f"  Frames rendered: {stats['frames_rendered']}")
+        logger.info(f"  Average render FPS: {stats['average_fps']:.1f}")
+        logger.info(f"  Encoding FPS: {stats['encoding_fps']:.1f}")
+        logger.info(f"  Total time: {stats['render_time']:.1f}s")
     
     # Abstract methods that subclasses must implement
     @abstractmethod
@@ -321,10 +448,19 @@ class IVideoGenerator(ABC):
         self.output_path = path
         os.makedirs(os.path.dirname(path), exist_ok=True)
     
+    def set_performance_mode(self, headless: bool = True, fast: bool = True, use_numpy: bool = True):
+        """Configure performance settings"""
+        self.headless_mode = headless
+        self.fast_mode = fast
+        self.use_numpy = use_numpy
+        logger.info(f"Performance mode: headless={headless}, fast={fast}, numpy={use_numpy}")
+    
     def generate(self) -> Optional[str]:
-        """Generate the complete video"""
+        """Generate the complete video with MAXIMUM PERFORMANCE"""
         try:
-            # Setup
+            logger.info("Starting HIGH PERFORMANCE video generation...")
+            
+            # Setup with performance optimizations
             if not self.setup_pygame():
                 return None
             
@@ -334,11 +470,12 @@ class IVideoGenerator(ABC):
             if not self.start_recording():
                 return None
             
-            # Main render loop
+            # HIGH SPEED render loop
             dt = 1.0 / self.fps
+            last_progress_time = time.time()
             
             while not self.is_finished():
-                # Handle events
+                # Handle events ONLY if not headless
                 if not self.handle_events():
                     break
                 
@@ -353,19 +490,31 @@ class IVideoGenerator(ABC):
                 # Record frame
                 self.record_frame(self.recording_surface)
                 
-                # Update display
-                self.update_display()
+                # Update display ONLY if not headless
+                if not self.headless_mode:
+                    self.update_display()
                 
-                # Control frame rate
-                self.clock.tick(self.fps)
+                # Frame rate control ONLY if not in fast mode
+                if not self.fast_mode:
+                    self.clock.tick(self.fps)
                 
-                # Log progress
-                if self.current_frame % (self.fps * 5) == 0:  # Every 5 seconds
+                # Progress logging (reduced frequency for performance)
+                current_time = time.time()
+                if current_time - last_progress_time >= 5.0:  # Every 5 seconds
                     progress = self.get_progress() * 100
-                    logger.info(f"Progress: {progress:.1f}% ({self.current_frame}/{self.total_frames})")
+                    self.update_performance_stats()
+                    render_fps = self.performance_stats["average_fps"]
+                    encoding_fps = self.performance_stats["encoding_fps"]
+                    
+                    logger.info(f"Progress: {progress:.1f}% ({self.current_frame}/{self.total_frames}) | "
+                              f"Render: {render_fps:.1f} FPS | Encoding: {encoding_fps:.1f} FPS")
+                    last_progress_time = current_time
             
             # Finalize
+            logger.info("Finalizing video...")
             success = self.stop_recording()
+            
+            # Cleanup
             self.cleanup()
             
             if success and os.path.exists(self.output_path):
