@@ -74,6 +74,7 @@ trend_data/
 *.pkl
 *cookies*.pkl
 *session*.pkl
+*.ipynb*
 
 # Log files
 *.log

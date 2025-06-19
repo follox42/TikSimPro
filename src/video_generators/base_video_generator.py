@@ -1,7 +1,6 @@
 # src/video_generators/base_video_generator.py
 """
-Enhanced base class for video generators with HIGH PERFORMANCE recording
-Optimized for speed - can render at near-realtime speeds
+Base class interface for all video generators.
 """
 
 import os

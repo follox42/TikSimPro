@@ -1,44 +1,37 @@
 {
-  "timestamp": 1750099030.1116948,
-  "date": "2025-06-16",
+  "timestamp": 1750355575.9969127,
+  "date": "2025-06-19",
   "popular_hashtags": [
     "fyp",
     "viral",
     "satisfying",
     "simulation",
-    "tiktok",
-    "epic",
-    "impossible",
-    "wait",
-    "geometry",
-    "viral2025",
-    "hot",
-    "crazy",
-    "trending",
-    "oddlysatisfying",
-    "perfect",
-    "hypnotic",
-    "spiral",
-    "insane",
-    "circles",
-    "animation",
-    "challenge",
-    "new",
-    "test",
-    "foryou",
-    "focus"
+    "ballbounce",
+    "relaxing",
+    "ball",
+    "ASMR",
+    "oddlysatisfying"
   ],
-  "popular_music": [],
+  "popular_music": [
+    {
+      "title": "Made Me Realize",
+      "artist": "Gravity Falls",
+      "file_path": "C:\\Users\\nolan\\Desktop\\work\\Programmation\\TikSimPro\\music\\Gravity Falls - Made Me Realize.mid",
+      "filename": "Gravity Falls - Made Me Realize.mid",
+      "format": ".mid",
+      "size_mb": 0.0
+    }
+  ],
   "color_trends": {
     "primary_colors": [
-      "#E91E63",
-      "#FF5722",
-      "#FF9800",
-      "#4CAF50",
-      "#2196F3",
-      "#9C27B0"
+      "#FFD700",
+      "#FF6B35",
+      "#FF1744",
+      "#9C27B0",
+      "#3F51B5",
+      "#00BCD4"
     ],
-    "palette_name": "vibrant",
+    "palette_name": "satisfying",
     "all_palettes": {
       "rainbow": [
         "#FF0000",
@@ -97,14 +90,14 @@
   "recommended_settings": {
     "video": {
       "color_palette": [
-        "#E91E63",
-        "#FF5722",
-        "#FF9800",
-        "#4CAF50",
-        "#2196F3",
-        "#9C27B0"
+        "#FFD700",
+        "#FF6B35",
+        "#FF1744",
+        "#9C27B0",
+        "#3F51B5",
+        "#00BCD4"
       ],
-      "rotation_speed": 134,
+      "rotation_speed": 87,
       "particle_density": "high",
       "effects": [
         "glow",

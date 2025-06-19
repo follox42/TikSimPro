@@ -153,13 +153,13 @@ class TikTokPublisher(IPublisher):
             
             # Ajouter la description principale
             caption_field.send_keys(caption)
+        
+            # Attendre un moment pour que TikTok traite les hashtags
+            time.sleep(5)
             caption_field.send_keys(Keys.ENTER)
             caption_field.send_keys(Keys.ENTER)
             caption_field.send_keys(hashtag_text)
-
-            # Attendre un moment pour que TikTok traite les hashtags
             time.sleep(5)
-            
             # Rechercher et cliquer sur le bouton de publication
             logger.info("Recherche du bouton de publication...")
             post_button_xpaths = [

@@ -19,7 +19,7 @@ class SimpleTrendAnalyzer(ITrendAnalyzer):
     Simple trend analyzer with fixed viral hashtags for simulation videos
     Manages local music folder and provides optimized settings
     """
-    
+
     def __init__(self, 
                  music_folder: str = "music",
                  cache_dir: str = "trend_cache",
@@ -27,7 +27,7 @@ class SimpleTrendAnalyzer(ITrendAnalyzer):
                  hashtags: List[str] = None):
         """
         Initialize simple trend analyzer
-        
+
         Args:
             music_folder: Path to folder containing music files (.mp3, .wav, .m4a)
             cache_dir: Directory for caching trend data
@@ -37,11 +37,11 @@ class SimpleTrendAnalyzer(ITrendAnalyzer):
         self.music_folder = Path(music_folder)
         self.cache_dir = Path(cache_dir)
         self.region = region
-        
+
         # Create directories if they don't exist
         self.music_folder.mkdir(exist_ok=True)
         self.cache_dir.mkdir(exist_ok=True)
-        
+
         # Fixed viral hashtags optimized for physics simulation videos
         self.VIRAL_HASHTAGS = hashtags or [
             # Core viral hashtags
@@ -68,7 +68,7 @@ class SimpleTrendAnalyzer(ITrendAnalyzer):
             # Year/time-based
             "2025", "new", "latest", "trending2025", "viral2025"
         ]
-        
+
         # Fixed color palettes optimized for satisfying content
         self.COLOR_PALETTES = {
             "rainbow": ["#FF0000", "#FF8000", "#FFFF00", "#80FF00", "#00FF00", 
@@ -79,7 +79,7 @@ class SimpleTrendAnalyzer(ITrendAnalyzer):
             "pastel": ["#FFB3E6", "#FFCCB3", "#B3FFB3", "#B3E6FF", "#D1B3FF"],
             "cosmic": ["#1A0033", "#4D0066", "#8000FF", "#CC00FF", "#FF00CC", "#FF3399"]
         }
-        
+
         # Initialize and log setup
         music_count = len(self._scan_music_files())
         logger.info(f"SimpleTrendAnalyzer initialized")
@@ -88,7 +88,7 @@ class SimpleTrendAnalyzer(ITrendAnalyzer):
         logger.info(f"Available music files: {music_count}")
         logger.info(f"Viral hashtags loaded: {len(self.VIRAL_HASHTAGS)}")
         logger.info(f"Color palettes available: {len(self.COLOR_PALETTES)}")
-    
+
     def _scan_music_files(self) -> List[Dict[str, Any]]:
         """
         Scan music folder for audio files
@@ -97,7 +97,7 @@ class SimpleTrendAnalyzer(ITrendAnalyzer):
             List of music file data
         """
         music_files = []
-        supported_formats = ['.mp3', '.wav', '.m4a', '.ogg', '.flac']
+        supported_formats = ['.mp3', '.wav', '.m4a', '.ogg', '.flac', '.mid', '.midi']
         
         if not self.music_folder.exists():
             logger.warning(f"Music folder not found: {self.music_folder}")
