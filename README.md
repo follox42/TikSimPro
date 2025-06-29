@@ -32,7 +32,7 @@ TikSimPro is a modular Python system that automatically generates engaging physi
 - ✅ Basic project structure and architecture
 - ✅ Configuration system
 - ✅ Core interfaces and plugin system
-- ⚙️ Physics simulation engine (in progress)
+- ✅ Physics simulation engine (in progress)
 - ✅ Fully english documentation
 - ⚙️ Auto tests for all modules
 - ⚙️ Synchronise all data model
@@ -54,6 +54,10 @@ TikSimPro is a modular Python system that automatically generates engaging physi
 - **🎵 Audio Generation**: Synchronized sound effects and music
 - **⚡ High Performance**: GPU acceleration and optimized rendering
 - **🔧 Modular Architecture**: Plugin-based system for easy customization
+
+### 🏛️ The schema of the project
+
+![Schema](images/Schema_pipeline.png)
 
 ## 🚀 Quick Start
 

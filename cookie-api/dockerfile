@@ -1,0 +1,18 @@
+FROM python:3.11-slim
+
+WORKDIR /app
+
+# Installer les dépendances
+RUN pip install flask flask-cors
+
+# Créer les dossiers
+RUN mkdir -p /app/data /app/logs
+
+# Copier l'application
+COPY cookie-api/app.py .
+
+# Exposer le port
+EXPOSE 5000
+
+# Commande de démarrage
+CMD ["python", "app.py"]

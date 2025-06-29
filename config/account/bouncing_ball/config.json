@@ -1,0 +1,52 @@
+{
+  "account_name": "viral_account_1",
+  "description": "Compte viral avec contenu haute fréquence",
+  "video_generator": {
+    "name": "CircleSimulator",
+    "params": {
+      "width": 1080,
+      "height": 1920,
+      "fps": 60,
+      "duration": 30,
+      "balls": 1,
+      "gravity": 500,
+      "elasticity": 0.8,
+      "style": "viral_bouncing",
+      "color_scheme": "rainbow",
+      "ring_count": 15,
+      "ring_spacing": 40,
+      "ball_size": 8,
+      "trail_effect": true,
+      "speed_multiplier": 1.5
+    }
+  },
+  "audio_generator": {
+    "name": "CustomMidiAudioGenerator",
+    "params": {
+      "sample_rate": 44100,
+      "preset_name": "satisfying_bounce",
+      "volume": 0.7,
+      "auto_volume_adjust": true,
+      "max_simultaneous_notes": 3
+    }
+  },
+  "media_combiner": {
+    "name": "FFmpegCombiner",
+    "params": {
+      "video_codec": "libx264",
+      "audio_codec": "aac",
+      "bitrate": "2M",
+      "quality": "high"
+    }
+  },
+  "pipeline": {
+    "name": "SimplePipeline",
+    "params": {
+      "output_dir": "/app/output",
+      "auto_publish": true,
+      "video_duration": 30,
+      "video_dimensions": [1080, 1920],
+      "fps": 60
+    }
+  }
+}

@@ -25,12 +25,6 @@ logger = logging.getLogger("TikSimPro")
 
 # Import components
 from src.pipelines.base_pipeline import IPipeline
-from src.trend_analyzers.base_trend_analyzer import ITrendAnalyzer
-from src.video_generators.base_video_generator import IVideoGenerator
-from src.audio_generators.base_audio_generator import IAudioGenerator
-from src.media_combiners.base_media_combiner import IMediaCombiner
-from src.video_enhancers.base_video_enhancer import IVideoEnhancer
-from src.publishers.base_publisher import IPublisher
 
 from src.core.plugin_manager import PluginManager
 from src.core.config import DEFAULT_CONFIG 

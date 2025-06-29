@@ -1,0 +1,295 @@
+# docker-compose.yml
+# Configuration Docker Compose pour TikSimPro Multi-Comptes
+version: "3.8"
+
+services:
+  # ========================================
+  # BASE DE DONNÉES ET SERVICES
+  # ========================================
+
+  # PostgreSQL pour les cookies et stats
+  postgres:
+    image: postgres:15-alpine
+    environment:
+      POSTGRES_DB: tiksimpro
+      POSTGRES_USER: tiksimpro
+      POSTGRES_PASSWORD: ${DB_PASSWORD:-tiksimpro_password}
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+      - ./database/init.sql:/docker-entrypoint-initdb.d/init.sql
+    ports:
+      - "5432:5432"
+    networks:
+      - tiksimpro-network
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U tiksimpro"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+
+  # Redis pour cache et coordination
+  redis:
+    image: redis:7-alpine
+    ports:
+      - "6379:6379"
+    networks:
+      - tiksimpro-network
+    command: redis-server --appendonly yes
+    volumes:
+      - redis_data:/data
+
+  # API de gestion des cookies
+  cookie-api:
+    build:
+      context: .
+      dockerfile: cookie-api/Dockerfile
+    environment:
+      DATABASE_URL: postgresql://tiksimpro:${DB_PASSWORD:-tiksimpro_password}@postgres:5432/tiksimpro
+      REDIS_URL: redis://redis:6379
+      DEBUG: ${DEBUG:-false}
+    ports:
+      - "5000:5000"
+    depends_on:
+      postgres:
+        condition: service_healthy
+      redis:
+        condition: service_started
+    networks:
+      - tiksimpro-network
+    volumes:
+      - ./cookie-api/logs:/app/logs
+
+  # ========================================
+  # COMPTE 1: VIRAL ACCOUNT (High Frequency)
+  # ========================================
+
+  viral-tiktok:
+    build: .
+    environment:
+      ACCOUNT_ID: viral_account_1
+      PUBLISHER: tiktok
+      AUTO_PUBLISH: "true"
+      VIDEO_DURATION: 30
+      VIDEO_WIDTH: 1080
+      VIDEO_HEIGHT: 1920
+      FPS: 60
+      COOKIE_API_URL: http://cookie-api:5000
+      DEBUG: ${DEBUG:-false}
+      LOG_LEVEL: INFO
+      DOCKER_MODE: "true"
+    volumes:
+      - ./output/viral_account_1:/app/output
+      - ./config:/app/config
+      - ./logs/viral:/app/logs
+    depends_on:
+      cookie-api:
+        condition: service_started
+    networks:
+      - tiksimpro-network
+    profiles: ["viral", "all"]
+    restart: unless-stopped
+
+  viral-youtube:
+    build: .
+    environment:
+      ACCOUNT_ID: viral_account_1
+      PUBLISHER: youtube
+      AUTO_PUBLISH: "true"
+      VIDEO_DURATION: 60
+      VIDEO_WIDTH: 1080
+      VIDEO_HEIGHT: 1920
+      FPS: 60
+      COOKIE_API_URL: http://cookie-api:5000
+      DEBUG: ${DEBUG:-false}
+      LOG_LEVEL: INFO
+      DOCKER_MODE: "true"
+    volumes:
+      - ./output/viral_account_1:/app/output
+      - ./config:/app/config
+      - ./logs/viral:/app/logs
+    depends_on:
+      cookie-api:
+        condition: service_started
+    networks:
+      - tiksimpro-network
+    profiles: ["viral", "all"]
+    restart: unless-stopped
+
+  # ========================================
+  # COMPTE 2: CREATIVE ACCOUNT (Medium Frequency)
+  # ========================================
+
+  creative-instagram:
+    build: .
+    environment:
+      ACCOUNT_ID: creative_account_2
+      PUBLISHER: instagram
+      AUTO_PUBLISH: "true"
+      VIDEO_DURATION: 45
+      VIDEO_WIDTH: 1080
+      VIDEO_HEIGHT: 1920
+      FPS: 60
+      COOKIE_API_URL: http://cookie-api:5000
+      DEBUG: ${DEBUG:-false}
+      LOG_LEVEL: INFO
+      DOCKER_MODE: "true"
+    volumes:
+      - ./output/creative_account_2:/app/output
+      - ./config:/app/config
+      - ./logs/creative:/app/logs
+    depends_on:
+      cookie-api:
+        condition: service_started
+    networks:
+      - tiksimpro-network
+    profiles: ["creative", "all"]
+    restart: unless-stopped
+
+  creative-tiktok:
+    build: .
+    environment:
+      ACCOUNT_ID: creative_account_2
+      PUBLISHER: tiktok
+      AUTO_PUBLISH: "true"
+      VIDEO_DURATION: 40
+      VIDEO_WIDTH: 1080
+      VIDEO_HEIGHT: 1920
+      FPS: 60
+      COOKIE_API_URL: http://cookie-api:5000
+      DEBUG: ${DEBUG:-false}
+      LOG_LEVEL: INFO
+      DOCKER_MODE: "true"
+    volumes:
+      - ./output/creative_account_2:/app/output
+      - ./config:/app/config
+      - ./logs/creative:/app/logs
+    depends_on:
+      cookie-api:
+        condition: service_started
+    networks:
+      - tiksimpro-network
+    profiles: ["creative", "all"]
+    restart: unless-stopped
+
+  # ========================================
+  # COMPTE 3: PREMIUM ACCOUNT (High Quality)
+  # ========================================
+
+  premium-youtube:
+    build: .
+    environment:
+      ACCOUNT_ID: premium_account_3
+      PUBLISHER: youtube
+      AUTO_PUBLISH: "true"
+      VIDEO_DURATION: 90
+      VIDEO_WIDTH: 1080
+      VIDEO_HEIGHT: 1920
+      FPS: 60
+      COOKIE_API_URL: http://cookie-api:5000
+      DEBUG: ${DEBUG:-false}
+      LOG_LEVEL: INFO
+      DOCKER_MODE: "true"
+    volumes:
+      - ./output/premium_account_3:/app/output
+      - ./config:/app/config
+      - ./logs/premium:/app/logs
+    depends_on:
+      cookie-api:
+        condition: service_started
+    networks:
+      - tiksimpro-network
+    profiles: ["premium", "all"]
+    restart: unless-stopped
+
+  premium-tiktok:
+    build: .
+    environment:
+      ACCOUNT_ID: premium_account_3
+      PUBLISHER: tiktok
+      AUTO_PUBLISH: "true"
+      VIDEO_DURATION: 35
+      VIDEO_WIDTH: 1080
+      VIDEO_HEIGHT: 1920
+      FPS: 60
+      COOKIE_API_URL: http://cookie-api:5000
+      DEBUG: ${DEBUG:-false}
+      LOG_LEVEL: INFO
+      DOCKER_MODE: "true"
+    volumes:
+      - ./output/premium_account_3:/app/output
+      - ./config:/app/config
+      - ./logs/premium:/app/logs
+    depends_on:
+      cookie-api:
+        condition: service_started
+    networks:
+      - tiksimpro-network
+    profiles: ["premium", "all"]
+    restart: unless-stopped
+
+  # ========================================
+  # MONITORING DASHBOARD
+  # ========================================
+
+  monitoring-dashboard:
+    build:
+      context: .
+      dockerfile: monitoring/Dockerfile
+    environment:
+      COOKIE_API_URL: http://cookie-api:5000
+      DATABASE_URL: postgresql://tiksimpro:${DB_PASSWORD:-tiksimpro_password}@postgres:5432/tiksimpro
+      REDIS_URL: redis://redis:6379
+    ports:
+      - "3000:3000" # Frontend React
+      - "8000:8000" # Backend FastAPI
+    depends_on:
+      cookie-api:
+        condition: service_started
+      postgres:
+        condition: service_healthy
+    networks:
+      - tiksimpro-network
+    volumes:
+      - ./monitoring/logs:/app/logs
+    profiles: ["monitoring", "all"]
+
+  # ========================================
+  # SCHEDULERS (CronJobs simulés)
+  # ========================================
+
+  scheduler:
+    build:
+      context: .
+      dockerfile: scheduler/Dockerfile
+    environment:
+      DATABASE_URL: postgresql://tiksimpro:${DB_PASSWORD:-tiksimpro_password}@postgres:5432/tiksimpro
+      DOCKER_HOST: unix:///var/run/docker.sock
+    volumes:
+      - /var/run/docker.sock:/var/run/docker.sock
+      - ./config/schedules:/app/schedules
+    depends_on:
+      postgres:
+        condition: service_healthy
+    networks:
+      - tiksimpro-network
+    profiles: ["scheduler", "all"]
+    restart: unless-stopped
+
+networks:
+  tiksimpro-network:
+    driver: bridge
+
+volumes:
+  postgres_data:
+    driver: local
+  redis_data:
+    driver: local
+# ========================================
+# VARIABLES D'ENVIRONNEMENT
+# ========================================
+# Créez un fichier .env avec:
+# DB_PASSWORD=votre_mot_de_passe_secure
+# DEBUG=true
+# TIKTOK_USERNAME_VIRAL=votre_username_viral
+# TIKTOK_PASSWORD_VIRAL=votre_password_viral
+# etc...

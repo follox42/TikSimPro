@@ -1,0 +1,29 @@
+{
+  "publisher": {
+    "name": "YouTubePublisher", 
+    "params": {
+      "auto_close": true,
+      "headless": true,
+      "timeout": 180,
+      "retry_attempts": 3,
+      "account_name": "bouncing_ball",
+      "cookie_api_url": "http://cookie-api:5000",
+      "title_template": "Satisfying Bouncing Ball Physics Simulation #{video_number}",
+      "description_template": "Relaxing physics simulation with bouncing balls and satisfying sounds. Which song do you think the ball is playing?\n\n#Shorts #Satisfying #ASMR #Physics #Simulation #Relaxing #BouncingBall",
+      "tags": [
+        "satisfying",
+        "asmr", 
+        "physics simulation",
+        "bouncing ball",
+        "relaxing",
+        "shorts",
+        "oddly satisfying",
+        "visual asmr"
+      ],
+      "category": "Entertainment",
+      "privacy": "public",
+      "upload_schedule": "daily",
+      "optimal_time": "10:00"
+    }
+  }
+}

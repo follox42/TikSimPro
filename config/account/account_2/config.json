@@ -1,0 +1,34 @@
+{
+  "account_name": "creative_account_2",
+  "description": "Compte créatif avec contenu artistique", 
+  "video_generator": {
+    "name": "InfiniteCircleSimulator",
+    "params": {
+      "width": 1080,
+      "height": 1920,
+      "fps": 60,
+      "duration": 45,
+      "balls": 2,
+      "gravity": 400,
+      "elasticity": 0.9,
+      "style": "artistic_creative",
+      "color_scheme": "gradient_shift",
+      "ring_count": 20,
+      "ring_spacing": 35,
+      "ball_size": 10,
+      "shrink_rate": 0.005,
+      "particle_effects": true,
+      "glow_effect": true
+    }
+  },
+  "audio_generator": {
+    "name": "CustomMidiAudioGenerator",
+    "params": {
+      "sample_rate": 44100,
+      "preset_name": "creative_ambient",
+      "volume": 0.6,
+      "auto_volume_adjust": true,
+      "max_simultaneous_notes": 4
+    }
+  }
+}

@@ -1,0 +1,26 @@
+{
+  "publisher": {
+    "name": "TikTokPublisher",
+    "params": {
+      "auto_close": true,
+      "headless": true,
+      "timeout": 120,
+      "retry_attempts": 3,
+      "account_name": "bouncing_ball",
+      "cookie_api_url": "http://cookie-api:5000",
+      "hashtags": [
+        "#satisfying",
+        "#viral",
+        "#asmr", 
+        "#bouncingball",
+        "#oddlysatisfying",
+        "#physics",
+        "#simulation",
+        "#trending"
+      ],
+      "description_template": "Which song is the bouncing ball playing? 🎵 #satisfying #viral #asmr #bouncingball #oddlysatisfying",
+      "upload_schedule": "every_4_hours",
+      "optimal_times": ["08:00", "12:00", "16:00", "20:00", "00:00", "04:00"]
+    }
+  }
+}
