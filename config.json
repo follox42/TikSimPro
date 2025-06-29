@@ -22,7 +22,7 @@
     }
   },
   "audio_generator": {
-    "name": "SimpleMidiAudioGenerator", 
+    "name": "CustomMidiAudioGenerator", 
     "params": {
     }
   },

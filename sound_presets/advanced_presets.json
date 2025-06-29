@@ -1,0 +1,270 @@
+{
+  "ultra_satisfying_bounce": {
+    "name": "Ultra Satisfying Bounce",
+    "description": "Rebond ultra-satisfaisant avec harmoniques dorées",
+    "config": {
+      "frequency": 440.0,
+      "duration": 0.8,
+      "volume": 0.7,
+      "waveform": "sine",
+      "harmonics": [
+        {
+          "harmonic": 1.618,
+          "amplitude": 0.3,
+          "waveform": "sine"
+        },
+        {
+          "harmonic": 2.618,
+          "amplitude": 0.2,
+          "waveform": "triangle"
+        }
+      ],
+      "envelope": {
+        "type": "adsr",
+        "attack_ms": 2,
+        "decay_ms": 80,
+        "sustain_level": 0.4,
+        "release_ms": 300,
+        "curve_type": "exponential"
+      },
+      "modulation": {
+        "fm_frequency": 8.0,
+        "fm_depth": 0.03
+      },
+      "turbulence": {
+        "noise_type": "pink",
+        "noise_amount": 0.01
+      },
+      "effects": [
+        {
+          "type": "reverb",
+          "room_size": 0.2,
+          "wet_level": 0.15
+        }
+      ]
+    }
+  },
+  "crystalline_magic": {
+    "name": "Crystalline Magic",
+    "description": "Son cristallin magique avec harmoniques complexes",
+    "config": {
+      "frequency": 523.25,
+      "duration": 2.0,
+      "volume": 0.6,
+      "waveform": "sine",
+      "harmonics": [
+        {
+          "harmonic": 2.1,
+          "amplitude": 0.4,
+          "waveform": "sine"
+        },
+        {
+          "harmonic": 3.3,
+          "amplitude": 0.2,
+          "waveform": "sine"
+        },
+        {
+          "harmonic": 4.7,
+          "amplitude": 0.15,
+          "waveform": "triangle"
+        },
+        {
+          "harmonic": 6.1,
+          "amplitude": 0.1,
+          "waveform": "sine"
+        }
+      ],
+      "envelope": {
+        "type": "adsr",
+        "attack_ms": 5,
+        "decay_ms": 400,
+        "sustain_level": 0.3,
+        "release_ms": 800,
+        "curve_type": "exponential"
+      },
+      "modulation": {
+        "am_frequency": 3.0,
+        "am_depth": 0.08
+      },
+      "effects": [
+        {
+          "type": "chorus",
+          "rate": 0.5,
+          "depth": 0.02,
+          "mix": 0.3
+        },
+        {
+          "type": "reverb",
+          "room_size": 0.8,
+          "wet_level": 0.5
+        }
+      ]
+    }
+  },
+  "organic_bubble": {
+    "name": "Organic Bubble Pop",
+    "description": "Bulle organique qui éclate avec texture naturelle",
+    "config": {
+      "frequency": 300.0,
+      "duration": 0.3,
+      "volume": 0.8,
+      "waveform": "sine",
+      "harmonics": [
+        {
+          "harmonic": 1.5,
+          "amplitude": 0.4,
+          "waveform": "triangle"
+        }
+      ],
+      "envelope": {
+        "type": "custom",
+        "points": [
+          [
+            0,
+            0
+          ],
+          [
+            0.02,
+            1
+          ],
+          [
+            0.1,
+            0.2
+          ],
+          [
+            1,
+            0
+          ]
+        ]
+      },
+      "turbulence": {
+        "noise_type": "pink",
+        "noise_amount": 0.2,
+        "flutter_rate": 15.0,
+        "flutter_depth": 0.1
+      },
+      "filters": [
+        {
+          "type": "highpass",
+          "cutoff": 200
+        }
+      ],
+      "effects": [
+        {
+          "type": "reverb",
+          "room_size": 0.3,
+          "wet_level": 0.2
+        }
+      ]
+    }
+  },
+  "deep_wobble": {
+    "name": "Deep Wobble Bass",
+    "description": "Basse profonde avec wobble intense",
+    "config": {
+      "frequency": 80.0,
+      "duration": 2.0,
+      "volume": 0.9,
+      "waveform": "sawtooth",
+      "harmonics": [
+        {
+          "harmonic": 2,
+          "amplitude": 0.5,
+          "waveform": "square"
+        },
+        {
+          "harmonic": 3,
+          "amplitude": 0.3,
+          "waveform": "triangle"
+        }
+      ],
+      "envelope": {
+        "type": "adsr",
+        "attack_ms": 10,
+        "decay_ms": 100,
+        "sustain_level": 0.8,
+        "release_ms": 200,
+        "curve_type": "exponential"
+      },
+      "modulation": {
+        "fm_frequency": 4.0,
+        "fm_depth": 0.5
+      },
+      "filters": [
+        {
+          "type": "lowpass",
+          "cutoff": 300,
+          "resonance": 0.8
+        }
+      ],
+      "effects": [
+        {
+          "type": "distortion",
+          "drive": 2.0,
+          "tone": 0.3
+        }
+      ]
+    }
+  },
+  "space_pad": {
+    "name": "Ethereal Space Pad",
+    "description": "Nappe spatiale éthérée et évolutive",
+    "config": {
+      "frequency": 220.0,
+      "duration": 6.0,
+      "volume": 0.4,
+      "waveform": "triangle",
+      "harmonics": [
+        {
+          "harmonic": 1.5,
+          "amplitude": 0.4,
+          "waveform": "sine"
+        },
+        {
+          "harmonic": 2.3,
+          "amplitude": 0.3,
+          "waveform": "triangle"
+        },
+        {
+          "harmonic": 3.7,
+          "amplitude": 0.2,
+          "waveform": "sine"
+        }
+      ],
+      "envelope": {
+        "type": "adsr",
+        "attack_ms": 800,
+        "decay_ms": 500,
+        "sustain_level": 0.7,
+        "release_ms": 2000,
+        "curve_type": "exponential"
+      },
+      "modulation": {
+        "am_frequency": 0.3,
+        "am_depth": 0.2,
+        "fm_frequency": 0.1,
+        "fm_depth": 0.05
+      },
+      "filters": [
+        {
+          "type": "lowpass",
+          "cutoff": 1000,
+          "resonance": 0.3
+        }
+      ],
+      "effects": [
+        {
+          "type": "chorus",
+          "rate": 0.2,
+          "depth": 0.03,
+          "mix": 0.6
+        },
+        {
+          "type": "reverb",
+          "room_size": 0.9,
+          "wet_level": 0.7
+        }
+      ]
+    }
+  }
+}

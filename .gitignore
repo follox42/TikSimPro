@@ -56,6 +56,7 @@ frames/
 logs/
 tiktok_data/
 trend_data/
+google-chrome/
 
 # Generated files
 *.mp4
@@ -121,3 +122,13 @@ docs/_build/
 .env.local
 .env.development
 .env.production
+
+# Large binary files and Chrome installation
+google-chrome/
+*.deb
+*.pkg.tar.zst
+*.tar.xz
+
+# Large Chrome binaries
+chrome
+chromedriver

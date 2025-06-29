@@ -28,7 +28,7 @@ class Velocity:
         self.vy = vy
 
 class CleanBounce:
-    """Balle propre et simple"""
+    """Balle avec physique triangulaire intéressante"""
     
     def __init__(self, pos: Vector2D, vel: Velocity, size: float = 15.0):
         
@@ -36,28 +36,55 @@ class CleanBounce:
         self.vel = vel
         self.size = size
         
-        self.max_speed = 2000
-        self.max_size = 200
+        self.max_speed = 1800  # Vitesse max contrôlée
+        self.max_size = 180
 
         # Couleur simple
         self.hue = random.uniform(0, 360)
-        self.hue_speed = 120  # Plus lent
+        self.hue_speed = 120
         
-        # Physique réaliste
-        self.gravity = 1200  # Gravité vers le bas
-        self.restitution = 1.03  # Rebond élastique
+        # === PHYSIQUE RAPIDE ET ÉNERGIQUE ===
+        self.gravity = 2800  # Gravité plus forte pour vitesse
+        self.restitution = 1.08  # Rebond énergique qui ajoute de l'énergie
+        self.min_velocity = 600  # Vitesse minimale élevée pour éviter l'arrêt
+        
+        # Physique énergique
+        self.air_resistance = 1.001  # Légèrement accélérateur
+        self.max_bounces = 0
+        self.energy_boost = 1.02  # Boost d'énergie à chaque frame
         
     def update(self, dt: float, container_center: Tuple[float, float], container_radius: float, hue):
-        """Met à jour la balle avec gravité"""
-        # Gravité
+        """Physique rapide et énergique - JAMAIS D'ARRÊT !"""
+        
+        # Gravité forte pour vitesse
         self.vel.vy += self.gravity * dt
+        
+        # Boost d'énergie constant pour éviter l'arrêt
+        self.vel.vx *= self.air_resistance
+        self.vel.vy *= self.air_resistance
+        
+        # Boost énergétique à chaque frame
+        current_speed = math.sqrt(self.vel.vx*self.vel.vx + self.vel.vy*self.vel.vy)
+        if current_speed > 0:
+            boost_factor = self.energy_boost
+            self.vel.vx *= boost_factor
+            self.vel.vy *= boost_factor
         
         # Mouvement
         self.pos.x += self.vel.vx * dt
         self.pos.y += self.vel.vy * dt
         
-        # Changement de couleur lent
+        # Couleur
         self.hue = hue
+        
+        # ANTI-ARRÊT : Si vitesse trop faible, boost immédiat
+        velocity_magnitude = math.sqrt(self.vel.vx * self.vel.vx + self.vel.vy * self.vel.vy)
+        if velocity_magnitude < self.min_velocity:
+            # Boost dans direction aléatoire si trop lent
+            boost_angle = random.uniform(0, 2 * math.pi)
+            boost_strength = self.min_velocity * 1.5
+            self.vel.vx = math.cos(boost_angle) * boost_strength
+            self.vel.vy = math.sin(boost_angle) * boost_strength
         
         # Collision avec le cercle
         center_x, center_y = container_center
@@ -65,31 +92,59 @@ class CleanBounce:
         dy = self.pos.y - center_y
         distance = math.sqrt(dx*dx + dy*dy)
         
-        # Collision détectée
         wall_distance = container_radius - self.size
         if distance > wall_distance:
-            # Normaliser
             if distance > 0:
-                # 🔥 VIRAL: Grossir à chaque rebond
+                # Grossissement rapide
                 if self.size < self.max_size:
-                    self.size *= 1.15
+                    self.size *= 1.08
                 wall_distance = container_radius - self.size
 
+                # Direction normale
                 nx = dx / distance
                 ny = dy / distance
                 
-                # Repositionner
+                # Repositionnement
                 self.pos.x = center_x + nx * wall_distance
                 self.pos.y = center_y + ny * wall_distance
                 
-                # Réflexion élastique
+                # Réflexion ÉNERGIQUE
                 dot = self.vel.vx * nx + self.vel.vy * ny
                 
-                if dot > self.max_speed:
-                    self.restitution = 1.0
-                    
-                self.vel.vx = (self.vel.vx - 2 * dot * nx) * self.restitution
-                self.vel.vy = (self.vel.vy - 2 * dot * ny) * self.restitution
+                # Nouvelles vitesses avec BOOST
+                new_vx = (self.vel.vx - 2 * dot * nx) * self.restitution
+                new_vy = (self.vel.vy - 2 * dot * ny) * self.restitution
+                
+                # Contrôle de vitesse énergique
+                velocity_magnitude = math.sqrt(new_vx * new_vx + new_vy * new_vy)
+                
+                # Limite max plus élevée
+                if velocity_magnitude > self.max_speed:
+                    scale = self.max_speed / velocity_magnitude
+                    new_vx *= scale
+                    new_vy *= scale
+                
+                # GARANTIE de vitesse minimale élevée
+                if velocity_magnitude < self.min_velocity:
+                    scale = self.min_velocity * 1.2 / velocity_magnitude  # 20% de boost
+                    new_vx *= scale
+                    new_vy *= scale
+                
+                # Anti-mouvement répétitif avec boost plus fort
+                if abs(new_vx) < 300:
+                    new_vx += random.uniform(-600, 600)
+                
+                if abs(new_vy) < 300:
+                    new_vy += random.uniform(-600, 600)
+                
+                # Boost aléatoire énergique à chaque rebond
+                energy_boost = random.uniform(1.1, 1.3)
+                new_vx *= energy_boost
+                new_vy *= energy_boost
+                
+                self.vel.vx = new_vx
+                self.vel.vy = new_vy
+                self.max_bounces += 1
                 
                 return True
         
@@ -155,20 +210,22 @@ class GravityFallsSimulator(IVideoGenerator):
         pass
     
     def initialize_simulation(self) -> bool:
-        """Initialise simple"""
+        """Initialise avec physique simple et naturelle"""
         try:
-            # Créer la balle
+            # Position de départ naturelle
             center_x, center_y = self.container_center
-            start_x = center_x + 100
-            start_y = center_y - 100
             
-            # Vitesse initiale
-            vx = 0
-            vy = random.uniform(400, 200)
+            # Position aléatoire dans le cercle
+            start_x = center_x + random.uniform(-150, 150)
+            start_y = center_y + random.uniform(-300, -100)  # Plus haut pour plus de vitesse
+            
+            # Vitesse initiale RAPIDE
+            vx = random.uniform(-1000, 1000)  # Beaucoup plus rapide
+            vy = random.uniform(-600, 200)   # Plus de variation
             
             self.ball = CleanBounce(pos=Vector2D(start_x, start_y), vel=Velocity(vx, vy), size=15)
             
-            logger.info("Simulation clean initialisée")
+            logger.info("Simulation simple initialisée")
             return True
             
         except Exception as e:
@@ -235,8 +292,14 @@ class GravityFallsSimulator(IVideoGenerator):
             # Cleanup
             self.cleanup()
             
-            if success and os.path.exists(self.output_path):
-                return self.output_path
+            # Check if video was actually created despite errors
+            if os.path.exists(self.output_path):
+                file_size = os.path.getsize(self.output_path) / (1024*1024)
+                if file_size > 0.1:  # File has content
+                    logger.info(f"Video generated successfully: {self.output_path} ({file_size:.1f} MB)")
+                    return self.output_path
+                else:
+                    logger.error(f"Video file is empty: {self.output_path}")
             
             return None
             

@@ -56,6 +56,7 @@ def setup_component(manager: PluginManager, config: Config, comp_name: str) -> A
     
         if comp_class is None:
             logger.error(f"Component {config.get(comp_name).get('name')} not found")
+            return
 
         return comp_class(**{
             k: v for k, v in config[comp_name]["params"].items() 
@@ -245,3 +246,4 @@ def main():
 
 if __name__ == "__main__":
     main()
+    

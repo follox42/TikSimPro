@@ -1,0 +1,523 @@
+[
+  {
+    "name": "Pop Satisfaisant Pro",
+    "type": "satisfying_bounce",
+    "frequency_range": [
+      280,
+      450
+    ],
+    "duration": 0.6,
+    "volume": 0.75,
+    "envelope": {
+      "attack_ms": 2.0,
+      "decay_ms": 60.0,
+      "sustain_level": 0.4,
+      "release_ms": 180.0
+    },
+    "effects": {
+      "reverb": 0.15,
+      "compression": 0.8,
+      "eq_boost": 1.2
+    },
+    "advanced_config": {
+      "waveform": "sine",
+      "harmonics": [
+        {
+          "harmonic": 1.618,
+          "amplitude": 0.25,
+          "waveform": "sine"
+        },
+        {
+          "harmonic": 2.618,
+          "amplitude": 0.15,
+          "waveform": "triangle"
+        }
+      ],
+      "modulation": {
+        "fm_frequency": 8.0,
+        "fm_depth": 0.03
+      },
+      "turbulence": {
+        "noise_type": "pink",
+        "noise_amount": 0.015
+      },
+      "filters": [
+        {
+          "type": "highpass",
+          "cutoff": 120
+        }
+      ],
+      "effects": [
+        {
+          "type": "reverb",
+          "room_size": 0.2,
+          "wet_level": 0.15
+        }
+      ]
+    }
+  },
+  {
+    "name": "Piano Doux Ultra",
+    "type": "gentle_pluck",
+    "frequency_range": [
+      200,
+      600
+    ],
+    "duration": 1.2,
+    "volume": 0.65,
+    "envelope": {
+      "attack_ms": 8.0,
+      "decay_ms": 250.0,
+      "sustain_level": 0.35,
+      "release_ms": 400.0
+    },
+    "effects": {
+      "reverb": 0.25,
+      "compression": 0.6,
+      "eq_boost": 1.0
+    },
+    "advanced_config": {
+      "waveform": "triangle",
+      "harmonics": [
+        {
+          "harmonic": 2,
+          "amplitude": 0.4,
+          "waveform": "sine"
+        },
+        {
+          "harmonic": 3,
+          "amplitude": 0.2,
+          "waveform": "triangle"
+        },
+        {
+          "harmonic": 4,
+          "amplitude": 0.1,
+          "waveform": "sine"
+        }
+      ],
+      "envelope": {
+        "type": "adsr",
+        "attack_ms": 8,
+        "decay_ms": 250,
+        "sustain_level": 0.35,
+        "release_ms": 400,
+        "curve_type": "exponential"
+      },
+      "filters": [
+        {
+          "type": "lowpass",
+          "cutoff": 1800,
+          "resonance": 0.3
+        }
+      ],
+      "effects": [
+        {
+          "type": "reverb",
+          "room_size": 0.3,
+          "wet_level": 0.25
+        }
+      ]
+    }
+  },
+  {
+    "name": "Carillon Cristal Magique",
+    "type": "crystal_ting",
+    "frequency_range": [
+      400,
+      1200
+    ],
+    "duration": 2.5,
+    "volume": 0.55,
+    "envelope": {
+      "attack_ms": 5.0,
+      "decay_ms": 400.0,
+      "sustain_level": 0.3,
+      "release_ms": 800.0
+    },
+    "effects": {
+      "reverb": 0.5,
+      "compression": 0.5,
+      "eq_boost": 1.3
+    },
+    "advanced_config": {
+      "waveform": "sine",
+      "harmonics": [
+        {
+          "harmonic": 2.1,
+          "amplitude": 0.4,
+          "waveform": "sine"
+        },
+        {
+          "harmonic": 3.3,
+          "amplitude": 0.25,
+          "waveform": "sine"
+        },
+        {
+          "harmonic": 4.7,
+          "amplitude": 0.15,
+          "waveform": "triangle"
+        },
+        {
+          "harmonic": 6.1,
+          "amplitude": 0.08,
+          "waveform": "sine"
+        }
+      ],
+      "envelope": {
+        "type": "adsr",
+        "attack_ms": 5,
+        "decay_ms": 400,
+        "sustain_level": 0.3,
+        "release_ms": 800,
+        "curve_type": "exponential"
+      },
+      "modulation": {
+        "am_frequency": 3.0,
+        "am_depth": 0.08
+      },
+      "effects": [
+        {
+          "type": "chorus",
+          "rate": 0.5,
+          "depth": 0.02,
+          "mix": 0.3
+        },
+        {
+          "type": "reverb",
+          "room_size": 0.8,
+          "wet_level": 0.5
+        }
+      ]
+    }
+  },
+  {
+    "name": "Goutte Pure Organique",
+    "type": "water_drop",
+    "frequency_range": [
+      300,
+      800
+    ],
+    "duration": 0.8,
+    "volume": 0.7,
+    "envelope": {
+      "attack_ms": 1.0,
+      "decay_ms": 50.0,
+      "sustain_level": 0.2,
+      "release_ms": 200.0
+    },
+    "effects": {
+      "reverb": 0.3,
+      "compression": 0.7,
+      "eq_boost": 1.1
+    },
+    "advanced_config": {
+      "waveform": "sine",
+      "harmonics": [
+        {
+          "harmonic": 2,
+          "amplitude": 0.2,
+          "waveform": "sine"
+        },
+        {
+          "harmonic": 3,
+          "amplitude": 0.1,
+          "waveform": "triangle"
+        }
+      ],
+      "envelope": {
+        "type": "custom",
+        "points": [
+          [
+            0,
+            0
+          ],
+          [
+            0.02,
+            1
+          ],
+          [
+            0.1,
+            0.3
+          ],
+          [
+            1,
+            0
+          ]
+        ]
+      },
+      "modulation": {
+        "fm_frequency": 12.0,
+        "fm_depth": 0.1
+      },
+      "turbulence": {
+        "noise_type": "pink",
+        "noise_amount": 0.05
+      },
+      "filters": [
+        {
+          "type": "bandpass",
+          "low_freq": 250,
+          "high_freq": 2000
+        }
+      ],
+      "effects": [
+        {
+          "type": "reverb",
+          "room_size": 0.4,
+          "wet_level": 0.3
+        }
+      ]
+    }
+  },
+  {
+    "name": "Bulle ASMR Supreme",
+    "type": "asmr_pop",
+    "frequency_range": [
+      250,
+      400
+    ],
+    "duration": 0.4,
+    "volume": 0.8,
+    "envelope": {
+      "attack_ms": 0.5,
+      "decay_ms": 40.0,
+      "sustain_level": 0.1,
+      "release_ms": 80.0
+    },
+    "effects": {
+      "reverb": 0.2,
+      "compression": 0.8,
+      "eq_boost": 1.15
+    },
+    "advanced_config": {
+      "waveform": "sine",
+      "harmonics": [
+        {
+          "harmonic": 1.5,
+          "amplitude": 0.4,
+          "waveform": "triangle"
+        }
+      ],
+      "envelope": {
+        "type": "custom",
+        "points": [
+          [
+            0,
+            0
+          ],
+          [
+            0.02,
+            1
+          ],
+          [
+            0.1,
+            0.2
+          ],
+          [
+            1,
+            0
+          ]
+        ]
+      },
+      "turbulence": {
+        "noise_type": "pink",
+        "noise_amount": 0.2,
+        "flutter_rate": 15.0,
+        "flutter_depth": 0.1
+      },
+      "filters": [
+        {
+          "type": "highpass",
+          "cutoff": 200
+        }
+      ],
+      "effects": [
+        {
+          "type": "reverb",
+          "room_size": 0.3,
+          "wet_level": 0.2
+        }
+      ]
+    }
+  },
+  {
+    "name": "Texture Alien",
+    "type": "crystal_ting",
+    "frequency_range": [
+      200,
+      600
+    ],
+    "duration": 3.0,
+    "volume": 0.5,
+    "envelope": {
+      "attack_ms": 50.0,
+      "decay_ms": 200.0,
+      "sustain_level": 0.6,
+      "release_ms": 800.0
+    },
+    "effects": {
+      "reverb": 0.6,
+      "compression": 0.4,
+      "eq_boost": 1.1
+    },
+    "advanced_config": {
+      "waveform": "square",
+      "harmonics": [
+        {
+          "harmonic": 1.618,
+          "amplitude": 0.4,
+          "waveform": "triangle"
+        },
+        {
+          "harmonic": 2.718,
+          "amplitude": 0.3,
+          "waveform": "sawtooth"
+        },
+        {
+          "harmonic": 3.14159,
+          "amplitude": 0.2,
+          "waveform": "sine"
+        }
+      ],
+      "envelope": {
+        "type": "custom",
+        "points": [
+          [
+            0,
+            0
+          ],
+          [
+            0.1,
+            0.3
+          ],
+          [
+            0.2,
+            1
+          ],
+          [
+            0.4,
+            0.2
+          ],
+          [
+            0.6,
+            0.8
+          ],
+          [
+            0.8,
+            0.3
+          ],
+          [
+            1,
+            0
+          ]
+        ]
+      },
+      "modulation": {
+        "fm_frequency": 7.3,
+        "fm_depth": 0.15,
+        "am_frequency": 2.7,
+        "am_depth": 0.2
+      },
+      "turbulence": {
+        "noise_type": "pink",
+        "noise_amount": 0.1,
+        "flutter_rate": 11.0,
+        "flutter_depth": 0.05
+      },
+      "filters": [
+        {
+          "type": "bandpass",
+          "low_freq": 150,
+          "high_freq": 1500
+        },
+        {
+          "type": "notch",
+          "notch_freq": 400,
+          "q_factor": 15
+        }
+      ],
+      "effects": [
+        {
+          "type": "chorus",
+          "rate": 0.3,
+          "depth": 0.04,
+          "mix": 0.5
+        },
+        {
+          "type": "delay",
+          "delay_ms": 200,
+          "feedback": 0.3,
+          "wet_level": 0.3
+        },
+        {
+          "type": "reverb",
+          "room_size": 0.9,
+          "wet_level": 0.6
+        }
+      ]
+    }
+  },
+  {
+    "name": "Son Folie 1134",
+    "type": "satisfying_bounce",
+    "frequency_range": [
+      170,
+      834
+    ],
+    "duration": 0.53,
+    "volume": 0.64,
+    "envelope": {
+      "attack_ms": 46.9,
+      "decay_ms": 50.0,
+      "sustain_level": 0.7,
+      "release_ms": 183.9
+    },
+    "effects": {
+      "reverb": 0.2,
+      "compression": 0.7,
+      "eq_boost": 1.0
+    }
+  },
+  {
+    "name": "Son Folie 6726",
+    "type": "crystal_ting",
+    "frequency_range": [
+      154,
+      923
+    ],
+    "duration": 0.59,
+    "volume": 0.31,
+    "envelope": {
+      "attack_ms": 9.4,
+      "decay_ms": 50.0,
+      "sustain_level": 0.7,
+      "release_ms": 526.6
+    },
+    "effects": {
+      "reverb": 0.2,
+      "compression": 0.7,
+      "eq_boost": 1.0
+    }
+  },
+  {
+    "name": "Son Folie 3081",
+    "type": "gentle_pluck",
+    "frequency_range": [
+      143,
+      792
+    ],
+    "duration": 0.55,
+    "volume": 0.84,
+    "envelope": {
+      "attack_ms": 96.7,
+      "decay_ms": 50.0,
+      "sustain_level": 0.7,
+      "release_ms": 729.6
+    },
+    "effects": {
+      "reverb": 0.2,
+      "compression": 0.7,
+      "eq_boost": 1.0
+    }
+  }
+]

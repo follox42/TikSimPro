@@ -47,9 +47,9 @@ class IVideoGenerator(ABC):
         self.recording_thread = None
         
         # Performance optimization flags
-        self.headless_mode = False # DISPLAY ENABLED - user wants to see
+        self.headless_mode = True  # HEADLESS for maximum FPS
         self.fast_mode = True      # Skip frame rate limiting
-        self.buffer_size = 30      # Bigger buffer for smoother encoding
+        self.buffer_size = 60      # Much bigger buffer for smoother encoding
         self.use_numpy = True      # Fast array operations
         
         # Metadata and events
@@ -103,12 +103,11 @@ class IVideoGenerator(ABC):
                 return False
             
             # Get the BEST encoder available
-            encoder, preset, extra_args = self._get_best_encoder(use_gpu)
+            encoder, preset, extra_args = self._get_best_encoder(False)  # Stable CPU encoder
             
             # Build OPTIMIZED FFmpeg command
             cmd = [
                 ffmpeg_path, '-y',
-                '-hwaccel', 'cuda',
                 
                 # Input settings - optimized for speed
                 '-f', 'rawvideo', '-vcodec', 'rawvideo',
@@ -134,8 +133,14 @@ class IVideoGenerator(ABC):
                 cmd, 
                 stdin=subprocess.PIPE,
                 stderr=subprocess.PIPE,
+                stdout=subprocess.PIPE,
                 bufsize=1024*1024  # 1MB buffer
             )
+            
+            # Verify FFmpeg started properly
+            if self.ffmpeg_process.poll() is not None:
+                logger.error("FFmpeg failed to start")
+                return False
             
             # Setup HIGH PERFORMANCE frame queue and thread
             self.frame_queue = Queue(maxsize=self.buffer_size)
@@ -158,7 +163,7 @@ class IVideoGenerator(ABC):
         import shutil
         return shutil.which('ffmpeg') or shutil.which('ffmpeg.exe')
     
-    def _get_best_encoder(self, use_gpu: bool = True) -> Tuple[str, str, List[str]]:
+    def _get_best_encoder(self, use_gpu: bool = False) -> Tuple[str, str, List[str]]:
         """Get BEST available encoder for maximum speed"""
         try:
             result = subprocess.run([self._find_ffmpeg(), '-encoders'], 
@@ -166,45 +171,46 @@ class IVideoGenerator(ABC):
             encoders = result.stdout
             
             if use_gpu:
-                # NVIDIA (best performance)
+                # NVIDIA (best performance) - ULTRA FAST settings
                 if 'h264_nvenc' in encoders:
-                    return 'h264_nvenc', 'p1', [
-                        '-b:v', '5000k',      # High bitrate for quality
-                        '-maxrate', '8000k',  # Max bitrate
-                        '-bufsize', '10000k', # Buffer size
+                    return 'h264_nvenc', 'llhq', [
+                        '-b:v', '2000k',      # Even lower bitrate for stability
+                        '-maxrate', '3000k',  # Lower max bitrate
+                        '-bufsize', '4000k',  # Even smaller buffer
                         '-rc', 'cbr',         # Constant bitrate
                         '-rc-lookahead', '0', # No lookahead for speed
-                        '-surfaces', '64',    # More surfaces
-                        '-forced-idr', '1',   # Force IDR frames
+                        '-2pass', '0',        # Disable 2-pass for speed
                     ]
                 
-                # AMD
+                # AMD - ULTRA FAST settings
                 elif 'h264_amf' in encoders:
                     return 'h264_amf', 'speed', [
-                        '-b:v', '5000k',
-                        '-maxrate', '8000k',
+                        '-b:v', '3000k',
+                        '-maxrate', '4000k',
                         '-rc', 'cbr',
                         '-quality', 'speed',
+                        '-usage', 'ultralowlatency',
                     ]
                 
-                # Intel QuickSync
+                # Intel QuickSync - ULTRA FAST settings
                 elif 'h264_qsv' in encoders:
                     return 'h264_qsv', 'veryfast', [
-                        '-b:v', '5000k',
-                        '-maxrate', '8000k',
+                        '-b:v', '3000k',
+                        '-maxrate', '4000k',
                         '-look_ahead', '0',
+                        '-low_power', '1',
                     ]
             
             # Fallback to CPU with MAXIMUM speed settings
             return 'libx264', 'ultrafast', [
-                '-crf', '23',           # Good quality
-                '-tune', 'fastdecode',  # Fast decode
-                '-x264-params', 'nal-hrd=cbr:force-cfr=1',  # CBR mode
+                '-crf', '30',           # Even lower quality for max speed
+                '-tune', 'zerolatency', # Zero latency
+                '-x264-params', 'ref=1:me=dia:subme=1:analyse=none:trellis=0:no-cabac:aq-mode=0:scenecut=0',
             ]
                 
         except Exception as e:
             logger.warning(f"Encoder detection failed: {e}")
-            return 'libx264', 'ultrafast', ['-crf', '23']
+            return 'libx264', 'ultrafast', ['-crf', '28']
     
     def _high_performance_recording_worker(self):
         """HIGH PERFORMANCE worker thread for FFmpeg frame feeding"""
@@ -219,8 +225,14 @@ class IVideoGenerator(ABC):
                     if frame_data is None:
                         break
                     
+                    # Check if FFmpeg process is still alive
+                    if self.ffmpeg_process.poll() is not None:
+                        logger.error("FFmpeg process died unexpectedly")
+                        break
+                    
                     # Write frame to FFmpeg as fast as possible
                     self.ffmpeg_process.stdin.write(frame_data)
+                    self.ffmpeg_process.stdin.flush()  # Force flush each frame
                     frames_written += 1
                     
                     # Update encoding FPS every 60 frames
@@ -244,7 +256,9 @@ class IVideoGenerator(ABC):
         finally:
             if self.ffmpeg_process and self.ffmpeg_process.stdin:
                 try:
-                    self.ffmpeg_process.stdin.close()
+                    if not self.ffmpeg_process.stdin.closed:
+                        self.ffmpeg_process.stdin.flush()
+                        self.ffmpeg_process.stdin.close()
                 except:
                     pass
             
@@ -322,10 +336,14 @@ class IVideoGenerator(ABC):
         # Wait for FFmpeg to finish
         if self.ffmpeg_process:
             try:
+                # Close stdin first to signal end of input
+                if self.ffmpeg_process.stdin and not self.ffmpeg_process.stdin.closed:
+                    self.ffmpeg_process.stdin.close()
+                
                 stdout, stderr = self.ffmpeg_process.communicate(timeout=60)
                 return_code = self.ffmpeg_process.returncode
                 
-                # Add delay for Windows file system
+                # Add delay for file system
                 time.sleep(0.5)
                 
                 if return_code == 0:
@@ -517,8 +535,14 @@ class IVideoGenerator(ABC):
             # Cleanup
             self.cleanup()
             
-            if success and os.path.exists(self.output_path):
-                return self.output_path
+            # Check if video was actually created despite errors
+            if os.path.exists(self.output_path):
+                file_size = os.path.getsize(self.output_path) / (1024*1024)
+                if file_size > 0.1:  # File has content
+                    logger.info(f"Video generated successfully: {self.output_path} ({file_size:.1f} MB)")
+                    return self.output_path
+                else:
+                    logger.error(f"Video file is empty: {self.output_path}")
             
             return None
             

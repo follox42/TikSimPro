@@ -1,0 +1,80 @@
+[
+  {
+    "name": "🎯 Bounce Parfait TikTok",
+    "type": "satisfying_bounce",
+    "frequency_range": [180, 450],
+    "duration": 0.35,
+    "volume": 0.65,
+    "envelope": {
+      "attack_ms": 2.0,
+      "decay_ms": 35.0,
+      "sustain_level": 0.85,
+      "release_ms": 75.0
+    }
+  },
+  {
+    "name": "💧 Goutte ASMR Magique",
+    "type": "water_drop",
+    "frequency_range": [220, 380],
+    "duration": 0.55,
+    "volume": 0.55,
+    "envelope": {
+      "attack_ms": 1.5,
+      "decay_ms": 45.0,
+      "sustain_level": 0.9,
+      "release_ms": 120.0
+    }
+  },
+  {
+    "name": "✨ Cristal Céleste",
+    "type": "crystal_ting",
+    "frequency_range": [900, 1800],
+    "duration": 0.45,
+    "volume": 0.4,
+    "envelope": {
+      "attack_ms": 0.8,
+      "decay_ms": 28.0,
+      "sustain_level": 0.75,
+      "release_ms": 140.0
+    }
+  },
+  {
+    "name": "🎸 Corde Douce Relaxante",
+    "type": "gentle_pluck",
+    "frequency_range": [120, 320],
+    "duration": 0.8,
+    "volume": 0.7,
+    "envelope": {
+      "attack_ms": 1.2,
+      "decay_ms": 60.0,
+      "sustain_level": 0.6,
+      "release_ms": 180.0
+    }
+  },
+  {
+    "name": "🔥 Pop Viral TikTok",
+    "type": "asmr_pop",
+    "frequency_range": [280, 650],
+    "duration": 0.25,
+    "volume": 0.6,
+    "envelope": {
+      "attack_ms": 0.5,
+      "decay_ms": 15.0,
+      "sustain_level": 0.8,
+      "release_ms": 50.0
+    }
+  },
+  {
+    "name": "🔔 Carillon Zen",
+    "type": "soft_chime",
+    "frequency_range": [350, 950],
+    "duration": 1.2,
+    "volume": 0.45,
+    "envelope": {
+      "attack_ms": 8.0,
+      "decay_ms": 90.0,
+      "sustain_level": 0.65,
+      "release_ms": 250.0
+    }
+  }
+] 

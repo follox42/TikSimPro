@@ -67,13 +67,29 @@ class TikTokConnector:
             
             chrome_options = Options()
             
-            # Options de base
+            # Options de base pour Linux
             chrome_options.add_argument("--no-sandbox")
             chrome_options.add_argument("--disable-dev-shm-usage")
+            chrome_options.add_argument("--disable-gpu")
+            chrome_options.add_argument("--disable-software-rasterizer")
+            chrome_options.add_argument("--remote-debugging-port=9222")
+            chrome_options.add_argument("--disable-extensions")
+            chrome_options.add_argument("--disable-plugins")
+            chrome_options.add_argument("--disable-images")
+            chrome_options.add_argument("--allow-running-insecure-content")
+            chrome_options.add_argument("--ignore-certificate-errors")
+            chrome_options.add_argument("--ignore-ssl-errors")
+            chrome_options.add_argument("--ignore-certificate-errors-spki-list")
+            chrome_options.add_argument("--disable-background-timer-throttling")
+            chrome_options.add_argument("--disable-backgrounding-occluded-windows")
+            chrome_options.add_argument("--disable-renderer-backgrounding")
+            chrome_options.add_argument("--disable-features=TranslateUI,VizDisplayCompositor")
             
             # Mode headless si demandé
             if self.headless:
-                chrome_options.add_argument("--headless")
+                chrome_options.add_argument("--headless=new")
+                chrome_options.add_argument("--disable-gpu")
+                chrome_options.add_argument("--window-size=1920,1080")
             
             # Agent utilisateur mobile pour meilleure compatibilité
             mobile_user_agent = "Mozilla/5.0 (iPhone; CPU iPhone OS 14_0 like Mac OS X) AppleWebKit/605.1.15 (KHTML, like Gecko) CriOS/85.0.4183.109 Mobile/15E148 Safari/604.1"
@@ -86,6 +102,9 @@ class TikTokConnector:
             chrome_options.add_experimental_option("excludeSwitches", ["enable-automation"])
             chrome_options.add_experimental_option('useAutomationExtension', False)
             chrome_options.add_argument("--disable-blink-features=AutomationControlled")
+            
+            # Spécifier le chemin du binaire Google Chrome
+            chrome_options.binary_location = "/usr/bin/google-chrome-stable"
             
             logger.info("Initialisation du webdriver Chrome...")
             service = Service(ChromeDriverManager().install())

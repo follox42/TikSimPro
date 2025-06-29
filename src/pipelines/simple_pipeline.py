@@ -109,14 +109,24 @@ class SimplePipeline(IPipeline):
                 self.video_generator.apply_trend_data(trend_data)
                 
                 result_video = self.video_generator.generate()
-                if not result_video or not os.path.exists(result_video):
+                
+                # Check if video was created (even if generator returns None due to flush error)
+                if result_video and os.path.exists(result_video):
+                    video_file = result_video
+                    logger.info(f"Video generated: {video_file}")
+                elif os.path.exists(str(video_file)):
+                    # Fallback: check if video was created at expected path
+                    file_size = os.path.getsize(str(video_file)) / (1024*1024)
+                    if file_size > 0.1:  # File has content
+                        logger.info(f"Video generated successfully (despite error): {video_file} ({file_size:.1f} MB)")
+                    else:
+                        logger.error("Video file is empty")
+                        self.temp_manager.mark_error()
+                        return None
+                else:
                     logger.error("Video generation failed or file not found")
                     self.temp_manager.mark_error()
                     return None
-                
-                # Ensure we have the correct path
-                video_file = result_video
-                logger.info(f"Video generated: {video_file}")
                 
             except Exception as e:
                 logger.error(f"Video generation error: {e}")

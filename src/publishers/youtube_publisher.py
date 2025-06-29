@@ -90,13 +90,28 @@ class YouTubePublisher(IPublisher):
             
             chrome_options = Options()
             
-            # Options de base
+            # Options de base pour Linux
             chrome_options.add_argument("--no-sandbox")
             chrome_options.add_argument("--disable-dev-shm-usage")
+            chrome_options.add_argument("--disable-gpu")
+            chrome_options.add_argument("--disable-software-rasterizer")
+            chrome_options.add_argument("--remote-debugging-port=9223")
+            chrome_options.add_argument("--disable-extensions")
+            chrome_options.add_argument("--disable-plugins")
+            chrome_options.add_argument("--allow-running-insecure-content")
+            chrome_options.add_argument("--ignore-certificate-errors")
+            chrome_options.add_argument("--ignore-ssl-errors")
+            chrome_options.add_argument("--ignore-certificate-errors-spki-list")
+            chrome_options.add_argument("--disable-background-timer-throttling")
+            chrome_options.add_argument("--disable-backgrounding-occluded-windows")
+            chrome_options.add_argument("--disable-renderer-backgrounding")
+            chrome_options.add_argument("--disable-features=TranslateUI,VizDisplayCompositor")
             
             # Mode headless si demandé
             if self.headless:
-                chrome_options.add_argument("--headless")
+                chrome_options.add_argument("--headless=new")
+                chrome_options.add_argument("--disable-gpu")
+                chrome_options.add_argument("--window-size=1920,1080")
             
             # Désactiver les notifications
             chrome_options.add_argument("--disable-notifications")
@@ -105,6 +120,9 @@ class YouTubePublisher(IPublisher):
             chrome_options.add_experimental_option("excludeSwitches", ["enable-automation"])
             chrome_options.add_experimental_option('useAutomationExtension', False)
             chrome_options.add_argument("--disable-blink-features=AutomationControlled")
+            
+            # Spécifier le chemin du binaire Google Chrome
+            chrome_options.binary_location = "/usr/bin/google-chrome-stable"
             
             logger.info("Initialisation du webdriver Chrome...")
             service = Service(ChromeDriverManager().install())
@@ -431,18 +449,153 @@ class YouTubePublisher(IPublisher):
             except Exception as e:
                 logger.error(f"Erreur lors de la saisie de la description: {e}")
             
-            # Marquer comme "Non destiné aux enfants"
+            # Marquer comme "Non destiné aux enfants" - VERSION ULTRA-ROBUSTE
             try:
+                # Défiler vers la section "destiné aux enfants" progressivement
+                logger.info("Recherche de la section 'Destiné aux enfants'...")
                 self.driver.execute_script("window.scrollBy(0, 300);")
-                time.sleep(1)
+                time.sleep(2)
                 
-                not_for_kids_radio = WebDriverWait(self.driver, 10).until(
-                    EC.element_to_be_clickable((By.NAME, "VIDEO_MADE_FOR_KIDS_NOT_MFK"))
-                )
-                not_for_kids_radio.click()
-                logger.info("Option 'Non destiné aux enfants' sélectionnée")
+                # Première approche: chercher par attribut name spécifique
+                clicked = False
+                try:
+                    # YouTube utilise généralement ce pattern pour "non destiné aux enfants"
+                    not_for_kids_radio = WebDriverWait(self.driver, 10).until(
+                        EC.presence_of_element_located((By.XPATH, "//tp-yt-paper-radio-button[@name='VIDEO_MADE_FOR_KIDS_NOT_MFK']"))
+                    )
+                    
+                    # S'assurer que l'élément est visible
+                    self.driver.execute_script("arguments[0].scrollIntoView({behavior: 'smooth', block: 'center'});", not_for_kids_radio)
+                    time.sleep(2)
+                    
+                    # Cliquer avec JavaScript pour être sûr
+                    self.driver.execute_script("arguments[0].click();", not_for_kids_radio)
+                    logger.info("✅ Option 'Non destiné aux enfants' sélectionnée (méthode 1)")
+                    clicked = True
+                    
+                except Exception as e1:
+                    logger.warning(f"Méthode 1 échoué: {e1}")
+                    
+                    # Deuxième approche: chercher par texte visible
+                    try:
+                        # Chercher tous les radio buttons et analyser leur contexte
+                        radio_buttons = self.driver.find_elements(By.XPATH, "//tp-yt-paper-radio-button")
+                        logger.info(f"Trouvé {len(radio_buttons)} boutons radio")
+                        
+                        for i, radio in enumerate(radio_buttons):
+                            try:
+                                # Récupérer le container parent pour analyser le texte
+                                parent = radio.find_element(By.XPATH, "./ancestor::ytcp-checkbox-list-item | ./ancestor::div[contains(@class, 'style-scope')]")
+                                text_content = parent.text.lower() if parent else ""
+                                
+                                logger.info(f"Radio {i}: '{text_content[:50]}...'")
+                                
+                                # Recherche de mots-clés pour "non destiné aux enfants"
+                                not_for_kids_keywords = [
+                                    "no, it's not made for kids",
+                                    "non, ce n'est pas destiné aux enfants", 
+                                    "not made for kids",
+                                    "pas destiné aux enfants",
+                                    "not for kids",
+                                    "pas pour les enfants"
+                                ]
+                                
+                                if any(keyword in text_content for keyword in not_for_kids_keywords):
+                                    self.driver.execute_script("arguments[0].scrollIntoView({behavior: 'smooth', block: 'center'});", radio)
+                                    time.sleep(1)
+                                    self.driver.execute_script("arguments[0].click();", radio)
+                                    logger.info(f"✅ Option 'Non destiné aux enfants' sélectionnée (méthode 2) - Texte: {text_content[:50]}")
+                                    clicked = True
+                                    break
+                                    
+                            except Exception as e2:
+                                continue
+                                
+                    except Exception as e2:
+                        logger.warning(f"Méthode 2 échoué: {e2}")
+                
+                if not clicked:
+                    # Troisième approche: recherche par structure DOM
+                    try:
+                        # Chercher spécifiquement dans les sections de formulaire
+                        form_sections = self.driver.find_elements(By.XPATH, "//ytcp-form-input-container | //div[contains(@class, 'input-container')]")
+                        
+                        for section in form_sections:
+                            try:
+                                section_text = section.text.lower()
+                                if "kid" in section_text or "enfant" in section_text:
+                                    # Chercher les radio buttons dans cette section
+                                    radios_in_section = section.find_elements(By.XPATH, ".//tp-yt-paper-radio-button")
+                                    
+                                    # Si on trouve 2 radios (oui/non), prendre le second (non)
+                                    if len(radios_in_section) >= 2:
+                                        second_radio = radios_in_section[1]  # Index 1 = deuxième option = "Non"
+                                        self.driver.execute_script("arguments[0].scrollIntoView({behavior: 'smooth', block: 'center'});", second_radio)
+                                        time.sleep(1)
+                                        self.driver.execute_script("arguments[0].click();", second_radio)
+                                        logger.info("✅ Option 'Non destiné aux enfants' sélectionnée (méthode 3 - deuxième radio)")
+                                        clicked = True
+                                        break
+                                        
+                            except Exception as e3:
+                                continue
+                                
+                    except Exception as e3:
+                        logger.warning(f"Méthode 3 échoué: {e3}")
+                
+                if not clicked:
+                    # Quatrième approche: force brute sur tous les éléments cliquables
+                    try:
+                        clickable_elements = self.driver.find_elements(By.XPATH, "//*[contains(@class, 'radio') or @type='radio' or contains(@role, 'radio')]")
+                        logger.info(f"Recherche force brute sur {len(clickable_elements)} éléments")
+                        
+                        for element in clickable_elements:
+                            try:
+                                # Vérifier si l'élément ou son parent contient du texte relatif aux enfants
+                                element_context = ""
+                                try:
+                                    element_context = element.get_attribute("innerHTML") or ""
+                                    element_context += " " + (element.text or "")
+                                    parent = element.find_element(By.XPATH, "./..")
+                                    element_context += " " + (parent.text or "")
+                                except:
+                                    pass
+                                
+                                element_context = element_context.lower()
+                                
+                                if ("not" in element_context and ("kid" in element_context or "enfant" in element_context)) or \
+                                   ("non" in element_context and "destiné" in element_context):
+                                    
+                                    self.driver.execute_script("arguments[0].scrollIntoView({behavior: 'smooth', block: 'center'});", element)
+                                    time.sleep(1)
+                                    self.driver.execute_script("arguments[0].click();", element)
+                                    logger.info(f"✅ Option 'Non destiné aux enfants' sélectionnée (méthode 4 - force brute)")
+                                    clicked = True
+                                    break
+                                    
+                            except Exception as e4:
+                                continue
+                                
+                    except Exception as e4:
+                        logger.warning(f"Méthode 4 échoué: {e4}")
+                
+                if not clicked:
+                    logger.warning("⚠️ Toutes les méthodes ont échoué pour 'Non destiné aux enfants'")
+                    
+                    # Dernier recours: screenshot pour debug
+                    try:
+                        self.driver.save_screenshot("youtube_kids_section_debug.png")
+                        logger.info("Screenshot sauvegardé: youtube_kids_section_debug.png")
+                    except:
+                        pass
+                        
+                    # Continuer quand même
+                else:
+                    logger.info("🎯 Sélection 'Non destiné aux enfants' réussie!")
+                
             except Exception as e:
-                logger.error(f"Erreur lors du paramétrage 'Non destiné aux enfants': {e}")
+                logger.error(f"Erreur critique lors du paramétrage 'Non destiné aux enfants': {e}")
+                # Continuer malgré l'erreur
             
             # Navigation à travers les étapes
             try:

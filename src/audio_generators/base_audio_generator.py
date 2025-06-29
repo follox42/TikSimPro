@@ -5,6 +5,7 @@ Base class interface for all audio generators.
 
 from abc import ABC, abstractmethod
 from typing import Dict, List, Any, Optional
+import os
 
 from src.core.data_pipeline import TrendData, AudioEvent
 
@@ -73,3 +74,10 @@ class IAudioGenerator(ABC):
             Path to the generated audio track, or None if failed
         """
         pass
+
+    def set_output_path(self, path: str) -> None:
+        self.output_path = path
+        os.makedirs(os.path.dirname(path), exist_ok=True)
+    
+    def set_duration(self, duration: float) -> None:
+        self.duration = duration
