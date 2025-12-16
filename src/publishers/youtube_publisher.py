@@ -7,6 +7,9 @@ import os
 import time
 import pickle
 import logging
+import uuid
+import fcntl
+import shutil
 from typing import Dict, List, Any, Optional, Tuple, Union
 import random
 from pathlib import Path
@@ -15,18 +18,21 @@ from src.publishers.base_publisher import IPublisher
 
 logger = logging.getLogger("TikSimPro")
 
+# Global lock file to prevent concurrent Chrome sessions
+CHROME_LOCK_FILE = "/tmp/tiksimpro_chrome.lock"
+
 class YouTubePublisher(IPublisher):
     """
     Publie du contenu sur YouTube en utilisant Selenium
     """
     
-    def __init__(self, 
-                credentials_file: Optional[str] = None, 
+    def __init__(self,
+                credentials_file: Optional[str] = None,
                 auto_close: bool = True,
                 headless: bool = False):
         """
         Initialise le système de publication YouTube
-        
+
         Args:
             credentials_file: Fichier pour sauvegarder les cookies
             auto_close: Fermer automatiquement le navigateur après utilisation
@@ -37,16 +43,42 @@ class YouTubePublisher(IPublisher):
         self.headless = headless
         self.is_authenticated = False
         self.driver = None
-        
+
+        # Chrome profile isolation
+        self._lock_file = None
+        self._profile_path = None
+
+        # Clean up stale Chrome artifacts on init
+        self._cleanup_stale_chrome_artifacts()
+
         # Vérifier que Selenium est disponible
         self._check_selenium()
-        
+
         logger.info("YouTubePublisher initialisé")
+
+    def _cleanup_stale_chrome_artifacts(self):
+        """Clean up stale Chrome temp files that can cause conflicts"""
+        import glob
+        patterns = [
+            "/tmp/.com.google.Chrome.*",
+            "/tmp/tiksimpro_chrome_youtube_*",
+            "/tmp/scoped_dir*",
+            os.path.expanduser("~/.tiksimpro/chrome_youtube_*")
+        ]
+        for pattern in patterns:
+            for path in glob.glob(pattern):
+                try:
+                    if os.path.isdir(path):
+                        shutil.rmtree(path, ignore_errors=True)
+                    else:
+                        os.remove(path)
+                except:
+                    pass
     
     def _check_selenium(self) -> bool:
         """
         Vérifie si Selenium est disponible
-        
+
         Returns:
             True si Selenium est disponible, False sinon
         """
@@ -57,6 +89,43 @@ class YouTubePublisher(IPublisher):
         except ImportError:
             logger.error("Selenium non disponible, certaines fonctionnalités seront limitées")
             return False
+
+    def _acquire_chrome_lock(self) -> bool:
+        """
+        Acquire global lock to prevent concurrent Chrome sessions
+
+        Returns:
+            True if lock acquired, False otherwise
+        """
+        try:
+            self._lock_file = open(CHROME_LOCK_FILE, 'w')
+            fcntl.flock(self._lock_file.fileno(), fcntl.LOCK_EX)
+            logger.debug("Chrome lock acquired")
+            return True
+        except Exception as e:
+            logger.error(f"Failed to acquire Chrome lock: {e}")
+            return False
+
+    def _release_chrome_lock(self):
+        """Release the global Chrome lock"""
+        try:
+            if self._lock_file:
+                fcntl.flock(self._lock_file.fileno(), fcntl.LOCK_UN)
+                self._lock_file.close()
+                self._lock_file = None
+                logger.debug("Chrome lock released")
+        except Exception as e:
+            logger.warning(f"Error releasing Chrome lock: {e}")
+
+    def _cleanup_profile(self):
+        """Clean up the temporary Chrome profile directory"""
+        try:
+            if self._profile_path and os.path.exists(self._profile_path):
+                shutil.rmtree(self._profile_path, ignore_errors=True)
+                logger.debug(f"Cleaned up Chrome profile: {self._profile_path}")
+                self._profile_path = None
+        except Exception as e:
+            logger.warning(f"Error cleaning up Chrome profile: {e}")
     
     def _setup_browser(self) -> bool:
         """
@@ -89,13 +158,29 @@ class YouTubePublisher(IPublisher):
                     self.driver = None
             
             chrome_options = Options()
-            
+
+            # Clean up any stale Chrome artifacts before starting
+            self._cleanup_stale_chrome_artifacts()
+
+            # Check if we should use remote Selenium (Docker)
+            use_remote = os.environ.get("USE_SELENIUM_DOCKER", "false").lower() == "true"
+
+            if not use_remote:
+                # Create a unique profile directory in home to avoid /tmp conflicts with Docker
+                unique_id = str(uuid.uuid4())[:8]
+                self._profile_path = os.path.expanduser(f"~/.tiksimpro/chrome_youtube_{unique_id}")
+                os.makedirs(self._profile_path, exist_ok=True)
+                chrome_options.add_argument(f"--user-data-dir={self._profile_path}")
+                logger.info(f"Using isolated Chrome profile: {self._profile_path}")
+            else:
+                self._profile_path = None
+                logger.info("Using Selenium Docker - no custom profile")
+
             # Options de base pour Linux
             chrome_options.add_argument("--no-sandbox")
             chrome_options.add_argument("--disable-dev-shm-usage")
             chrome_options.add_argument("--disable-gpu")
             chrome_options.add_argument("--disable-software-rasterizer")
-            chrome_options.add_argument("--remote-debugging-port=9223")
             chrome_options.add_argument("--disable-extensions")
             chrome_options.add_argument("--disable-plugins")
             chrome_options.add_argument("--allow-running-insecure-content")
@@ -106,27 +191,42 @@ class YouTubePublisher(IPublisher):
             chrome_options.add_argument("--disable-backgrounding-occluded-windows")
             chrome_options.add_argument("--disable-renderer-backgrounding")
             chrome_options.add_argument("--disable-features=TranslateUI,VizDisplayCompositor")
-            
+
             # Mode headless si demandé
             if self.headless:
                 chrome_options.add_argument("--headless=new")
                 chrome_options.add_argument("--disable-gpu")
                 chrome_options.add_argument("--window-size=1920,1080")
-            
+
             # Désactiver les notifications
             chrome_options.add_argument("--disable-notifications")
-            
+
             # Options pour éviter la détection comme bot
             chrome_options.add_experimental_option("excludeSwitches", ["enable-automation"])
             chrome_options.add_experimental_option('useAutomationExtension', False)
             chrome_options.add_argument("--disable-blink-features=AutomationControlled")
-            
+
+            # Use desktop Chrome user agent for YouTube Studio compatibility
+            desktop_user_agent = "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36"
+            chrome_options.add_argument(f"--user-agent={desktop_user_agent}")
+
             # Spécifier le chemin du binaire Google Chrome
             chrome_options.binary_location = "/usr/bin/google-chrome-stable"
-            
-            logger.info("Initialisation du webdriver Chrome...")
-            service = Service(ChromeDriverManager().install())
-            self.driver = webdriver.Chrome(service=service, options=chrome_options)
+
+            # Check if we should use remote Selenium (Docker)
+            use_remote = os.environ.get("USE_SELENIUM_DOCKER", "false").lower() == "true"
+
+            if use_remote:
+                logger.info("Connexion au Selenium Docker (noVNC disponible sur port 7900)...")
+                from selenium.webdriver.common.options import ArgOptions
+                self.driver = webdriver.Remote(
+                    command_executor="http://localhost:4444/wd/hub",
+                    options=chrome_options
+                )
+            else:
+                logger.info("Initialisation du webdriver Chrome local...")
+                service = Service(ChromeDriverManager().install())
+                self.driver = webdriver.Chrome(service=service, options=chrome_options)
             
             # Définir une taille d'écran raisonnable
             self.driver.set_window_size(1280, 800)
@@ -139,6 +239,8 @@ class YouTubePublisher(IPublisher):
             
         except Exception as e:
             logger.error(f"Erreur lors de la configuration du navigateur: {e}")
+            self._cleanup_profile()
+            self._release_chrome_lock()
             self.driver = None
             return False
     
@@ -397,6 +499,9 @@ class YouTubePublisher(IPublisher):
                 )
             except TimeoutException:
                 logger.error("Page d'upload YouTube non chargée")
+                if self.driver:
+                    self.driver.save_screenshot("youtube_upload_failed.png")
+                    logger.info(f"Screenshot sauvegardé: youtube_upload_failed.png - URL: {self.driver.current_url}")
                 return False
             
             # Télécharger la vidéo
@@ -697,3 +802,6 @@ class YouTubePublisher(IPublisher):
                     self.driver = None
                 except:
                     pass
+                # Clean up Chrome profile and release lock
+                self._cleanup_profile()
+                self._release_chrome_lock()

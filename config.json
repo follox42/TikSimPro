@@ -1,7 +1,10 @@
 {
   "trend_analyzer": {
-    "name": "SimpleTrendAnalyzer",
+    "name": "GeminiTrendAnalyzer",
     "params": {
+      "project_id": "YOUR_PROJECT_ID",
+      "location": "us-central1",
+      "model_id": "gemini-1.5-flash",
       "music_folder": "./music",
       "cache_dir": "trend_cache",
       "region": "global",
@@ -13,17 +16,38 @@
     }
   },
   "video_generator": {
-    "name": "GravityFallsSimulator",
+    "name": "RandomVideoGenerator",
     "params": {
       "width": 1080,
       "height": 1920,
       "fps": 60,
-      "duration": 30.0
+      "duration": 30.0,
+      "generators": ["GravityFallsSimulator", "ArcEscapeSimulator"],
+      "GravityFallsSimulator": {
+        "gravity": {"min": 1500, "max": 2200},
+        "restitution": {"values": [0.95, 1.0, 1.02]},
+        "ball_size": {"min": 10, "max": 15},
+        "container_size": {"values": [0.90, 0.93, 0.95]},
+        "min_velocity": {"min": 150, "max": 250}
+      },
+      "ArcEscapeSimulator": {
+        "layer_count": {"min": 15, "max": 25},
+        "gap_size_deg": {"values": [45, 55, 65]},
+        "wall_thickness": {"min": 18, "max": 26},
+        "rotation_speed": {"min": 1.0, "max": 2.0},
+        "gravity": {"min": 1500, "max": 2000},
+        "ball_size": {"min": 12, "max": 16},
+        "spacing": {"min": 20, "max": 30},
+        "start_hue": {"min": 0, "max": 360}
+      }
     }
   },
   "audio_generator": {
-    "name": "CustomMidiAudioGenerator", 
+    "name": "ViralSoundEngine",
     "params": {
+      "mode": "random",
+      "music_folder": "./music",
+      "progressive_build": true
     }
   },
   "media_combiner": {
@@ -35,7 +59,7 @@
       "name": "TikTokPublisher",
       "params": {
         "auto_close": true,
-        "headless": false
+        "headless": true
       },
       "enabled": true
     },
@@ -43,7 +67,7 @@
       "name": "YouTubePublisher",
       "params": {
         "auto_close": true,
-        "headless": false
+        "headless": true
       },
       "enabled": true
     },
@@ -52,7 +76,7 @@
       "params": {
         "auto_close": true,
         "mobile_emulation": true,
-        "headless": false
+        "headless": true
       },
       "enabled": false
     }

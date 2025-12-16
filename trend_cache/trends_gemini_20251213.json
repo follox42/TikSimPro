@@ -1,0 +1,271 @@
+{
+  "timestamp": 1765652430.5551424,
+  "date": "2025-12-13",
+  "popular_hashtags": [
+    "fyp",
+    "viral",
+    "satisfying",
+    "simulation",
+    "relaxing",
+    "oddlysatisfying",
+    "ASMR",
+    "ballbounce",
+    "ball"
+  ],
+  "popular_music": [
+    {
+      "title": "Rick_Astley_Never_Gonna_Give_You_Up",
+      "artist": "Unknown Artist",
+      "file_path": "/home/follox/TikSimPro/music/Rick_Astley_Never_Gonna_Give_You_Up.mid",
+      "filename": "Rick_Astley_Never_Gonna_Give_You_Up.mid",
+      "format": ".mid",
+      "size_mb": 0.0
+    },
+    {
+      "title": "Michael_Jackson_Billie_Jean",
+      "artist": "Unknown Artist",
+      "file_path": "/home/follox/TikSimPro/music/Michael_Jackson_Billie_Jean.mid",
+      "filename": "Michael_Jackson_Billie_Jean.mid",
+      "format": ".mid",
+      "size_mb": 0.0
+    },
+    {
+      "title": "Survivor_Eye_Of_The_Tiger",
+      "artist": "Unknown Artist",
+      "file_path": "/home/follox/TikSimPro/music/Survivor_Eye_Of_The_Tiger.mid",
+      "filename": "Survivor_Eye_Of_The_Tiger.mid",
+      "format": ".mid",
+      "size_mb": 0.0
+    },
+    {
+      "title": "AC_DC_Back_In_Black",
+      "artist": "Unknown Artist",
+      "file_path": "/home/follox/TikSimPro/music/AC_DC_Back_In_Black.mid",
+      "filename": "AC_DC_Back_In_Black.mid",
+      "format": ".mid",
+      "size_mb": 0.01
+    },
+    {
+      "title": "Daft_Punk_Get_Lucky",
+      "artist": "Unknown Artist",
+      "file_path": "/home/follox/TikSimPro/music/Daft_Punk_Get_Lucky.mid",
+      "filename": "Daft_Punk_Get_Lucky.mid",
+      "format": ".mid",
+      "size_mb": 0.02
+    },
+    {
+      "title": "ABBA_Dancing_Queen",
+      "artist": "Unknown Artist",
+      "file_path": "/home/follox/TikSimPro/music/ABBA_Dancing_Queen.mid",
+      "filename": "ABBA_Dancing_Queen.mid",
+      "format": ".mid",
+      "size_mb": 0.04
+    },
+    {
+      "title": "Made Me Realize",
+      "artist": "Gravity Falls",
+      "file_path": "/home/follox/TikSimPro/music/Gravity Falls - Made Me Realize.mid",
+      "filename": "Gravity Falls - Made Me Realize.mid",
+      "format": ".mid",
+      "size_mb": 0.0
+    },
+    {
+      "title": "Queen_Bohemian_Rhapsody",
+      "artist": "Unknown Artist",
+      "file_path": "/home/follox/TikSimPro/music/Queen_Bohemian_Rhapsody.mid",
+      "filename": "Queen_Bohemian_Rhapsody.mid",
+      "format": ".mid",
+      "size_mb": 0.03
+    },
+    {
+      "title": "Kenny_Loggins_Danger_Zone",
+      "artist": "Unknown Artist",
+      "file_path": "/home/follox/TikSimPro/music/Kenny_Loggins_Danger_Zone.mid",
+      "filename": "Kenny_Loggins_Danger_Zone.mid",
+      "format": ".mid",
+      "size_mb": 0.02
+    },
+    {
+      "title": "Guns_N_Roses_Sweet_Child",
+      "artist": "Unknown Artist",
+      "file_path": "/home/follox/TikSimPro/music/Guns_N_Roses_Sweet_Child.mid",
+      "filename": "Guns_N_Roses_Sweet_Child.mid",
+      "format": ".mid",
+      "size_mb": 0.11
+    },
+    {
+      "title": "A-ha_Take_On_Me",
+      "artist": "Unknown Artist",
+      "file_path": "/home/follox/TikSimPro/music/A-ha_Take_On_Me.mid",
+      "filename": "A-ha_Take_On_Me.mid",
+      "format": ".mid",
+      "size_mb": 0.0
+    },
+    {
+      "title": "Toto_Africa",
+      "artist": "Unknown Artist",
+      "file_path": "/home/follox/TikSimPro/music/Toto_Africa.mid",
+      "filename": "Toto_Africa.mid",
+      "format": ".mid",
+      "size_mb": 0.0
+    },
+    {
+      "title": "Europe_Final_Countdown",
+      "artist": "Unknown Artist",
+      "file_path": "/home/follox/TikSimPro/music/Europe_Final_Countdown.mid",
+      "filename": "Europe_Final_Countdown.mid",
+      "format": ".mid",
+      "size_mb": 0.07
+    },
+    {
+      "title": "Bee_Gees_Stayin_Alive",
+      "artist": "Unknown Artist",
+      "file_path": "/home/follox/TikSimPro/music/Bee_Gees_Stayin_Alive.mid",
+      "filename": "Bee_Gees_Stayin_Alive.mid",
+      "format": ".mid",
+      "size_mb": 0.02
+    },
+    {
+      "title": "Bon_Jovi_Livin_On_A_Prayer",
+      "artist": "Unknown Artist",
+      "file_path": "/home/follox/TikSimPro/music/Bon_Jovi_Livin_On_A_Prayer.mid",
+      "filename": "Bon_Jovi_Livin_On_A_Prayer.mid",
+      "format": ".mid",
+      "size_mb": 0.0
+    }
+  ],
+  "color_trends": {
+    "primary_colors": [
+      "#FFD700",
+      "#FF6B35",
+      "#FF1744",
+      "#9C27B0",
+      "#3F51B5",
+      "#00BCD4"
+    ],
+    "palette_name": "satisfying",
+    "all_palettes": {
+      "rainbow": [
+        "#FF0000",
+        "#FF8000",
+        "#FFFF00",
+        "#80FF00",
+        "#00FF00",
+        "#00FF80",
+        "#00FFFF",
+        "#0080FF",
+        "#0000FF",
+        "#8000FF",
+        "#FF00FF"
+      ],
+      "tiktok_neon": [
+        "#FF0050",
+        "#00F2EA",
+        "#FFFFFF",
+        "#FE2C55",
+        "#25F4EE"
+      ],
+      "satisfying": [
+        "#FFD700",
+        "#FF6B35",
+        "#FF1744",
+        "#9C27B0",
+        "#3F51B5",
+        "#00BCD4"
+      ],
+      "vibrant": [
+        "#E91E63",
+        "#FF5722",
+        "#FF9800",
+        "#4CAF50",
+        "#2196F3",
+        "#9C27B0"
+      ],
+      "pastel": [
+        "#FFB3E6",
+        "#FFCCB3",
+        "#B3FFB3",
+        "#B3E6FF",
+        "#D1B3FF"
+      ],
+      "cosmic": [
+        "#1A0033",
+        "#4D0066",
+        "#8000FF",
+        "#CC00FF",
+        "#FF00CC",
+        "#FF3399"
+      ]
+    },
+    "style": "satisfying_simulation"
+  },
+  "recommended_settings": {
+    "video": {
+      "color_palette": [
+        "#FFD700",
+        "#FF6B35",
+        "#FF1744",
+        "#9C27B0",
+        "#3F51B5",
+        "#00BCD4"
+      ],
+      "rotation_speed": 132,
+      "particle_density": "high",
+      "effects": [
+        "glow",
+        "trails",
+        "screen_shake"
+      ],
+      "background": "dark",
+      "contrast": "high"
+    },
+    "audio": {
+      "master_volume": 0.8,
+      "note_volume": 0.6,
+      "effect_volume": 0.4,
+      "sync_to_beat": true,
+      "reverb": 0.3
+    },
+    "publishing": {
+      "platforms": [
+        "tiktok",
+        "instagram",
+        "youtube"
+      ],
+      "optimal_times": [
+        "18:00",
+        "19:30",
+        "21:00"
+      ],
+      "caption_style": "ai_generated",
+      "engagement_strategy": "challenge_based"
+    },
+    "content": {
+      "ai_caption": "This hits different",
+      "ai_hashtags": [
+        "fyp",
+        "viral",
+        "satisfying",
+        "simulation",
+        "relaxing",
+        "oddlysatisfying",
+        "ASMR",
+        "ballbounce",
+        "ball"
+      ],
+      "question_texts": [
+        "Can you watch without blinking?",
+        "How many circles can you count?",
+        "Does this satisfy you?",
+        "Can you escape all circles?",
+        "Watch till the end!"
+      ],
+      "cta_texts": [
+        "Follow for more!",
+        "Like if this satisfied you!",
+        "Share with a friend!",
+        "Comment your favorite part!"
+      ]
+    }
+  }
+}

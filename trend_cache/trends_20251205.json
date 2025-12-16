@@ -1,0 +1,157 @@
+{
+  "timestamp": 1764957602.6915083,
+  "date": "2025-12-05",
+  "popular_hashtags": [
+    "fyp",
+    "viral",
+    "satisfying",
+    "simulation",
+    "ball",
+    "relaxing",
+    "oddlysatisfying",
+    "ballbounce",
+    "ASMR"
+  ],
+  "popular_music": [
+    {
+      "title": "Made Me Realize",
+      "artist": "Gravity Falls",
+      "file_path": "/home/follox/TikSimPro/music/Gravity Falls - Made Me Realize.mid",
+      "filename": "Gravity Falls - Made Me Realize.mid",
+      "format": ".mid",
+      "size_mb": 0.0
+    }
+  ],
+  "color_trends": {
+    "primary_colors": [
+      "#FF0000",
+      "#FF8000",
+      "#FFFF00",
+      "#80FF00",
+      "#00FF00",
+      "#00FF80",
+      "#00FFFF",
+      "#0080FF",
+      "#0000FF",
+      "#8000FF",
+      "#FF00FF"
+    ],
+    "palette_name": "rainbow",
+    "all_palettes": {
+      "rainbow": [
+        "#FF0000",
+        "#FF8000",
+        "#FFFF00",
+        "#80FF00",
+        "#00FF00",
+        "#00FF80",
+        "#00FFFF",
+        "#0080FF",
+        "#0000FF",
+        "#8000FF",
+        "#FF00FF"
+      ],
+      "tiktok_neon": [
+        "#FF0050",
+        "#00F2EA",
+        "#FFFFFF",
+        "#FE2C55",
+        "#25F4EE"
+      ],
+      "satisfying": [
+        "#FFD700",
+        "#FF6B35",
+        "#FF1744",
+        "#9C27B0",
+        "#3F51B5",
+        "#00BCD4"
+      ],
+      "vibrant": [
+        "#E91E63",
+        "#FF5722",
+        "#FF9800",
+        "#4CAF50",
+        "#2196F3",
+        "#9C27B0"
+      ],
+      "pastel": [
+        "#FFB3E6",
+        "#FFCCB3",
+        "#B3FFB3",
+        "#B3E6FF",
+        "#D1B3FF"
+      ],
+      "cosmic": [
+        "#1A0033",
+        "#4D0066",
+        "#8000FF",
+        "#CC00FF",
+        "#FF00CC",
+        "#FF3399"
+      ]
+    },
+    "style": "satisfying_simulation"
+  },
+  "recommended_settings": {
+    "video": {
+      "color_palette": [
+        "#FF0000",
+        "#FF8000",
+        "#FFFF00",
+        "#80FF00",
+        "#00FF00",
+        "#00FF80",
+        "#00FFFF",
+        "#0080FF",
+        "#0000FF",
+        "#8000FF",
+        "#FF00FF"
+      ],
+      "rotation_speed": 112,
+      "particle_density": "high",
+      "effects": [
+        "glow",
+        "trails",
+        "screen_shake"
+      ],
+      "background": "dark",
+      "contrast": "high"
+    },
+    "audio": {
+      "master_volume": 0.8,
+      "note_volume": 0.6,
+      "effect_volume": 0.4,
+      "sync_to_beat": true,
+      "reverb": 0.3
+    },
+    "publishing": {
+      "platforms": [
+        "tiktok",
+        "instagram",
+        "youtube"
+      ],
+      "optimal_times": [
+        "18:00",
+        "19:30",
+        "21:00"
+      ],
+      "caption_style": "question",
+      "engagement_strategy": "challenge_based"
+    },
+    "content": {
+      "question_texts": [
+        "Can you watch without blinking?",
+        "How many circles can you count?",
+        "Does this satisfy you?",
+        "Can you escape all circles?",
+        "Watch till the end! What happens?"
+      ],
+      "cta_texts": [
+        "Follow for more satisfying content!",
+        "Like if this satisfied you!",
+        "Share with someone who needs this!",
+        "Comment your favorite part!"
+      ]
+    }
+  }
+}

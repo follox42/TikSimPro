@@ -297,9 +297,14 @@ class SimplePipeline(IPipeline):
             try:
                 logger.info(f"Publishing to {platform}...")
                 
-                # Prepare metadata
-                caption = "Amazing physics simulation!"
-                hashtags = trend_data.popular_hashtags[:10] if trend_data else ["physics", "simulation", "viral", "fyp"]
+                # Prepare metadata - use AI-generated caption if available
+                if trend_data and trend_data.recommended_settings:
+                    content_settings = trend_data.recommended_settings.get("content", {})
+                    caption = content_settings.get("ai_caption", "Amazing physics simulation!")
+                    hashtags = content_settings.get("ai_hashtags", trend_data.popular_hashtags[:10])
+                else:
+                    caption = "Amazing physics simulation!"
+                    hashtags = ["physics", "simulation", "viral", "fyp"]
                 
                 result = publisher.publish(video_path, caption, hashtags)
                 if result:

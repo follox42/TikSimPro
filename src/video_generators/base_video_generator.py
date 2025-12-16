@@ -57,6 +57,16 @@ class IVideoGenerator(ABC):
         self.metadata = None
         self.start_time = 0
         
+        self.center = (width // 2, height // 2)
+        
+        # === CORRECTION ICI ===
+        if not pygame.font.get_init():
+            pygame.font.init()
+            
+        # Création de la police (Taille 60, gras)
+        # On utilise une police système par défaut pour éviter les erreurs de fichier manquant
+        self.font = pygame.font.SysFont("arial", 60, bold=True)
+
         # Performance tracking
         self.performance_stats = {
             "frames_rendered": 0,
@@ -68,7 +78,21 @@ class IVideoGenerator(ABC):
     def setup_pygame(self, display_scale: float = 0.3) -> bool:
         """Initialize pygame with PERFORMANCE optimizations"""
         try:
+            os.environ["SDL_AUDIODRIVER"] = "dummy"
+            
+            # Si tu es sur un serveur sans écran, ceci évite aussi les erreurs d'affichage
+            if self.headless_mode:
+                os.environ["SDL_VIDEODRIVER"] = "dummy"
+            
             pygame.init()
+
+            # === CORRECTION ICI ===
+            if not pygame.font.get_init():
+                pygame.font.init()
+                
+            # Création de la police (Taille 60, gras)
+            # On utilise une police système par défaut pour éviter les erreurs de fichier manquant
+            self.font = pygame.font.SysFont("arial", 60, bold=True)
             
             # Optimize pygame for performance
             pygame.mixer.quit()  # Disable audio mixer
@@ -202,8 +226,8 @@ class IVideoGenerator(ABC):
                     ]
             
             # Fallback to CPU with MAXIMUM speed settings
-            return 'libx264', 'ultrafast', [
-                '-crf', '30',           # Even lower quality for max speed
+            return 'libx264', 'superfast', [
+                '-crf', '18',           # Even lower quality for max speed
                 '-tune', 'zerolatency', # Zero latency
                 '-x264-params', 'ref=1:me=dia:subme=1:analyse=none:trellis=0:no-cabac:aq-mode=0:scenecut=0',
             ]
@@ -464,7 +488,10 @@ class IVideoGenerator(ABC):
     def set_output_path(self, path: str) -> None:
         """Set the output path for the video"""
         self.output_path = path
-        os.makedirs(os.path.dirname(path), exist_ok=True)
+        directory = os.path.dirname(path)
+        # Only try to create directories if a directory path is actually provided
+        if directory:
+            os.makedirs(directory, exist_ok=True)
     
     def set_performance_mode(self, headless: bool = True, fast: bool = True, use_numpy: bool = True):
         """Configure performance settings"""
