@@ -1,5 +1,5 @@
 {
-  "timestamp": 1765875607.565995,
+  "timestamp": 1765925559.6033971,
   "date": "2025-12-16",
   "popular_hashtags": [
     "fyp",
@@ -7,10 +7,10 @@
     "satisfying",
     "simulation",
     "ball",
-    "oddlysatisfying",
     "ballbounce",
-    "relaxing",
-    "ASMR"
+    "oddlysatisfying",
+    "ASMR",
+    "relaxing"
   ],
   "popular_music": [
     {
@@ -136,19 +136,13 @@
   ],
   "color_trends": {
     "primary_colors": [
-      "#FF0000",
-      "#FF8000",
-      "#FFFF00",
-      "#80FF00",
-      "#00FF00",
-      "#00FF80",
-      "#00FFFF",
-      "#0080FF",
-      "#0000FF",
-      "#8000FF",
-      "#FF00FF"
+      "#FF0050",
+      "#00F2EA",
+      "#FFFFFF",
+      "#FE2C55",
+      "#25F4EE"
     ],
-    "palette_name": "rainbow",
+    "palette_name": "tiktok_neon",
     "all_palettes": {
       "rainbow": [
         "#FF0000",
@@ -207,19 +201,13 @@
   "recommended_settings": {
     "video": {
       "color_palette": [
-        "#FF0000",
-        "#FF8000",
-        "#FFFF00",
-        "#80FF00",
-        "#00FF00",
-        "#00FF80",
-        "#00FFFF",
-        "#0080FF",
-        "#0000FF",
-        "#8000FF",
-        "#FF00FF"
+        "#FF0050",
+        "#00F2EA",
+        "#FFFFFF",
+        "#FE2C55",
+        "#25F4EE"
       ],
-      "rotation_speed": 135,
+      "rotation_speed": 101,
       "particle_density": "high",
       "effects": [
         "glow",
@@ -251,17 +239,17 @@
       "engagement_strategy": "challenge_based"
     },
     "content": {
-      "ai_caption": "Wait for it...",
+      "ai_caption": "Watch till the end!",
       "ai_hashtags": [
         "fyp",
         "viral",
         "satisfying",
         "simulation",
         "ball",
-        "oddlysatisfying",
         "ballbounce",
-        "relaxing",
-        "ASMR"
+        "oddlysatisfying",
+        "ASMR",
+        "relaxing"
       ],
       "question_texts": [
         "Can you watch without blinking?",

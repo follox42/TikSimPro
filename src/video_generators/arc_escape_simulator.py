@@ -8,6 +8,8 @@ from pygame import gfxdraw
 from typing import Dict, Any, Optional, List, Tuple
 
 from src.video_generators.base_video_generator import IVideoGenerator
+from src.utils.video.background_manager import BackgroundManager, BackgroundMode
+from src.utils.video.engagement_texts import EngagementTextManager, VideoType
 
 logger = logging.getLogger("TikSimPro")
 
@@ -194,12 +196,30 @@ class ArcEscapeSimulator(IVideoGenerator):
         self.enable_collision_particles = True  # Particules sur collision
         self.enable_passage_particles = True  # Particules sur passage
 
+        # Background manager
+        self.background_manager = BackgroundManager(self.hd_width, self.hd_height, BackgroundMode.ANIMATED_GRADIENT)
+        self.background_manager.configure({"mode": BackgroundMode.ANIMATED_GRADIENT})
+
+        # Engagement text manager
+        self.engagement_manager: Optional[EngagementTextManager] = None
+        self._intro_text: Optional[str] = None
+        self.time_elapsed = 0.0
+
     def configure(self, config: Dict[str, Any]) -> bool:
         self.config.update(config)
+
+        # Configure background mode
+        if "background" in config:
+            self.background_manager.configure(config["background"])
+        elif "background_mode" in config:
+            self.background_manager.configure({"mode": config["background_mode"]})
+
         return True
-    
+
     def apply_trend_data(self, trend_data: Any) -> None:
-        pass
+        """Apply trend data for engagement texts"""
+        self.engagement_manager = EngagementTextManager.for_arc_escape(trend_data)
+        logger.info("ArcEscape engagement manager initialized")
 
     def get_ffmpeg_args(self, output_path: str) -> List[str]:
         return [
@@ -243,9 +263,12 @@ class ArcEscapeSimulator(IVideoGenerator):
         return True
 
     def render_frame(self, surface: pygame.Surface, frame_number: int, dt: float) -> bool:
+        self.time_elapsed += dt
+
         # 1. On travaille sur la surface HD (3x plus grande)
-        self.hd_surface.fill((10, 10, 10))
-        
+        # Use background manager instead of hardcoded fill
+        self.background_manager.render(self.hd_surface, self.time_elapsed)
+
         self._update_physics(dt)
         self._update_effects(dt)
         
@@ -307,12 +330,85 @@ class ArcEscapeSimulator(IVideoGenerator):
         gfxdraw.filled_circle(self.hd_surface, int(bx_hd), int(by_hd), ball_rad_hd, (255, 255, 255))
         gfxdraw.aacircle(self.hd_surface, int(bx_hd), int(by_hd), ball_rad_hd, (255, 255, 255))
 
+        # D. UI (Engagement texts)
+        self._render_ui(self.hd_surface, S)
+
         # --- ÉTAPE FINALE : DOWNSCALING ---
         # On réduit la surface HD vers la surface finale avec un filtre de lissage (smoothscale)
         # C'est ÇA qui supprime l'aliasing.
         pygame.transform.smoothscale(self.hd_surface, (self.width, self.height), surface)
-        
+
         return True
+
+    def _render_ui(self, surface: pygame.Surface, scale: float):
+        """Render UI with engagement texts"""
+        try:
+            if not pygame.font.get_init():
+                pygame.font.init()
+
+            # Calculate progress (how many layers passed)
+            progress = self.current_layer_index / max(1, len(self.layers))
+
+            # Intro text (first 4 seconds)
+            if self.time_elapsed < 4:
+                font_size = int(40 * scale)
+                font = pygame.font.Font(None, font_size)
+
+                # Get intro text
+                if self._intro_text is None:
+                    if self.engagement_manager:
+                        self._intro_text = self.engagement_manager.get_intro_text()
+                    else:
+                        self._intro_text = "Can the ball escape?"
+
+                text = self._intro_text
+                text_surface = font.render(text, True, (255, 255, 0))
+                text_rect = text_surface.get_rect(center=(self.hd_width // 2, int(50 * scale)))
+
+                # Outline
+                outline = font.render(text, True, (0, 0, 0))
+                for dx, dy in [(-2, -2), (-2, 2), (2, -2), (2, 2)]:
+                    surface.blit(outline, (text_rect.x + dx, text_rect.y + dy))
+
+                surface.blit(text_surface, text_rect)
+
+            # Layer counter
+            font_size = int(64 * scale)
+            font = pygame.font.Font(None, font_size)
+            count_text = f"{self.current_layer_index}/{len(self.layers)}"
+
+            text_surface = font.render(count_text, True, (255, 255, 255))
+            text_rect = text_surface.get_rect(center=(self.hd_width // 2, int(100 * scale)))
+
+            # Outline
+            outline = font.render(count_text, True, (0, 0, 0))
+            for dx, dy in [(-2, -2), (-2, 2), (2, -2), (2, 2)]:
+                surface.blit(outline, (text_rect.x + dx, text_rect.y + dy))
+
+            surface.blit(text_surface, text_rect)
+
+            # Climax text (near the end)
+            if progress > 0.8:
+                font_size = int(48 * scale)
+                font = pygame.font.Font(None, font_size)
+
+                if self.engagement_manager:
+                    climax_text = self.engagement_manager.get_climax_text() or "Almost free!"
+                else:
+                    climax_text = "Almost free!"
+
+                text_surface = font.render(climax_text, True, (100, 255, 100))
+                text_rect = text_surface.get_rect(center=(self.hd_width // 2, self.hd_height - int(100 * scale)))
+
+                # Outline
+                outline = font.render(climax_text, True, (0, 0, 0))
+                for dx, dy in [(-2, -2), (-2, 2), (2, -2), (2, 2)]:
+                    surface.blit(outline, (text_rect.x + dx, text_rect.y + dy))
+
+                surface.blit(text_surface, text_rect)
+
+        except Exception as e:
+            logger.debug(f"UI error: {e}")
 
     def _update_physics(self, dt: float):
         # Mêmes calculs (en coordonnées logiques, pas pixels)

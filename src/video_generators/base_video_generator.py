@@ -96,7 +96,7 @@ class IVideoGenerator(ABC):
             
             # Optimize pygame for performance
             pygame.mixer.quit()  # Disable audio mixer
-            pygame.font.quit()   # Disable fonts initially
+            # Keep fonts initialized for UI rendering
             
             if not self.headless_mode:
                 # Smaller display for better performance

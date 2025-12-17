@@ -51,17 +51,37 @@ def setup_component(manager: PluginManager, config: Config, comp_name: str) -> A
     try:
         if not config.get(comp_name):
             return
-        
+
         comp_class = manager.get_plugin(config.get(comp_name).get("name"))
-    
+
         if comp_class is None:
             logger.error(f"Component {config.get(comp_name).get('name')} not found")
             return
 
-        return comp_class(**{
-            k: v for k, v in config[comp_name]["params"].items() 
+        # Get all params
+        all_params = {
+            k: v for k, v in config[comp_name]["params"].items()
             if not k.startswith("_comment")
-        })
+        }
+
+        # Standard __init__ params for most components
+        init_params = ["width", "height", "fps", "duration", "mode", "music_folder",
+                       "progressive_build", "project_id", "location", "model_id",
+                       "cache_dir", "region", "hashtags", "auto_close", "headless",
+                       "mobile_emulation"]
+
+        # Separate init params from config params
+        constructor_params = {k: v for k, v in all_params.items() if k in init_params}
+        config_params = {k: v for k, v in all_params.items() if k not in init_params}
+
+        # Create instance with constructor params only
+        instance = comp_class(**constructor_params)
+
+        # Call configure() with remaining params if method exists and params present
+        if config_params and hasattr(instance, 'configure'):
+            instance.configure(config_params)
+
+        return instance
     except:
         raise 
 

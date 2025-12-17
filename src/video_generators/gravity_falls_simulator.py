@@ -8,12 +8,15 @@ import math
 import random
 import time
 import colorsys
-from typing import Dict, Any, Optional, Tuple
+from typing import Dict, Any, Optional, Tuple, List
 import logging
 import os
 
 from src.video_generators.base_video_generator import IVideoGenerator
 from src.core.data_pipeline import TrendData, AudioEvent
+from src.utils.video.particles import SimpleParticle, ParticleSpawner
+from src.utils.video.background_manager import BackgroundManager, BackgroundMode
+from src.utils.video.engagement_texts import EngagementTextManager, VideoType
 
 logger = logging.getLogger("TikSimPro")
 
@@ -181,6 +184,18 @@ class GravityFallsSimulator(IVideoGenerator):
         # Configuration physique par défaut (peut être overridée via configure())
         self._physics_config = {}
 
+        # Particle system
+        self.particles: List[SimpleParticle] = []
+        self.enable_particles = True
+
+        # Background manager
+        self.background_manager = BackgroundManager(width, height, BackgroundMode.ANIMATED_GRADIENT)
+        self.background_manager.configure({"mode": BackgroundMode.ANIMATED_GRADIENT})
+
+        # Engagement text manager
+        self.engagement_manager: Optional[EngagementTextManager] = None
+        self._intro_text: Optional[str] = None  # Cached intro text
+
     def configure(self, config: Dict[str, Any]) -> bool:
         """Configure avec paramètres physiques optionnels"""
         try:
@@ -200,6 +215,16 @@ class GravityFallsSimulator(IVideoGenerator):
             # Filtrer les None
             self._physics_config = {k: v for k, v in self._physics_config.items() if v is not None}
 
+            # Configure background mode
+            if "background" in config:
+                self.background_manager.configure(config["background"])
+            elif "background_mode" in config:
+                self.background_manager.configure({"mode": config["background_mode"]})
+
+            # Configure particles
+            if "enable_particles" in config:
+                self.enable_particles = config["enable_particles"]
+
             if self._physics_config:
                 logger.info(f"GravityFalls configuré avec physique: {self._physics_config}")
             else:
@@ -211,8 +236,10 @@ class GravityFallsSimulator(IVideoGenerator):
             return False
     
     def apply_trend_data(self, trend_data: TrendData) -> None:
-        """Pas de tendances complexes"""
-        pass
+        """Apply trend data for engagement texts"""
+        # Create engagement manager with AI-generated texts if available
+        self.engagement_manager = EngagementTextManager.for_gravity_falls(trend_data)
+        logger.info("Engagement manager initialized")
     
     def initialize_simulation(self) -> bool:
         """Initialise avec physique configurable"""
@@ -332,11 +359,14 @@ class GravityFallsSimulator(IVideoGenerator):
         """Rendu avec historique des positions du bord"""
         try:
             self.time_elapsed += dt
-            
+
+            # 0. Render background (replaces black fill)
+            self.background_manager.render(surface, self.time_elapsed)
+
             # Couleur actuelle du container
             self.container_hue += 90 * (1/60)  # Changement lent
             self.container_hue = self.container_hue % 360
-            
+
             r, g, b = colorsys.hsv_to_rgb(self.container_hue/360, 0.9, 0.8)
             current_container_color = (int(r*255), int(g*255), int(b*255))
 
@@ -349,72 +379,117 @@ class GravityFallsSimulator(IVideoGenerator):
                 collision = self.ball.update(dt, self.container_center, self.container_radius, self.container_hue)
                 if collision:
                     self.bounce_count += 1
-                    self.add_audio_event("collision", 
+                    self.add_audio_event("collision",
                                        position=(self.ball.pos.x, self.ball.pos.y),
-                                       params={"volume": 0.5, "bounce_count": self.bounce_count})
+                                       params={
+                                           "volume": 0.5,
+                                           "bounce_count": self.bounce_count,
+                                           "note_index": self.bounce_count  # For melody sync
+                                       })
 
-            # 3. Dessiner le container actuel
+                    # Spawn particles on collision
+                    if self.enable_particles:
+                        # Calculate collision normal angle
+                        dx = self.ball.pos.x - self.container_center[0]
+                        dy = self.ball.pos.y - self.container_center[1]
+                        normal_angle = math.atan2(dy, dx)
+
+                        # Spawn particles with ball color
+                        new_particles = ParticleSpawner.spawn_collision_particles(
+                            self.ball.pos.x, self.ball.pos.y,
+                            normal_angle,
+                            self.ball.get_color(),
+                            count=random.randint(8, 15),
+                            speed_range=(150, 400),
+                            life_range=(0.3, 0.6)
+                        )
+                        self.particles.extend(new_particles)
+
+            # 3. Update and render particles
+            self.particles = [p for p in self.particles if p.update(dt)]
+            for particle in self.particles:
+                particle.render(surface)
+
+            # 4. Dessiner le container actuel
             pygame.draw.circle(surface, current_container_color, self.container_center, int(self.container_radius), 10)
-            
-            # 4. Dessiner la balle
+
+            # 5. Dessiner la balle
             if self.ball:
                 self.ball.render(surface)
-            
-            # 5. UI simple
+
+            # 6. UI simple
             self._render_ui(surface)
-            
+
             return True
-            
+
         except Exception as e:
             logger.error(f"Erreur rendu frame {frame_number}: {e}")
             return False
     
     def _render_ui(self, surface: pygame.Surface):
-        """UI simple et propre"""
+        """UI simple et propre avec textes d'engagement dynamiques"""
         try:
+            # Ensure pygame font is initialized
+            if not pygame.font.get_init():
+                pygame.font.init()
+
             # Compteur de rebonds
             font = pygame.font.Font(None, 64)
             text = str(self.bounce_count)
-            
+
             # Outline
             text_outline = font.render(text, True, (0, 0, 0))
             text_rect = text_outline.get_rect(center=(self.width//2, 100))
-            
+
             for dx, dy in [(-2, -2), (-2, 2), (2, -2), (2, 2)]:
                 surface.blit(text_outline, (text_rect.x + dx, text_rect.y + dy))
-            
+
             # Texte principal
             text_main = font.render(text, True, (255, 255, 255))
             surface.blit(text_main, text_rect)
-            
-            # Texte viral simple
+
+            # Texte viral dynamique (intro - first 4 seconds)
             if self.time_elapsed < 4:
                 viral_font = pygame.font.Font(None, 40)
-                viral_text = "BALL GETS BIGGER!"
+
+                # Get intro text from engagement manager or use default
+                if self._intro_text is None:
+                    if self.engagement_manager:
+                        self._intro_text = self.engagement_manager.get_intro_text()
+                    else:
+                        self._intro_text = "BALL GETS BIGGER!"
+
+                viral_text = self._intro_text
                 viral_surface = viral_font.render(viral_text, True, (255, 255, 0))
                 viral_rect = viral_surface.get_rect(center=(self.width//2, 50))
-                
+
                 # Outline
                 viral_outline = viral_font.render(viral_text, True, (0, 0, 0))
                 for dx, dy in [(-1, -1), (-1, 1), (1, -1), (1, 1)]:
                     surface.blit(viral_outline, (viral_rect.x + dx, viral_rect.y + dy))
-                
+
                 surface.blit(viral_surface, viral_rect)
-            
-            # Alerte simple quand grosse
+
+            # Alerte dynamique quand grosse (climax)
             if self.ball and self.ball.size > 80:
                 warning_font = pygame.font.Font(None, 48)
-                warning_text = "TOO BIG!"
+
+                # Get climax text from engagement manager
+                if self.engagement_manager:
+                    warning_text = self.engagement_manager.get_climax_text() or "TOO BIG!"
+                else:
+                    warning_text = "TOO BIG!"
+
                 warning_surface = warning_font.render(warning_text, True, (255, 100, 100))
                 warning_rect = warning_surface.get_rect(center=(self.width//2, self.height - 100))
-                
+
                 # Outline
                 warning_outline = warning_font.render(warning_text, True, (0, 0, 0))
                 for dx, dy in [(-2, -2), (-2, 2), (2, -2), (2, 2)]:
                     surface.blit(warning_outline, (warning_rect.x + dx, warning_rect.y + dy))
-                
+
                 surface.blit(warning_surface, warning_rect)
-            
+
         except Exception as e:
             logger.debug(f"Erreur UI: {e}")
 
