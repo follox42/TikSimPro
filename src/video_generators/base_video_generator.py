@@ -240,7 +240,7 @@ class IVideoGenerator(ABC):
         """HIGH PERFORMANCE worker thread for FFmpeg frame feeding"""
         frames_written = 0
         start_time = time.time()
-        
+
         try:
             while True:
                 try:
@@ -248,17 +248,22 @@ class IVideoGenerator(ABC):
                     frame_data = self.frame_queue.get(timeout=1.0)
                     if frame_data is None:
                         break
-                    
+
                     # Check if FFmpeg process is still alive
-                    if self.ffmpeg_process.poll() is not None:
+                    if self.ffmpeg_process is None or self.ffmpeg_process.poll() is not None:
                         logger.error("FFmpeg process died unexpectedly")
                         break
-                    
+
+                    # Check if stdin is still available
+                    if self.ffmpeg_process.stdin is None or self.ffmpeg_process.stdin.closed:
+                        logger.warning("FFmpeg stdin closed, stopping worker")
+                        break
+
                     # Write frame to FFmpeg as fast as possible
                     self.ffmpeg_process.stdin.write(frame_data)
                     self.ffmpeg_process.stdin.flush()  # Force flush each frame
                     frames_written += 1
-                    
+
                     # Update encoding FPS every 60 frames
                     if frames_written % 60 == 0:
                         elapsed = time.time() - start_time
@@ -267,25 +272,21 @@ class IVideoGenerator(ABC):
                             self.performance_stats["encoding_fps"] = encoding_fps
                             if frames_written % 300 == 0:  # Log every 300 frames
                                 logger.debug(f"Encoding FPS: {encoding_fps:.1f}")
-                    
+
                 except Empty:
                     # Timeout - check if we should continue
                     if not self.recording:
                         break
                     continue
+                except (BrokenPipeError, IOError) as e:
+                    logger.warning(f"Pipe closed: {e}")
+                    break
                 except Exception as e:
                     logger.error(f"Frame writing error: {e}")
                     break
-        
+
         finally:
-            if self.ffmpeg_process and self.ffmpeg_process.stdin:
-                try:
-                    if not self.ffmpeg_process.stdin.closed:
-                        self.ffmpeg_process.stdin.flush()
-                        self.ffmpeg_process.stdin.close()
-                except:
-                    pass
-            
+            # Do NOT close stdin here - let stop_recording handle it
             final_fps = frames_written / (time.time() - start_time) if time.time() > start_time else 0
             logger.info(f"Recording worker finished: {frames_written} frames, {final_fps:.1f} encoding FPS")
     
@@ -341,35 +342,47 @@ class IVideoGenerator(ABC):
         """Stop recording with proper cleanup"""
         if not self.recording:
             return False
-        
+
         self.recording = False
         logger.info("Stopping recording and finalizing video...")
-        
+
         # Signal recording thread to stop
         try:
             self.frame_queue.put(None, timeout=5.0)
         except Full:
             logger.warning("Queue full when trying to signal stop")
-        
+            # Force clear and retry
+            try:
+                while not self.frame_queue.empty():
+                    self.frame_queue.get_nowait()
+                self.frame_queue.put(None, timeout=1.0)
+            except:
+                pass
+
         # Wait for recording thread with reasonable timeout
         if self.recording_thread:
-            self.recording_thread.join(timeout=60)
+            self.recording_thread.join(timeout=30)
             if self.recording_thread.is_alive():
                 logger.warning("Recording thread did not finish in time")
-        
+
         # Wait for FFmpeg to finish
         if self.ffmpeg_process:
             try:
                 # Close stdin first to signal end of input
-                if self.ffmpeg_process.stdin and not self.ffmpeg_process.stdin.closed:
-                    self.ffmpeg_process.stdin.close()
-                
+                if self.ffmpeg_process.stdin:
+                    try:
+                        if not self.ffmpeg_process.stdin.closed:
+                            self.ffmpeg_process.stdin.flush()
+                            self.ffmpeg_process.stdin.close()
+                    except (BrokenPipeError, IOError, ValueError) as e:
+                        logger.debug(f"stdin already closed: {e}")
+
                 stdout, stderr = self.ffmpeg_process.communicate(timeout=60)
                 return_code = self.ffmpeg_process.returncode
-                
+
                 # Add delay for file system
                 time.sleep(0.5)
-                
+
                 if return_code == 0:
                     file_size = os.path.getsize(self.output_path) / (1024*1024) if os.path.exists(self.output_path) else 0
                     logger.info(f"Recording completed successfully: {self.output_path} ({file_size:.1f} MB)")
@@ -377,14 +390,17 @@ class IVideoGenerator(ABC):
                 else:
                     logger.error(f"FFmpeg failed with return code: {return_code}")
                     if stderr:
-                        logger.error(f"FFmpeg stderr: {stderr.decode()}")
+                        logger.error(f"FFmpeg stderr: {stderr.decode()[-1000:]}")  # Last 1000 chars
                     return False
-                    
+
             except subprocess.TimeoutExpired:
                 logger.error("FFmpeg timeout - killing process")
                 self.ffmpeg_process.kill()
                 return False
-        
+            except Exception as e:
+                logger.error(f"Error stopping FFmpeg: {e}")
+                return False
+
         return False
     
     def update_display(self, scale_surface: bool = True):

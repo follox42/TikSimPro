@@ -1081,7 +1081,7 @@ class SimpleMidiAudioGenerator(IAudioGenerator):
         for event in self.events:
             try:
                 # Play a note on any interesting events
-                if event.event_type in ["collision", "particle_bounce", "circle_activation", "countdown_beep"]:
+                if event.event_type in ["collision", "passage", "particle_bounce", "circle_activation", "countdown_beep"]:
 
                     # Go to the next note
                     frequency = self.melody_notes[note_index % len(self.melody_notes)]

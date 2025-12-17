@@ -45,7 +45,7 @@ class Particle:
 
 
 class VisualEffect:
-    """Effet visuel (Pulse)"""
+    """Effet visuel (Pulse) - dure plus longtemps"""
     def __init__(self, radius: float, color: Tuple[int, int, int], width: int):
         self.radius = radius
         self.color = color
@@ -53,9 +53,9 @@ class VisualEffect:
         self.life = 1.0
 
     def update(self, dt: float) -> bool:
-        self.life -= dt * 2.5
-        self.radius += 200 * dt
-        self.width = max(0.1, self.width - dt * 15)
+        self.life -= dt * 0.8  # Beaucoup plus lent (était 2.5)
+        self.radius += 80 * dt  # Expansion plus lente (était 200)
+        self.width = max(0.1, self.width - dt * 5)  # Réduction plus lente (était 15)
         return self.life > 0
 
     def render(self, surface: pygame.Surface, center: Tuple[int, int], scale: float):
@@ -175,14 +175,19 @@ class ArcEscapeSimulator(IVideoGenerator):
         self.hd_surface = pygame.Surface((self.hd_width, self.hd_height))
         
         self.config = {
-            "layer_count": 20,
-            "spacing": 25,
+            "layer_count": 25,          # Plus de layers pour 60sec
+            "spacing": 28,              # Espacement augmenté
             "wall_thickness": 22,
-            "gap_size_deg": 55,
-            "gravity": 1800.0,
+            "gap_size_deg": 50,         # Gap légèrement réduit
+            "gravity": 1200.0,          # Gravité normale
             "ball_size": 14,
             "start_hue": 0,
-            "rotation_speed": 1.5
+            "rotation_speed": 1.2,
+            "restitution": 1.02,        # GAGNE de l'énergie au rebond!
+            "air_resistance": 0.9998,   # Très peu de résistance
+            "jitter_strength": 40.0,    # Chaos pour variété
+            "max_velocity": 1400.0,     # Vitesse max plus haute
+            "min_velocity": 300.0       # Vitesse MIN - jamais trop lent!
         }
         
         self.layers = []
@@ -245,10 +250,10 @@ class ArcEscapeSimulator(IVideoGenerator):
         self.current_layer_index = 0
         self.ball_pos = [0.0, 0.0]
         
-        # Physique : Départ biaisé
+        # Physique : Départ dynamique
         angle_deg = random.uniform(-130, -50)
         angle_rad = math.radians(angle_deg)
-        speed = 700
+        speed = 550  # Vitesse initiale dynamique
         self.ball_vel = [math.cos(angle_rad) * speed, math.sin(angle_rad) * speed]
         
         start_radius = 150
@@ -341,17 +346,21 @@ class ArcEscapeSimulator(IVideoGenerator):
         return True
 
     def _render_ui(self, surface: pygame.Surface, scale: float):
-        """Render UI with engagement texts"""
+        """Render UI with engagement texts - TikTok safe zone"""
         try:
             if not pygame.font.get_init():
                 pygame.font.init()
+
+            # TikTok safe zone: ~150px from top, ~200px from bottom
+            safe_top = int(180 * scale)  # Safe zone top
+            safe_bottom = self.hd_height - int(250 * scale)  # Safe zone bottom
 
             # Calculate progress (how many layers passed)
             progress = self.current_layer_index / max(1, len(self.layers))
 
             # Intro text (first 4 seconds)
             if self.time_elapsed < 4:
-                font_size = int(40 * scale)
+                font_size = int(38 * scale)
                 font = pygame.font.Font(None, font_size)
 
                 # Get intro text
@@ -363,7 +372,7 @@ class ArcEscapeSimulator(IVideoGenerator):
 
                 text = self._intro_text
                 text_surface = font.render(text, True, (255, 255, 0))
-                text_rect = text_surface.get_rect(center=(self.hd_width // 2, int(50 * scale)))
+                text_rect = text_surface.get_rect(center=(self.hd_width // 2, safe_top))
 
                 # Outline
                 outline = font.render(text, True, (0, 0, 0))
@@ -372,13 +381,13 @@ class ArcEscapeSimulator(IVideoGenerator):
 
                 surface.blit(text_surface, text_rect)
 
-            # Layer counter
-            font_size = int(64 * scale)
+            # Layer counter - below intro text
+            font_size = int(56 * scale)
             font = pygame.font.Font(None, font_size)
             count_text = f"{self.current_layer_index}/{len(self.layers)}"
 
             text_surface = font.render(count_text, True, (255, 255, 255))
-            text_rect = text_surface.get_rect(center=(self.hd_width // 2, int(100 * scale)))
+            text_rect = text_surface.get_rect(center=(self.hd_width // 2, safe_top + int(60 * scale)))
 
             # Outline
             outline = font.render(count_text, True, (0, 0, 0))
@@ -387,9 +396,9 @@ class ArcEscapeSimulator(IVideoGenerator):
 
             surface.blit(text_surface, text_rect)
 
-            # Climax text (near the end)
+            # Climax text (near the end) - in bottom safe zone
             if progress > 0.8:
-                font_size = int(48 * scale)
+                font_size = int(44 * scale)
                 font = pygame.font.Font(None, font_size)
 
                 if self.engagement_manager:
@@ -398,7 +407,7 @@ class ArcEscapeSimulator(IVideoGenerator):
                     climax_text = "Almost free!"
 
                 text_surface = font.render(climax_text, True, (100, 255, 100))
-                text_rect = text_surface.get_rect(center=(self.hd_width // 2, self.hd_height - int(100 * scale)))
+                text_rect = text_surface.get_rect(center=(self.hd_width // 2, safe_bottom))
 
                 # Outline
                 outline = font.render(climax_text, True, (0, 0, 0))
@@ -411,35 +420,59 @@ class ArcEscapeSimulator(IVideoGenerator):
             logger.debug(f"UI error: {e}")
 
     def _update_physics(self, dt: float):
-        # Mêmes calculs (en coordonnées logiques, pas pixels)
-        self.ball_vel[1] += self.config["gravity"] * dt
-        self.ball_vel[0] *= 0.9995
-        self.ball_vel[1] *= 0.9995
-        
+        # Paramètres de config
+        gravity = self.config.get("gravity", 1200.0)
+        air_resistance = self.config.get("air_resistance", 0.9998)
+        restitution = self.config.get("restitution", 1.02)
+        jitter_strength = self.config.get("jitter_strength", 40.0)
+        max_velocity = self.config.get("max_velocity", 1400.0)
+        min_velocity = self.config.get("min_velocity", 300.0)
+
+        # Appliquer gravité
+        self.ball_vel[1] += gravity * dt
+
+        # Résistance de l'air (très légère)
+        self.ball_vel[0] *= air_resistance
+        self.ball_vel[1] *= air_resistance
+
+        # Calculer vitesse actuelle
+        speed = math.sqrt(self.ball_vel[0]**2 + self.ball_vel[1]**2)
+
+        # BOOST si trop lent - jamais ennuyeux!
+        if speed < min_velocity and speed > 0:
+            boost = min_velocity / speed
+            self.ball_vel[0] *= boost
+            self.ball_vel[1] *= boost
+            speed = min_velocity
+
+        # Limiter vitesse max
+        if speed > max_velocity:
+            scale = max_velocity / speed
+            self.ball_vel[0] *= scale
+            self.ball_vel[1] *= scale
+
         next_x = self.ball_pos[0] + self.ball_vel[0] * dt
         next_y = self.ball_pos[1] + self.ball_vel[1] * dt
-        
+
         for layer in self.layers:
             layer.update(dt)
-            
+
         if self.current_layer_index < len(self.layers):
             current_layer = self.layers[self.current_layer_index]
             collision, passed, normal_angle = current_layer.check_collision((next_x, next_y), self.config["ball_size"])
-            
+
             if passed:
                 self.ball_pos = [next_x, next_y]
                 self._handle_layer_break(current_layer)
             elif collision:
-                # Rebond Jittery
+                # Rebond avec perte d'énergie
                 nx = math.cos(normal_angle)
                 ny = math.sin(normal_angle)
                 dot = self.ball_vel[0] * nx + self.ball_vel[1] * ny
-                restitution = 1.05
                 self.ball_vel[0] = (self.ball_vel[0] - 2 * dot * nx) * restitution
                 self.ball_vel[1] = (self.ball_vel[1] - 2 * dot * ny) * restitution
 
-                # Chaos
-                jitter_strength = 50.0
+                # Petit chaos contrôlé
                 tangent_x, tangent_y = -ny, nx
                 jitter = random.uniform(-1, 1) * jitter_strength
                 self.ball_vel[0] += tangent_x * jitter
@@ -453,7 +486,7 @@ class ArcEscapeSimulator(IVideoGenerator):
                 # === ANIMATION RESSORT ===
                 if self.enable_spring_animation:
                     speed = math.sqrt(self.ball_vel[0]**2 + self.ball_vel[1]**2)
-                    spring_strength = min(20, speed / 100)  # Force proportionnelle à la vitesse
+                    spring_strength = min(15, speed / 150)
                     current_layer.trigger_spring(spring_strength)
 
                 # === PARTICULES DE COLLISION ===
@@ -465,7 +498,7 @@ class ArcEscapeSimulator(IVideoGenerator):
 
                 # === AUDIO COLLISION ===
                 speed = math.sqrt(self.ball_vel[0]**2 + self.ball_vel[1]**2)
-                vol = min(1.0, speed / 2000.0)
+                vol = min(1.0, speed / 1500.0)
                 self.add_audio_event("collision", params={
                     "volume": vol,
                     "velocity_magnitude": speed,

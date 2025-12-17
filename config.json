@@ -2,16 +2,22 @@
   "trend_analyzer": {
     "name": "GeminiTrendAnalyzer",
     "params": {
-      "project_id": "YOUR_PROJECT_ID",
+      "project_id": "tiksim-481503",
       "location": "us-central1",
       "model_id": "gemini-1.5-flash",
       "music_folder": "./music",
       "cache_dir": "trend_cache",
       "region": "global",
       "hashtags": [
-        "satisfying", "oddlysatisfying",
-        "fyp", "viral", "ball", "ballbounce", "ASMR",
-        "relaxing", "viral"
+        "satisfying",
+        "oddlysatisfying",
+        "fyp",
+        "viral",
+        "ball",
+        "ballbounce",
+        "ASMR",
+        "relaxing",
+        "viral"
       ]
     }
   },
@@ -21,24 +27,75 @@
       "width": 1080,
       "height": 1920,
       "fps": 60,
-      "duration": 30.0,
-      "generators": ["GravityFallsSimulator", "ArcEscapeSimulator"],
+      "duration": 60.0,
+      "generators": [
+        "GravityFallsSimulator",
+        "ArcEscapeSimulator"
+      ],
       "GravityFallsSimulator": {
-        "gravity": {"min": 1500, "max": 2200},
-        "restitution": {"values": [0.95, 1.0, 1.02]},
-        "ball_size": {"min": 10, "max": 15},
-        "container_size": {"values": [0.90, 0.93, 0.95]},
-        "min_velocity": {"min": 150, "max": 250}
+        "gravity": {
+          "min": 1500,
+          "max": 2200
+        },
+        "restitution": {
+          "values": [
+            0.95,
+            1.0,
+            1.02
+          ]
+        },
+        "ball_size": {
+          "min": 10,
+          "max": 15
+        },
+        "container_size": {
+          "values": [
+            0.90,
+            0.93,
+            0.95
+          ]
+        },
+        "min_velocity": {
+          "min": 150,
+          "max": 250
+        }
       },
       "ArcEscapeSimulator": {
-        "layer_count": {"min": 15, "max": 25},
-        "gap_size_deg": {"values": [45, 55, 65]},
-        "wall_thickness": {"min": 18, "max": 26},
-        "rotation_speed": {"min": 1.0, "max": 2.0},
-        "gravity": {"min": 1500, "max": 2000},
-        "ball_size": {"min": 12, "max": 16},
-        "spacing": {"min": 20, "max": 30},
-        "start_hue": {"min": 0, "max": 360}
+        "layer_count": {
+          "min": 15,
+          "max": 25
+        },
+        "gap_size_deg": {
+          "values": [
+            45,
+            55,
+            65
+          ]
+        },
+        "wall_thickness": {
+          "min": 18,
+          "max": 26
+        },
+        "rotation_speed": {
+          "min": 1.0,
+          "max": 2.0
+        },
+        "gravity": {
+          "min": 1500,
+          "max": 2000
+        },
+        "ball_size": {
+          "min": 12,
+          "max": 16
+        },
+        "spacing": {
+          "min": 20,
+          "max": 30
+        },
+        "start_hue": {
+          "min": 0,
+          "max": 360
+        }
       }
     }
   },
@@ -81,14 +138,16 @@
       "enabled": false
     }
   },
-
   "pipeline": {
     "name": "SimplePipeline",
     "params": {
       "output_dir": "videos",
       "auto_publish": true,
-      "video_duration": 30,
-      "video_dimensions": [1080, 1920],
+      "video_duration": 60,
+      "video_dimensions": [
+        1080,
+        1920
+      ],
       "fps": 60
     }
   }

@@ -188,6 +188,10 @@ class GravityFallsSimulator(IVideoGenerator):
         self.particles: List[SimpleParticle] = []
         self.enable_particles = True
 
+        # Trail history - store (x, y, size, hue) for each frame
+        self.trail_history: List[Tuple[float, float, float, float]] = []
+        self.trail_max_length = 0  # 0 = unlimited, stores all positions
+
         # Background manager
         self.background_manager = BackgroundManager(width, height, BackgroundMode.ANIMATED_GRADIENT)
         self.background_manager.configure({"mode": BackgroundMode.ANIMATED_GRADIENT})
@@ -200,7 +204,7 @@ class GravityFallsSimulator(IVideoGenerator):
         """Configure avec paramètres physiques optionnels"""
         try:
             if "container_size" in config:
-                size_factor = max(0.2, min(0.98, config["container_size"]))  # Max 98% de l'écran
+                size_factor = max(0.7, min(0.98, config["container_size"]))  # Min 70%, Max 98% de l'écran
                 self.container_radius = min(self.width, self.height) * size_factor / 2
 
             # Stocker les paramètres physiques pour l'initialisation de la balle
@@ -244,6 +248,9 @@ class GravityFallsSimulator(IVideoGenerator):
     def initialize_simulation(self) -> bool:
         """Initialise avec physique configurable"""
         try:
+            # Clear trail history for fresh start
+            self.trail_history = []
+
             # Position de départ naturelle
             center_x, center_y = self.container_center
 
@@ -370,11 +377,26 @@ class GravityFallsSimulator(IVideoGenerator):
             r, g, b = colorsys.hsv_to_rgb(self.container_hue/360, 0.9, 0.8)
             current_container_color = (int(r*255), int(g*255), int(b*255))
 
-            # 1. dessiner la ball precedente
+            # 1. Store current ball position in trail history
             if self.ball:
-                self.ball.render(surface, True)
+                self.trail_history.append((
+                    self.ball.pos.x,
+                    self.ball.pos.y,
+                    self.ball.size,
+                    self.ball.hue
+                ))
 
-            # 2. Mettre à jour la balle
+            # 2. Redraw entire trail history (persistent tracer)
+            for trail_x, trail_y, trail_size, trail_hue in self.trail_history[:-1]:  # All except current
+                # Get color for this trail point
+                tr, tg, tb = colorsys.hsv_to_rgb(trail_hue/360, 1.0, 1.0)
+                trail_color = (int(tr*255), int(tg*255), int(tb*255))
+                pos = (int(trail_x), int(trail_y))
+                # Draw border only (tracer effect)
+                pygame.draw.circle(surface, (0, 0, 0), pos, int(trail_size))
+                pygame.draw.circle(surface, trail_color, pos, int(trail_size), width=2)
+
+            # 3. Mettre à jour la balle
             if self.ball:
                 collision = self.ball.update(dt, self.container_center, self.container_radius, self.container_hue)
                 if collision:
@@ -405,19 +427,19 @@ class GravityFallsSimulator(IVideoGenerator):
                         )
                         self.particles.extend(new_particles)
 
-            # 3. Update and render particles
+            # 4. Update and render particles
             self.particles = [p for p in self.particles if p.update(dt)]
             for particle in self.particles:
                 particle.render(surface)
 
-            # 4. Dessiner le container actuel
+            # 5. Dessiner le container actuel
             pygame.draw.circle(surface, current_container_color, self.container_center, int(self.container_radius), 10)
 
-            # 5. Dessiner la balle
+            # 6. Dessiner la balle actuelle (par dessus le trail)
             if self.ball:
                 self.ball.render(surface)
 
-            # 6. UI simple
+            # 7. UI simple
             self._render_ui(surface)
 
             return True
@@ -427,30 +449,19 @@ class GravityFallsSimulator(IVideoGenerator):
             return False
     
     def _render_ui(self, surface: pygame.Surface):
-        """UI simple et propre avec textes d'engagement dynamiques"""
+        """UI avec textes d'engagement - TikTok safe zone"""
         try:
             # Ensure pygame font is initialized
             if not pygame.font.get_init():
                 pygame.font.init()
 
-            # Compteur de rebonds
-            font = pygame.font.Font(None, 64)
-            text = str(self.bounce_count)
-
-            # Outline
-            text_outline = font.render(text, True, (0, 0, 0))
-            text_rect = text_outline.get_rect(center=(self.width//2, 100))
-
-            for dx, dy in [(-2, -2), (-2, 2), (2, -2), (2, 2)]:
-                surface.blit(text_outline, (text_rect.x + dx, text_rect.y + dy))
-
-            # Texte principal
-            text_main = font.render(text, True, (255, 255, 255))
-            surface.blit(text_main, text_rect)
+            # TikTok safe zone: ~150px from top, ~200px from bottom
+            safe_top = 180
+            safe_bottom = self.height - 250
 
             # Texte viral dynamique (intro - first 4 seconds)
             if self.time_elapsed < 4:
-                viral_font = pygame.font.Font(None, 40)
+                viral_font = pygame.font.Font(None, 38)
 
                 # Get intro text from engagement manager or use default
                 if self._intro_text is None:
@@ -461,18 +472,33 @@ class GravityFallsSimulator(IVideoGenerator):
 
                 viral_text = self._intro_text
                 viral_surface = viral_font.render(viral_text, True, (255, 255, 0))
-                viral_rect = viral_surface.get_rect(center=(self.width//2, 50))
+                viral_rect = viral_surface.get_rect(center=(self.width//2, safe_top))
 
                 # Outline
                 viral_outline = viral_font.render(viral_text, True, (0, 0, 0))
-                for dx, dy in [(-1, -1), (-1, 1), (1, -1), (1, 1)]:
+                for dx, dy in [(-2, -2), (-2, 2), (2, -2), (2, 2)]:
                     surface.blit(viral_outline, (viral_rect.x + dx, viral_rect.y + dy))
 
                 surface.blit(viral_surface, viral_rect)
 
-            # Alerte dynamique quand grosse (climax)
+            # Compteur de rebonds - below intro text
+            font = pygame.font.Font(None, 56)
+            text = str(self.bounce_count)
+
+            # Outline
+            text_outline = font.render(text, True, (0, 0, 0))
+            text_rect = text_outline.get_rect(center=(self.width//2, safe_top + 50))
+
+            for dx, dy in [(-2, -2), (-2, 2), (2, -2), (2, 2)]:
+                surface.blit(text_outline, (text_rect.x + dx, text_rect.y + dy))
+
+            # Texte principal
+            text_main = font.render(text, True, (255, 255, 255))
+            surface.blit(text_main, text_rect)
+
+            # Alerte dynamique quand grosse (climax) - in bottom safe zone
             if self.ball and self.ball.size > 80:
-                warning_font = pygame.font.Font(None, 48)
+                warning_font = pygame.font.Font(None, 44)
 
                 # Get climax text from engagement manager
                 if self.engagement_manager:
@@ -481,7 +507,7 @@ class GravityFallsSimulator(IVideoGenerator):
                     warning_text = "TOO BIG!"
 
                 warning_surface = warning_font.render(warning_text, True, (255, 100, 100))
-                warning_rect = warning_surface.get_rect(center=(self.width//2, self.height - 100))
+                warning_rect = warning_surface.get_rect(center=(self.width//2, safe_bottom))
 
                 # Outline
                 warning_outline = warning_font.render(warning_text, True, (0, 0, 0))

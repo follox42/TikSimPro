@@ -208,20 +208,28 @@ class ViralSoundEngine(IAudioGenerator):
         self.current_timbre: Optional[str] = None
 
         # === SONS PERSONNALISÉS ===
-        # Modes: "generated" (synthèse), "file" (fichier audio), "random" (aléatoire entre les deux)
+        # Modes: "generated" (synthèse), "file" (fichier audio), "random" (aléatoire entre les deux), "viral" (sons memes)
         self.collision_sound_mode = "generated"  # Mode pour les rebonds
-        self.passage_sound_mode = "generated"    # Mode pour les passages
+        self.passage_sound_mode = "generated"    # Mode pour les passages (default: generated)
 
         # Dossiers de sons (pour mode "file" ou "random")
         self.collision_sounds_folder = "./sounds/collision"
         self.passage_sounds_folder = "./sounds/passage"
+        self.viral_sounds_folder = "./sounds/viral"  # Dossier sons viraux (miou, bruh, etc.)
 
         # Fichiers spécifiques (optionnel, prioritaire sur le dossier)
         self.collision_sound_file = None
         self.passage_sound_file = None
 
+        # === OPTIONS SONS VIRAUX ===
+        self.viral_sounds_enabled = False  # Activer/désactiver les sons viraux
+        self.viral_sound_duration_min = 0.0  # Durée min en secondes (0 = pas de filtre)
+        self.viral_sound_duration_max = 7.0  # Durée max en secondes (7s max)
+        self.viral_fallback_to_generated = True  # Fallback sur synthèse si pas de son
+
         # Cache des sons chargés
         self._sound_cache: Dict[str, np.ndarray] = {}
+        self._sound_durations: Dict[str, float] = {}  # Cache des durées
 
         logger.info(f"ViralSoundEngine initialized - Mode: {mode}, Progressive: {progressive_build}")
 
@@ -250,6 +258,18 @@ class ViralSoundEngine(IAudioGenerator):
                 self.collision_sound_file = config['collision_sound_file']
             if 'passage_sound_file' in config:
                 self.passage_sound_file = config['passage_sound_file']
+            if 'viral_sounds_folder' in config:
+                self.viral_sounds_folder = config['viral_sounds_folder']
+
+            # Options sons viraux
+            if 'viral_sounds_enabled' in config:
+                self.viral_sounds_enabled = config['viral_sounds_enabled']
+            if 'viral_sound_duration_min' in config:
+                self.viral_sound_duration_min = max(0.0, min(7.0, config['viral_sound_duration_min']))
+            if 'viral_sound_duration_max' in config:
+                self.viral_sound_duration_max = max(0.0, min(7.0, config['viral_sound_duration_max']))
+            if 'viral_fallback_to_generated' in config:
+                self.viral_fallback_to_generated = config['viral_fallback_to_generated']
 
             return True
         except Exception as e:
@@ -325,6 +345,67 @@ class ViralSoundEngine(IAudioGenerator):
 
         except Exception as e:
             logger.error(f"Error getting random sound: {e}")
+            return None
+
+    def _get_sound_duration(self, file_path: str) -> float:
+        """Retourne la durée d'un fichier audio en secondes"""
+        if file_path in self._sound_durations:
+            return self._sound_durations[file_path]
+
+        try:
+            with wave.open(file_path, 'rb') as wav:
+                frames = wav.getnframes()
+                rate = wav.getframerate()
+                duration = frames / float(rate)
+                self._sound_durations[file_path] = duration
+                return duration
+        except Exception:
+            return 0.0
+
+    def _get_random_viral_sound(self) -> Optional[np.ndarray]:
+        """Charge un son viral aléatoire depuis sounds/viral/ (tous sous-dossiers)
+        Filtre par durée min/max si configuré"""
+        try:
+            folder_path = Path(self.viral_sounds_folder)
+            if not folder_path.exists():
+                logger.warning(f"Viral sounds folder not found: {self.viral_sounds_folder}")
+                return None
+
+            # Cherche dans tous les sous-dossiers (animals, bass, memes)
+            sound_files = []
+            for subdir in ['animals', 'bass', 'memes']:
+                subdir_path = folder_path / subdir
+                if subdir_path.exists():
+                    sound_files.extend(list(subdir_path.glob('*.wav')))
+
+            # Cherche aussi à la racine
+            sound_files.extend(list(folder_path.glob('*.wav')))
+
+            if not sound_files:
+                logger.warning(f"No viral sounds found in {self.viral_sounds_folder}")
+                return None
+
+            # Filtrer par durée si min/max configurés
+            if self.viral_sound_duration_min > 0 or self.viral_sound_duration_max < 7.0:
+                filtered_files = []
+                for f in sound_files:
+                    duration = self._get_sound_duration(str(f))
+                    if self.viral_sound_duration_min <= duration <= self.viral_sound_duration_max:
+                        filtered_files.append(f)
+
+                if filtered_files:
+                    sound_files = filtered_files
+                    logger.debug(f"Filtered to {len(sound_files)} sounds by duration ({self.viral_sound_duration_min}-{self.viral_sound_duration_max}s)")
+                else:
+                    logger.warning(f"No sounds match duration filter {self.viral_sound_duration_min}-{self.viral_sound_duration_max}s")
+                    return None
+
+            selected = random.choice(sound_files)
+            logger.info(f"Selected viral sound: {selected.name}")
+            return self._load_audio_file(str(selected))
+
+        except Exception as e:
+            logger.error(f"Error getting viral sound: {e}")
             return None
 
     def _apply_sound_to_buffer(self, sound: np.ndarray, start_time: float, volume: float = 1.0, pitch_shift: float = 1.0):
@@ -728,16 +809,36 @@ class ViralSoundEngine(IAudioGenerator):
     def _process_passage(self, event: AudioEvent):
         """Gère le son 'magique' du passage d'un niveau"""
 
-        # === SONS PERSONNALISÉS ===
-        # Si mode "file" ou "random", on utilise un fichier audio
+        layer_index = event.params.get('layer_index', 0)
+        total_layers = event.params.get('total_layers', 10)
+
+        # === SONS VIRAUX (prioritaire si activé) ===
+        if self.viral_sounds_enabled:
+            sound = self._get_random_viral_sound()
+            if sound is not None:
+                # Progression : pitch varie selon la couche
+                progress = layer_index / max(total_layers, 1)
+                pitch_shift = 0.8 + (progress * 0.4)  # 0.8 - 1.2
+                volume = 0.7 + (progress * 0.2)  # 0.7 - 0.9
+
+                self._apply_sound_to_buffer(sound, event.time, volume, pitch_shift)
+                return  # Succès avec son viral
+
+            # Pas de son viral trouvé
+            if not self.viral_fallback_to_generated:
+                return  # Pas de fallback, on sort
+
+            # Fallback vers génération synthétique
+            logger.debug("Viral sound not found, falling back to generated")
+
+        # === SONS PERSONNALISÉS (mode file/random) ===
         if self.passage_sound_mode in ['file', 'random']:
             if self._process_passage_file(event):
                 return  # Succès, on ne génère pas de son synthétisé
 
+        # === GÉNÉRATION SYNTHÉTIQUE (fallback) ===
         # 1. Paramètres
         # Plus le cercle est petit (index élevé), plus le son est aigu
-        layer_index = event.params.get('layer_index', 0)
-        total_layers = event.params.get('total_layers', 10)
         
         # 2. Choix de la fréquence (Harmonie)
         # On veut un accord ou une note plus haute que la basse actuelle
