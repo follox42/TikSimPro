@@ -188,43 +188,83 @@ class TikTokPublisher(IPublisher):
             # Cliquer sur le bouton de publication
             logger.info("Publication de la vidéo...")
             post_button.click()
-            
+
             # Attendre la confirmation de publication
             logger.info("Attente de la confirmation de publication...")
-            time.sleep(10)  # Attendre que la publication commence
-            
+            time.sleep(5)  # Attendre que le dialog apparaisse
+
             # Vérifier si nous sommes redirigés vers une autre page (signe de succès)
             tries = 0
             max_tries = 12  # Attendre jusqu'à 2 minutes (12 x 10 secondes)
             success = False
-            
+
             while tries < max_tries:
+                # Check for "Continue to post?" / "Post now" dialog
+                try:
+                    # Multiple selectors to find the "Post now" button in the dialog
+                    post_now_xpaths = [
+                        "//button[.//span[contains(text(), 'Post now')]]",
+                        "//button[.//div[contains(text(), 'Post now')]]",
+                        "//button[contains(text(), 'Post now')]",
+                        "//button[contains(@class, 'TUXButton--primary')][.//span[contains(text(), 'Post')]]",
+                        "//div[contains(@class, 'modal')]//button[contains(@class, 'primary')]",
+                        "//button[.//span[contains(text(), 'Publier maintenant')]]",
+                        "//button[contains(text(), 'Publier maintenant')]"
+                    ]
+
+                    post_now_clicked = False
+                    for xpath in post_now_xpaths:
+                        post_now_buttons = self.connector.driver.find_elements(By.XPATH, xpath)
+                        for btn in post_now_buttons:
+                            try:
+                                if btn.is_displayed() and btn.is_enabled():
+                                    # Check if it looks like a dialog button (red/pink background typically)
+                                    logger.info(f"Dialog 'Continue to post?' détecté, clic sur 'Post now'... (xpath: {xpath})")
+                                    btn.click()
+                                    post_now_clicked = True
+                                    time.sleep(3)
+                                    break
+                            except:
+                                continue
+                        if post_now_clicked:
+                            break
+                except Exception as e:
+                    logger.debug(f"Post now button check error: {e}")
+
                 # Vérifier si nous sommes redirigés vers la page de contenu
                 current_url = self.connector.driver.current_url
                 if "/content" in current_url:
                     logger.info("Redirection vers la page de contenu détectée : Publication réussie !")
                     success = True
                     break
-                
+
                 # Vérifier s'il y a un message de succès
-                success_elements = self.connector.driver.find_elements(By.XPATH, 
-                    "//div[contains(text(), 'Your video is') or contains(text(), 'Votre vidéo') or contains(text(), 'success')]")
+                success_elements = self.connector.driver.find_elements(By.XPATH,
+                    "//div[contains(text(), 'Your video is') or contains(text(), 'Votre vidéo') or contains(text(), 'success') or contains(text(), 'uploaded')]")
                 if success_elements:
                     logger.info("Message de succès détecté!")
                     success = True
                     break
-                
+
+                # Check for video posted confirmation
+                posted_elements = self.connector.driver.find_elements(By.XPATH,
+                    "//span[contains(text(), 'Your video is being uploaded')]")
+                if posted_elements:
+                    logger.info("Video upload in progress - assuming success")
+                    success = True
+                    break
+
                 time.sleep(10)
                 tries += 1
                 logger.info(f"Toujours en attente de confirmation... ({tries}/{max_tries})")
-            
-            # Si nous arrivons ici sans confirmation, demander à l'utilisateur
+
+            # If no success detected, take screenshot and report failure
             if not success:
-                print("\nLa confirmation automatique a échoué. Veuillez vérifier manuellement.")
-                print("La vidéo a-t-elle été publiée avec succès? (o/n)")
-                
-                response = input("Votre réponse (o/n): ").strip().lower()
-                success = response == 'o' or response == 'oui' or response == 'y' or response == 'yes'
+                logger.error("Publication TikTok échouée - pas de confirmation reçue")
+                if self.connector.driver:
+                    self.connector.driver.save_screenshot("tiktok_publish_failed.png")
+                    logger.info("Screenshot sauvegardé: tiktok_publish_failed.png")
+                return False
             
             if self.auto_close:
                 logger.info("Fermeture du navigateur...")

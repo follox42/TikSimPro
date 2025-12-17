@@ -3,6 +3,9 @@ import os
 import time
 import pickle
 import logging
+import uuid
+import fcntl
+import shutil
 from selenium import webdriver
 from selenium.webdriver.chrome.service import Service
 from selenium.webdriver.chrome.options import Options
@@ -10,6 +13,9 @@ from webdriver_manager.chrome import ChromeDriverManager
 from selenium.webdriver.common.by import By
 
 logger = logging.getLogger("TikSimPro.Connector")
+
+# Global lock file to prevent concurrent Chrome sessions
+CHROME_LOCK_FILE = "/tmp/tiksimpro_chrome.lock"
 
 class TikTokConnector:
     """Gère l’authentification à TikTok via Selenium & cookies."""
@@ -20,10 +26,36 @@ class TikTokConnector:
         self.driver = None
         self.is_authenticated = False
 
+        # Chrome profile isolation
+        self._lock_file = None
+        self._profile_path = None
+
+        # Clean up stale Chrome artifacts on init
+        self._cleanup_stale_chrome_artifacts()
+
+    def _cleanup_stale_chrome_artifacts(self):
+        """Clean up stale Chrome temp files that can cause conflicts"""
+        import glob
+        patterns = [
+            "/tmp/.com.google.Chrome.*",
+            "/tmp/tiksimpro_chrome_tiktok_*",
+            "/tmp/scoped_dir*",
+            os.path.expanduser("~/.tiksimpro/chrome_tiktok_*")
+        ]
+        for pattern in patterns:
+            for path in glob.glob(pattern):
+                try:
+                    if os.path.isdir(path):
+                        shutil.rmtree(path, ignore_errors=True)
+                    else:
+                        os.remove(path)
+                except:
+                    pass
+
     def _check_selenium(self) -> bool:
         """
         Vérifie si Selenium est disponible
-        
+
         Returns:
             True si Selenium est disponible, False sinon
         """
@@ -34,7 +66,39 @@ class TikTokConnector:
         except ImportError:
             logger.error("Selenium non disponible, certaines fonctionnalités seront limitées")
             return False
-    
+
+    def _acquire_chrome_lock(self) -> bool:
+        """Acquire global lock to prevent concurrent Chrome sessions"""
+        try:
+            self._lock_file = open(CHROME_LOCK_FILE, 'w')
+            fcntl.flock(self._lock_file.fileno(), fcntl.LOCK_EX)
+            logger.debug("Chrome lock acquired")
+            return True
+        except Exception as e:
+            logger.error(f"Failed to acquire Chrome lock: {e}")
+            return False
+
+    def _release_chrome_lock(self):
+        """Release the global Chrome lock"""
+        try:
+            if self._lock_file:
+                fcntl.flock(self._lock_file.fileno(), fcntl.LOCK_UN)
+                self._lock_file.close()
+                self._lock_file = None
+                logger.debug("Chrome lock released")
+        except Exception as e:
+            logger.warning(f"Error releasing Chrome lock: {e}")
+
+    def _cleanup_profile(self):
+        """Clean up the temporary Chrome profile directory"""
+        try:
+            if self._profile_path and os.path.exists(self._profile_path):
+                shutil.rmtree(self._profile_path, ignore_errors=True)
+                logger.debug(f"Cleaned up Chrome profile: {self._profile_path}")
+                self._profile_path = None
+        except Exception as e:
+            logger.warning(f"Error cleaning up Chrome profile: {e}")
+
     def _setup_browser(self) -> bool:
         """
         Configure le navigateur Chrome avec Selenium
@@ -66,13 +130,29 @@ class TikTokConnector:
                     self.driver = None
             
             chrome_options = Options()
-            
+
+            # Clean up any stale Chrome artifacts before starting
+            self._cleanup_stale_chrome_artifacts()
+
+            # Check if we should use remote Selenium (Docker)
+            use_remote = os.environ.get("USE_SELENIUM_DOCKER", "false").lower() == "true"
+
+            if not use_remote:
+                # Create a unique profile directory in home to avoid /tmp conflicts with Docker
+                unique_id = str(uuid.uuid4())[:8]
+                self._profile_path = os.path.expanduser(f"~/.tiksimpro/chrome_tiktok_{unique_id}")
+                os.makedirs(self._profile_path, exist_ok=True)
+                chrome_options.add_argument(f"--user-data-dir={self._profile_path}")
+                logger.info(f"Using isolated Chrome profile: {self._profile_path}")
+            else:
+                self._profile_path = None
+                logger.info("Using Selenium Docker - no custom profile")
+
             # Options de base pour Linux
             chrome_options.add_argument("--no-sandbox")
             chrome_options.add_argument("--disable-dev-shm-usage")
             chrome_options.add_argument("--disable-gpu")
             chrome_options.add_argument("--disable-software-rasterizer")
-            chrome_options.add_argument("--remote-debugging-port=9222")
             chrome_options.add_argument("--disable-extensions")
             chrome_options.add_argument("--disable-plugins")
             chrome_options.add_argument("--disable-images")
@@ -106,9 +186,19 @@ class TikTokConnector:
             # Spécifier le chemin du binaire Google Chrome
             chrome_options.binary_location = "/usr/bin/google-chrome-stable"
             
-            logger.info("Initialisation du webdriver Chrome...")
-            service = Service(ChromeDriverManager().install())
-            self.driver = webdriver.Chrome(service=service, options=chrome_options)
+            # Check if we should use remote Selenium (Docker)
+            use_remote = os.environ.get("USE_SELENIUM_DOCKER", "false").lower() == "true"
+
+            if use_remote:
+                logger.info("Connexion au Selenium Docker (noVNC disponible sur port 7900)...")
+                self.driver = webdriver.Remote(
+                    command_executor="http://localhost:4444/wd/hub",
+                    options=chrome_options
+                )
+            else:
+                logger.info("Initialisation du webdriver Chrome local...")
+                service = Service(ChromeDriverManager().install())
+                self.driver = webdriver.Chrome(service=service, options=chrome_options)
             
             # Définir une taille d'écran raisonnable
             self.driver.set_window_size(1280, 800)
@@ -121,9 +211,22 @@ class TikTokConnector:
             
         except Exception as e:
             logger.error(f"Erreur lors de la configuration du navigateur: {e}")
+            self._cleanup_profile()
+            self._release_chrome_lock()
             self.driver = None
             return False
-    
+
+    def close(self):
+        """Close browser and cleanup resources"""
+        try:
+            if self.driver:
+                self.driver.quit()
+                self.driver = None
+        except:
+            pass
+        self._cleanup_profile()
+        self._release_chrome_lock()
+
     def _save_cookies(self) -> bool:
         """
         Sauvegarde les cookies pour les futures sessions

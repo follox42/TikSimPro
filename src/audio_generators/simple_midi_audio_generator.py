@@ -19,22 +19,23 @@ class SimpleMidiExtractor:
     """Extractor for midi files"""
     
     def extract_notes(self, midi_path: str) -> List[float]:
-        """Extract every notes in a midi file with mido"""
+        """Extract notes from last track (melody) in a midi file"""
         try:
             import mido
             midi = mido.MidiFile(midi_path)
             notes = []
-            
-            for track in midi.tracks:
-                for msg in track:
-                    if msg.type == 'note_on' and msg.velocity > 0:
-                        # Convert midi note in frequence
-                        freq = 440.0 * (2 ** ((msg.note - 69) / 12))
-                        notes.append(freq)
-            
-            logger.info(f"{len(notes)} notes extracted from {midi_path}")
+
+            # Extract from last track only (contains melody)
+            last_track = midi.tracks[len(midi.tracks) - 1]
+            for msg in last_track:
+                if msg.type == 'note_on' and msg.velocity > 0:
+                    # Convert midi note to frequency
+                    freq = 440.0 * (2 ** ((msg.note - 69) / 12))
+                    notes.append(freq)
+
+            logger.info(f"{len(notes)} melody notes extracted from {midi_path}")
             return notes
-            
+
         except Exception as e:
             logger.error(f"Error MIDI: {e}")
             return self.get_default_melody()
@@ -822,6 +823,133 @@ class AdvancedSoundGenerator:
     def percussion_hit(self, frequency: float = 200, duration: float = 0.2, volume: float = 0.8) -> np.ndarray:
         return self.asmr_pop(frequency, duration, volume)
 
+    # ===== NOUVEAUX PRESETS ULTRA-SATISFAISANTS =====
+
+    def ultra_satisfying_bounce(self, frequency: float, duration: float = 0.6, volume: float = 0.6) -> np.ndarray:
+        """Rebond ultra-satisfaisant avec harmoniques riches et reverb longue"""
+        config = {
+            "frequency": frequency,
+            "duration": duration,
+            "volume": volume,
+            "waveform": "sine",
+            "harmonics": [
+                {"harmonic": 2, "amplitude": 0.4, "waveform": "sine"},
+                {"harmonic": 3, "amplitude": 0.2, "waveform": "sine"},
+                {"harmonic": 4, "amplitude": 0.1, "waveform": "sine"},
+                {"harmonic": 5, "amplitude": 0.05, "waveform": "triangle"}
+            ],
+            "subharmonics": [
+                {"divisor": 2, "amplitude": 0.15, "waveform": "sine"}
+            ],
+            "envelope": {
+                "type": "adsr",
+                "attack_ms": 1,
+                "decay_ms": 80,
+                "sustain_level": 0.3,
+                "release_ms": 400,
+                "curve_type": "exponential"
+            },
+            "modulation": {
+                "fm_frequency": 6.0,
+                "fm_depth": 0.03
+            },
+            "effects": [
+                {"type": "reverb", "room_size": 0.6, "damping": 0.3, "wet_level": 0.4},
+                {"type": "chorus", "rate": 0.8, "depth": 0.01, "mix": 0.2}
+            ]
+        }
+        return self.generate_advanced_sound(config)
+
+    def deep_asmr_pop(self, frequency: float = 250, duration: float = 0.25, volume: float = 0.5) -> np.ndarray:
+        """Pop profond ASMR avec sous-harmonique riche"""
+        config = {
+            "frequency": frequency,
+            "duration": duration,
+            "volume": volume,
+            "waveform": "sine",
+            "harmonics": [
+                {"harmonic": 1.5, "amplitude": 0.5, "waveform": "triangle"}
+            ],
+            "subharmonics": [
+                {"divisor": 2, "amplitude": 0.25, "waveform": "sine"}
+            ],
+            "envelope": {
+                "type": "custom",
+                "points": [(0, 0), (0.01, 1), (0.05, 0.6), (0.15, 0.2), (1, 0)]
+            },
+            "turbulence": {
+                "noise_type": "pink",
+                "noise_amount": 0.08
+            },
+            "filters": [
+                {"type": "bandpass", "low_freq": 80, "high_freq": 800}
+            ],
+            "effects": [
+                {"type": "reverb", "room_size": 0.5, "wet_level": 0.3}
+            ]
+        }
+        return self.generate_advanced_sound(config)
+
+    def velvet_chime(self, frequency: float = 523, duration: float = 1.0, volume: float = 0.4) -> np.ndarray:
+        """Carillon velouté avec decay long"""
+        config = {
+            "frequency": frequency,
+            "duration": duration,
+            "volume": volume,
+            "waveform": "sine",
+            "harmonics": [
+                {"harmonic": 2.2, "amplitude": 0.35, "waveform": "sine"},
+                {"harmonic": 3.5, "amplitude": 0.25, "waveform": "sine"},
+                {"harmonic": 5.1, "amplitude": 0.15, "waveform": "sine"},
+                {"harmonic": 7.3, "amplitude": 0.08, "waveform": "sine"}
+            ],
+            "envelope": {
+                "type": "adsr",
+                "attack_ms": 3,
+                "decay_ms": 250,
+                "sustain_level": 0.5,
+                "release_ms": 600,
+                "curve_type": "exponential"
+            },
+            "modulation": {
+                "am_frequency": 3.0,
+                "am_depth": 0.08
+            },
+            "effects": [
+                {"type": "reverb", "room_size": 0.8, "damping": 0.2, "wet_level": 0.5},
+                {"type": "delay", "delay_ms": 80, "feedback": 0.15, "wet_level": 0.2}
+            ]
+        }
+        return self.generate_advanced_sound(config)
+
+    def bubble_pop(self, frequency: float = 400, duration: float = 0.15, volume: float = 0.55) -> np.ndarray:
+        """Pop de bulle satisfaisant"""
+        config = {
+            "frequency": frequency,
+            "duration": duration,
+            "volume": volume,
+            "waveform": "sine",
+            "harmonics": [
+                {"harmonic": 2, "amplitude": 0.3, "waveform": "sine"},
+                {"harmonic": 3, "amplitude": 0.15, "waveform": "sine"}
+            ],
+            "envelope": {
+                "type": "custom",
+                "points": [(0, 0), (0.02, 1), (0.08, 0.4), (1, 0)]
+            },
+            "modulation": {
+                "fm_frequency": 15.0,
+                "fm_depth": 0.08
+            },
+            "filters": [
+                {"type": "highpass", "cutoff": 120}
+            ],
+            "effects": [
+                {"type": "reverb", "room_size": 0.4, "wet_level": 0.25}
+            ]
+        }
+        return self.generate_advanced_sound(config)
+
 # Alias pour compatibilité
 SimpleSoundGenerator = AdvancedSoundGenerator
 
@@ -845,8 +973,11 @@ class SimpleMidiAudioGenerator(IAudioGenerator):
         
         # Configuration avec nouveaux sons satisfaisants
         self.sound_types = [
-            "satisfying_bounce", "asmr_pop", "soft_chime", 
-            "water_drop", "gentle_pluck", "crystal_ting"
+            "satisfying_bounce", "asmr_pop", "soft_chime",
+            "water_drop", "gentle_pluck", "crystal_ting",
+            # Nouveaux presets ultra-satisfaisants
+            "ultra_satisfying_bounce", "deep_asmr_pop",
+            "velvet_chime", "bubble_pop"
         ]
         self.current_sound = "satisfying_bounce"
         self.volume = 0.5  # Volume plus doux pour les sons ASMR
@@ -1006,6 +1137,15 @@ class SimpleMidiAudioGenerator(IAudioGenerator):
             return self.sound_gen.gentle_pluck(frequency, duration, volume)
         elif self.sound == "crystal_ting":
             return self.sound_gen.crystal_ting(frequency, duration, volume)
+        # Nouveaux presets ultra-satisfaisants
+        elif self.sound == "ultra_satisfying_bounce":
+            return self.sound_gen.ultra_satisfying_bounce(frequency, duration, volume)
+        elif self.sound == "deep_asmr_pop":
+            return self.sound_gen.deep_asmr_pop(frequency, duration, volume)
+        elif self.sound == "velvet_chime":
+            return self.sound_gen.velvet_chime(frequency, duration, volume)
+        elif self.sound == "bubble_pop":
+            return self.sound_gen.bubble_pop(frequency, duration, volume)
         else:
             # Fallback vers le son de rebond satisfaisant
             return self.sound_gen.satisfying_bounce(frequency, duration, volume)

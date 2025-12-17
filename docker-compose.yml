@@ -1,0 +1,106 @@
+version: '3.8'
+
+services:
+  # PostgreSQL Database
+  postgres:
+    image: postgres:15-alpine
+    environment:
+      POSTGRES_USER: tiksimpro
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD:-tiksimpro123}
+      POSTGRES_DB: tiksimpro
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+    # Ports exposed internally only - no host binding to avoid conflicts
+    expose:
+      - "5432"
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U tiksimpro"]
+      interval: 5s
+      timeout: 5s
+      retries: 5
+    networks:
+      - tiksimpro
+
+  # Redis for Celery queue
+  redis:
+    image: redis:alpine
+    # Ports exposed internally only - no host binding to avoid conflicts
+    expose:
+      - "6379"
+    healthcheck:
+      test: ["CMD", "redis-cli", "ping"]
+      interval: 5s
+      timeout: 5s
+      retries: 5
+    networks:
+      - tiksimpro
+
+  # FastAPI Backend
+  backend:
+    build:
+      context: .
+      dockerfile: Dockerfile.backend
+    ports:
+      - "9090:8000"
+    volumes:
+      - ./videos:/app/videos
+      - ./music:/app/music
+      - ./config.json:/app/config.json
+      - ./data:/app/data
+    environment:
+      - ANTHROPIC_API_KEY=${ANTHROPIC_API_KEY}
+      - DATABASE_URL=postgresql+asyncpg://tiksimpro:${POSTGRES_PASSWORD:-tiksimpro123}@postgres:5432/tiksimpro
+      - REDIS_URL=redis://redis:6379/0
+      - PYTHONPATH=/app
+    depends_on:
+      postgres:
+        condition: service_healthy
+      redis:
+        condition: service_healthy
+    networks:
+      - tiksimpro
+    restart: unless-stopped
+
+  # Celery Worker (video generation with headless pygame)
+  worker:
+    build:
+      context: .
+      dockerfile: Dockerfile.worker
+    volumes:
+      - ./videos:/app/videos
+      - ./music:/app/music
+      - ./config.json:/app/config.json
+      - ./data:/app/data
+    environment:
+      - ANTHROPIC_API_KEY=${ANTHROPIC_API_KEY}
+      - DATABASE_URL=postgresql+asyncpg://tiksimpro:${POSTGRES_PASSWORD:-tiksimpro123}@postgres:5432/tiksimpro
+      - REDIS_URL=redis://redis:6379/0
+      - SDL_VIDEODRIVER=dummy
+      - SDL_AUDIODRIVER=dummy
+      - PYTHONPATH=/app
+    depends_on:
+      - redis
+      - postgres
+    networks:
+      - tiksimpro
+    restart: unless-stopped
+
+  # React Frontend
+  frontend:
+    build:
+      context: ./frontend
+      dockerfile: Dockerfile
+    ports:
+      - "9091:80"
+    depends_on:
+      - backend
+    networks:
+      - tiksimpro
+    restart: unless-stopped
+
+volumes:
+  postgres_data:
+
+networks:
+  tiksimpro:
+    driver: bridge

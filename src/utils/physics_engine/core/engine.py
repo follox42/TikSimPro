@@ -272,6 +272,8 @@ class PhysicsEngine:
     
     def _render_debug(self):
         """Rendu des informations de debug"""
+        if not pygame.font.get_init():
+            pygame.font.init()
         font = pygame.font.Font(None, 36)
         y_offset = 10
         

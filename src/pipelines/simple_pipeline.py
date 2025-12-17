@@ -6,6 +6,8 @@ from typing import Dict, Any, Optional
 
 from .base_pipeline import IPipeline
 from src.utils.temp_file_manager import TempFileManager
+from src.core.video_database import VideoDatabase, VideoRecord
+from src.core.git_versioning import GitVersioning
 
 logger = logging.getLogger("TikSimPro")
 
@@ -31,9 +33,22 @@ class SimplePipeline(IPipeline):
             keep_on_error=True,  # Keep for debugging
             max_age_hours=24
         )
-        
+
+        # Database for tracking videos and performance
+        self.db = VideoDatabase()
+
+        # Git versioning for tracking code changes
+        try:
+            self.git = GitVersioning()
+        except ValueError:
+            self.git = None
+            logger.warning("Git versioning disabled (not a git repository)")
+
+        # Track current video ID for this run
+        self._current_video_id: Optional[int] = None
+
         os.makedirs(self.config["output_dir"], exist_ok=True)
-        logger.info("SimplePipeline initialized with unified temp management")
+        logger.info("SimplePipeline initialized with unified temp management and database tracking")
     
     def configure(self, config: Dict[str, Any]) -> bool:
         """
@@ -261,7 +276,55 @@ class SimplePipeline(IPipeline):
                 
                 file_size_mb = os.path.getsize(final_path) / (1024 * 1024)
                 logger.info(f"Final video ready: {final_path} ({file_size_mb:.1f} MB)")
-                
+
+                # ===== SAVE TO DATABASE =====
+                try:
+                    # Get generator info
+                    generator_name = "Unknown"
+                    generator_params = {}
+                    if hasattr(self.video_generator, 'get_selected_info'):
+                        info = self.video_generator.get_selected_info()
+                        generator_name = info.get('generator', 'Unknown')
+                        generator_params = info.get('params', {})
+                    elif hasattr(self.video_generator, '__class__'):
+                        generator_name = self.video_generator.__class__.__name__
+
+                    # Get audio info
+                    audio_mode = "none"
+                    audio_params = {}
+                    midi_file = None
+                    if self.audio_generator:
+                        audio_mode = getattr(self.audio_generator, 'mode', 'unknown')
+                        audio_params = {
+                            'progressive_build': getattr(self.audio_generator, 'progressive_builder', None) is not None
+                        }
+                        midi_file = getattr(self.audio_generator, 'selected_midi_path', None)
+
+                    # Get git commit
+                    git_commit = self.git.get_current_commit() if self.git else None
+
+                    # Save video record
+                    video_record = VideoRecord(
+                        generator_name=generator_name,
+                        generator_params=generator_params,
+                        audio_mode=audio_mode,
+                        audio_params=audio_params,
+                        video_path=final_path,
+                        duration=self.config["video_duration"],
+                        fps=self.config["fps"],
+                        width=self.config["video_dimensions"][0],
+                        height=self.config["video_dimensions"][1],
+                        git_commit=git_commit,
+                        midi_file=midi_file
+                    )
+
+                    self._current_video_id = self.db.save_video(video_record)
+                    logger.info(f"Video saved to database with ID: {self._current_video_id}")
+
+                except Exception as e:
+                    logger.error(f"Failed to save video to database: {e}")
+                    # Continue anyway - don't fail the pipeline for DB errors
+
                 # ===== OPTIONAL: PUBLISHING =====
                 if self.config.get("auto_publish", False) and self.publishers:
                     logger.info("Publishing to platforms...")
@@ -296,20 +359,56 @@ class SimplePipeline(IPipeline):
         for platform, publisher in self.publishers.items():
             try:
                 logger.info(f"Publishing to {platform}...")
-                
-                # Prepare metadata
-                caption = "Amazing physics simulation!"
-                hashtags = trend_data.popular_hashtags[:10] if trend_data else ["physics", "simulation", "viral", "fyp"]
-                
+
+                # Prepare metadata - use AI-generated caption if available
+                if trend_data and trend_data.recommended_settings:
+                    content_settings = trend_data.recommended_settings.get("content", {})
+                    caption = content_settings.get("ai_caption", "Amazing physics simulation!")
+                    hashtags = content_settings.get("ai_hashtags", trend_data.popular_hashtags[:10])
+                else:
+                    caption = "Amazing physics simulation!"
+                    hashtags = ["physics", "simulation", "viral", "fyp"]
+
                 result = publisher.publish(video_path, caption, hashtags)
                 if result:
                     logger.info(f"Successfully published to {platform}")
+
+                    # Update database with publication info
+                    if self._current_video_id:
+                        try:
+                            # Extract video ID from result if available
+                            platform_video_id = None
+                            if isinstance(result, dict):
+                                platform_video_id = result.get('video_id') or result.get('id')
+                            elif isinstance(result, str):
+                                platform_video_id = result
+
+                            self.db.update_video_publication(
+                                self._current_video_id,
+                                platform,
+                                platform_video_id or "unknown"
+                            )
+                            logger.info(f"Database updated with {platform} publication")
+                        except Exception as db_err:
+                            logger.error(f"Failed to update DB with publication: {db_err}")
                 else:
                     logger.error(f"Failed to publish to {platform}")
-                    
+
             except Exception as e:
                 logger.error(f"Publishing error for {platform}: {e}")
     
+    def get_database(self) -> VideoDatabase:
+        """Get the video database instance."""
+        return self.db
+
+    def get_current_video_id(self) -> Optional[int]:
+        """Get the ID of the most recently generated video."""
+        return self._current_video_id
+
+    def get_context_for_ai(self) -> Dict[str, Any]:
+        """Get context data for AI decision making."""
+        return self.db.get_context_for_ai()
+
     def __del__(self):
         """Ensure cleanup on pipeline destruction"""
         if hasattr(self, 'temp_manager'):
