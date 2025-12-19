@@ -69,6 +69,10 @@ google-chrome/
 *.jpeg
 *.gif
 
+# Exception for frontend assets
+!lab/frontend/assets/
+!lab/frontend/assets/*.png
+
 # Configuration files with sensitive data
 *_credentials.json
 *_secrets.json
